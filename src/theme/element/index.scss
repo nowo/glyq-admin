@@ -1,0 +1,18 @@
+// @forward "element-plus/theme-chalk/src/common/var.scss" with ($colors: ("primary": ("base": #04BC26),
+//         "success": ("base": #16BA3A),
+//         "warning": ("base": #FF771C),
+//         "danger": ("base": #ff3030),
+//         "error": ("base": #ff3030),
+//         "info": ("base": #9e9e9e),
+//     ));
+
+// #0b661f
+
+// @forward "element-plus/theme-chalk/src/common/var.scss" with ($colors: ("primary": ("base": #04BC26),
+//         "success": ("base": #04ae8b),
+//         "warning": ("base": #FF771C),
+//         "danger": ("base": #ff3030),
+//         "error": ("base": #ff3030),
+//         "info": ("base": #9e9e9e),
+//     ));
+@use "element-plus/theme-chalk/src/index.scss" as *

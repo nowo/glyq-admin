@@ -1,0 +1,48 @@
+{
+    "prettier.enable": false,
+    "editor.codeActionsOnSave": {
+        "source.fixAll.eslint": "explicit"
+    },
+    "editor.formatOnSave": true,
+    "editor.tabSize": 4,
+    "files.associations": {
+        "*.css": "postcss"
+    },
+    "cSpell.words": [
+        "apiv",
+        "appsecret",
+        "Arrayable",
+        "auths",
+        "backtop",
+        "cascader",
+        "cnaps",
+        "codeid",
+        "daterange",
+        "datetimerange",
+        "echarts",
+        "flac",
+        "goyojo",
+        "iconfont",
+        "merchantid",
+        "mome",
+        "navbars",
+        "nprogress",
+        "parentid",
+        "payinfo",
+        "pinia",
+        "realname",
+        "rmvb",
+        "scdev",
+        "sortablejs",
+        "splitpanes",
+        "swiper",
+        "tinymce",
+        "unocss",
+        "unplugin",
+        "VITE",
+        "voiv",
+        "vueuse",
+        "vuex",
+        "wangeditor"
+    ]
+}
