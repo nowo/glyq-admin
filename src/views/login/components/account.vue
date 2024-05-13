@@ -7,6 +7,8 @@ import { Session } from '@/utils/storage'
 import { formatAxis } from '@/utils/common/formatTime'
 import { NextLoading } from '@/utils/loading'
 import { setLoginSign } from '@/api/login'
+// const { systemInfo } = useSystemState()
+// console.log(systemInfo)
 
 const route = useRoute()
 const router = useRouter()

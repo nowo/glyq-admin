@@ -1,6 +1,8 @@
 // 公司信息
 declare interface SystemCompanyApi_GetInfoResponse {
     id: 1
+    company:string,
+    company_en:string
     title: '洛泰精密仪器（东莞）有限公司'
     address: '广东省东莞市虎门镇太安路虎门段41号泰明商业大厦2栋'
     logo: '1'
@@ -23,11 +25,12 @@ declare interface SystemCompanyApi_GetInfoResponse {
 
 // 系统信息
 declare interface ISystemEditParams {
-
+    company:string
+    company_en:string
     title: string // 公司名称
     address: string // 公司地址
 
-    title_en: string
+    title_en?: string
     address_en: string // 公司地址
 
     phone: string // 公司电话

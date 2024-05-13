@@ -12,6 +12,8 @@ const stores = useTagsViewRoutes()
 const storesThemeConfig = useThemeConfig()
 const { themeConfig } = storeToRefs(storesThemeConfig)
 
+// useSystemState().getSystem()
+
 // 提示框
 const messageConfig = reactive({
     max: 1,

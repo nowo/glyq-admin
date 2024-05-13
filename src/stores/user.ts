@@ -1,6 +1,6 @@
 import { defineStore } from 'pinia'
 import { Session } from '@/utils/storage'
-import { getAdminInfo } from '@/api/system'
+import { getAdminInfo, getSystemInfo, setSystemInfo } from '@/api/system'
 
 type MenuDataItem = UserApi_GetMenuItem
 
@@ -158,3 +158,51 @@ export const useUserState = defineStore('useUser', {
         },
     },
 })
+
+// defineStore('counter', () => {
+//     const count = ref(0)
+//     function increment() {
+//       count.value++
+//     }
+
+//     return { count, increment }
+//   })
+/**
+ * 系统信息
+ * @methods getSystemInfo 获取系统信息
+ * @methods setSystemUpdate 更新系统信息
+ */
+export const useSystemState = defineStore('useSystem', () => {
+    const systemInfo = ref<SystemCompanyApi_GetInfoResponse>()
+
+    // 获取系统信息
+    const getSystem=async()=>{
+        const res = await getSystemInfo()
+        if (res.code !== 200){
+             ElMessage.error(res.msg)
+        }else{
+            systemInfo.value = res.data
+        }
+        return systemInfo
+    }
+
+    // 更新系统信息
+    const updateSystem = async (data:ISystemEditParams) => {
+        const res = await setSystemInfo(data)
+        if (res.code !== 200) {
+            ElMessage.error(res.msg)
+            return false
+        }else{
+            getSystem()
+            return true
+        }
+        
+    }
+
+    return {
+        systemInfo,
+        getSystem,
+        updateSystem
+    }
+})
+

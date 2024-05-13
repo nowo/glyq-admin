@@ -1,7 +1,8 @@
 <script setup lang="ts">
 import type { FormInstance, FormRules } from 'element-plus'
-import { setSystemInfo } from '@/api/system'
 import { useLoadingSubmit } from '@/hooks/useLoadingSubmit'
+
+const systemState = useSystemState()
 
 const props = defineProps<{
     data?: SystemCompanyApi_GetInfoResponse
@@ -25,6 +26,7 @@ const form = reactive({
         logo: '', // 网站logo
         logo2: '', // 网站logo
         qr_code: '', // 二维码
+        seo_title: '',   // seo标题
         seo_keyword: '', // 关键词
         seo_description: '', // 描述
 
@@ -48,8 +50,8 @@ const initDefaultData = async () => {
     if (!props.data) return
     const propsData = props.data
 
-    form.data.company = propsData.title
-    form.data.company_en = propsData.title_en
+    form.data.company = propsData.company
+    form.data.company_en = propsData.company_en
     form.data.address = propsData.address
     form.data.address_en = propsData.address_en
     form.data.logo = propsData.logo || ''
@@ -57,6 +59,7 @@ const initDefaultData = async () => {
     form.data.qr_code = propsData.qrCode || ''
     form.data.phone = propsData.phone || ''
     form.data.email = propsData.email || ''
+    form.data.seo_title = propsData.title || ''
     form.data.seo_keyword = propsData.keyword || ''
     form.data.seo_description = propsData.description || ''
     form.data.filing = propsData.filing || ''
@@ -71,15 +74,19 @@ const [ApiFunc, btnLoading] = useLoadingSubmit()
 // 确定
 const onSubmit = async () => {
     const param: ISystemEditParams = {
-        title: form.data.company?.trim() ?? '',
+        company: form.data.company?.trim() ?? '',
+        company_en: form.data.company_en?.trim() ?? '',
+
         address: form.data.address?.trim() ?? '',
-        title_en: form.data.company_en?.trim() ?? '',
+
         address_en: form.data.address_en?.trim() ?? '',
         phone: form.data.phone?.trim() ?? '',
         email: form.data.email?.trim() ?? '',
         logo: form.data.logo?.trim() ?? '',
         logo2: form.data.logo2?.trim() ?? '',
         qr_code: form.data.qr_code?.trim() ?? '',
+        title: form.data.seo_title?.trim() ?? '',
+        // title_en: '',
         seo_keyword: form.data.seo_keyword?.trim() ?? '',
         seo_description: form.data.seo_description?.trim() ?? '',
         filing: form.data.filing?.trim() ?? '',
@@ -89,11 +96,9 @@ const onSubmit = async () => {
         icon: form.data.icon?.trim() ?? '',
     }
 
-    const res = await ApiFunc(setSystemInfo(param))
-    if (res.code !== 200) return ElMessage.error(res.msg)
-    // const res = await ShopBaseApi.getBasicInf(data)
-    // if (res.code != 200) return ElMessage.error(res.msg)
-    ElMessage.success('设置成功')
+    const res = await ApiFunc(systemState.updateSystem(param))
+
+    if (res) ElMessage.success('设置成功')
 
     // initData?.() // 更新数据
 }
@@ -128,7 +133,8 @@ onBeforeMount(() => {
                 </el-col>
                 <el-col :xs="24" :sm="24" :md="20" :lg="18" :xl="16" class="mb18px">
                     <el-form-item prop="address" label="公司地址：">
-                        <el-input v-model="form.data.address" type="textarea" maxlength="200" clearable show-word-limit />
+                        <el-input v-model="form.data.address" type="textarea" maxlength="200" clearable
+                            show-word-limit />
                     </el-form-item>
                 </el-col>
             </template>
@@ -151,7 +157,11 @@ onBeforeMount(() => {
                     <el-input v-model="form.data.phone" maxlength="50" clearable />
                 </el-form-item>
             </el-col>
-
+            <el-col :xs="24" :sm="24" :md="20" :lg="18" :xl="16" class="mb18px">
+                <el-form-item prop="seo_title" label="SEO标题：">
+                    <el-input v-model="form.data.seo_title" maxlength="50" clearable />
+                </el-form-item>
+            </el-col>
             <el-col :xs="24" :sm="24" :md="20" :lg="18" :xl="16" class="mb18px">
                 <el-form-item prop="seo_keyword" label="SEO关键字：">
                     <el-input v-model="form.data.seo_keyword" maxlength="80" clearable />
@@ -163,53 +173,35 @@ onBeforeMount(() => {
                         clearable />
                 </el-form-item>
             </el-col>
-
-            <template v-if="lang === 'cn'">
-                <el-col :xs="24" :sm="24" :md="20" :lg="18" :xl="16" class="mb18px">
-                    <el-form-item prop="filing" label="备案号：">
-                        <el-input v-model="form.data.filing" maxlength="100" clearable />
-                    </el-form-item>
-                </el-col>
-                <el-col :xs="24" :sm="24" :md="20" :lg="18" :xl="16" class="mb18px">
-                    <el-form-item prop="copyright" label="版权信息：">
-                        <el-input v-model="form.data.copyright" maxlength="100" clearable />
-                    </el-form-item>
-                </el-col>
-            </template>
-
-            <template v-else-if="lang === 'en'">
-                <el-col :xs="24" :sm="24" :md="20" :lg="18" :xl="16" class="mb18px">
-                    <el-form-item prop="filing_en" label="英文备案号：">
-                        <el-input v-model="form.data.filing_en" maxlength="100" clearable />
-                    </el-form-item>
-                </el-col>
-                <el-col :xs="24" :sm="24" :md="20" :lg="18" :xl="16" class="mb18px">
-                    <el-form-item prop="copyright_en" label="英文版权信息：">
-                        <el-input v-model="form.data.copyright_en" maxlength="100" clearable />
-                    </el-form-item>
-                </el-col>
-            </template>
-
-            <el-col :xs="24" :sm="24" :md="20" :lg="18" :xl="16" class="mb18px">
-                <el-form-item prop="logo" label="网站logo：">
-                    <UploadFile v-model="form.data.logo" />
+            <el-col v-if="lang === 'cn'" :xs="24" :sm="24" :md="20" :lg="18" :xl="16" class="mb18px">
+                <el-form-item prop="filing" label="备案信息：">
+                    <BaseWangEditor v-model="form.data.filing" :height="310" />
+                </el-form-item>
+            </el-col>
+            <el-col v-else-if="lang === 'en'" :xs="24" :sm="24" :md="20" :lg="18" :xl="16" class="mb18px">
+                <el-form-item prop="filing_en" label="英文备案信息：">
+                    <BaseWangEditor v-model="form.data.filing_en" :height="310" />
                 </el-form-item>
             </el-col>
             <el-col :xs="24" :sm="24" :md="20" :lg="18" :xl="16" class="mb18px">
-                <el-form-item prop="logo2" label="网站logo2：">
-                    <UploadFile v-model="form.data.logo2" />
-                </el-form-item>
+                <div class="flex flex-wrap">
+                    <el-form-item prop="logo" label="网站logo：" class="min-w200px">
+                        <UploadFile v-model="form.data.logo" />
+                    </el-form-item>
+                    <el-form-item prop="logo2" label="网站logo2：" class="min-w200px">
+                        <UploadFile v-model="form.data.logo2" />
+                    </el-form-item>
+                </div>
             </el-col>
             <el-col :xs="24" :sm="24" :md="20" :lg="18" :xl="16" class="mb18px">
-                <el-form-item prop="icon" label="网站图标：">
-                    <UploadFile v-model="form.data.icon" />
-                </el-form-item>
-            </el-col>
-
-            <el-col :xs="24" :sm="24" :md="20" :lg="18" :xl="16" class="mb18px">
-                <el-form-item prop="qr_code" label="二维码：">
-                    <UploadFile v-model="form.data.qr_code" />
-                </el-form-item>
+                <div class="flex flex-wrap">
+                    <el-form-item prop="icon" label="网站图标：" class="min-w200px">
+                        <UploadFile v-model="form.data.icon" />
+                    </el-form-item>
+                    <el-form-item prop="qr_code" label="二维码：" class="min-w200px">
+                        <UploadFile v-model="form.data.qr_code" />
+                    </el-form-item>
+                </div>
             </el-col>
             <el-col :xs="24" :sm="24" :md="24" :lg="24" :xl="24" class="mb18px">
                 <el-form-item>

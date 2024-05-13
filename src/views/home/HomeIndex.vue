@@ -2,7 +2,8 @@
 import type { TabsPaneContext } from 'element-plus'
 
 import IndexList from '@/views/home/components/IndexList.vue'
-import { getSystemInfo } from '@/api/system'
+
+const systemState = useSystemState()
 
 const activeName = ref('1')
 
@@ -11,14 +12,10 @@ const defData = reactive({
 
 })
 
-const companyInfo = ref<SystemCompanyApi_GetInfoResponse>()
+
 
 // 初始化数据
 const initDefaultData = async () => {
-    const res = await getSystemInfo()
-    if (res.code !== 200) return ElMessage.error(res.msg)
-
-    companyInfo.value = res.data
 
     defData.ready = true
 }
