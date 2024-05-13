@@ -159,14 +159,7 @@ export const useUserState = defineStore('useUser', {
     },
 })
 
-// defineStore('counter', () => {
-//     const count = ref(0)
-//     function increment() {
-//       count.value++
-//     }
 
-//     return { count, increment }
-//   })
 /**
  * 系统信息
  * @methods getSystemInfo 获取系统信息

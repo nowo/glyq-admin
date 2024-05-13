@@ -7,6 +7,8 @@ type TableDataType = UserApi_GetListResponse['list'][0]
 
 const modelRef = ref<InstanceType<typeof UserModel>>()
 
+const useUser = useUserState()
+
 const defData = reactive({
     roleList: [] as RoleApi_GetListResponse['list'],
 })
@@ -129,7 +131,8 @@ onBeforeMount(() => {
         <MyFormTool :data="searchData" inline @submit.prevent="onSearch">
             <template #role_id="{ row }">
                 <el-select v-model="row.role_id" filterable clearable>
-                    <el-option v-for="item in defData.roleList" :key="item.id" :label="item.role_name" :value="item.id" />
+                    <el-option v-for="item in defData.roleList" :key="item.id" :label="item.role_name"
+                        :value="item.id" />
                 </el-select>
             </template>
             <el-button type="success" @click="onAdd">
@@ -151,7 +154,8 @@ onBeforeMount(() => {
             </template>
 
             <template #operate="{ scopes }">
-                <el-button size="small" text type="primary" @click="onEdit(scopes.row)">
+                <el-button size="small" text type="primary" :disabled="scopes.row.id === 1 && useUser.userInfo.id !== 1"
+                    @click="onEdit(scopes.row)">
                     修改
                 </el-button>
                 <el-button size="small" text type="primary" :disabled="scopes.row.id === 1" @click="onDel(scopes.row)">
