@@ -3,8 +3,8 @@ import type { FormInstance, FormRules } from 'element-plus'
 import { deepClone } from '@/utils/other'
 import { setDisableTree } from '@/utils/common/tree'
 import { verifyFormData } from '@/utils/element/form'
-import { MenuApi } from '@/api/system/menu'
 import { useLoadingSubmit } from '@/hooks/useLoadingSubmit'
+import { setMenuAdd, setMenuUpdate } from '@/api/system'
 
 const props = defineProps<{
     data: MenuApi_MenuItem[]
@@ -32,7 +32,7 @@ const form = reactive({
         title_en: '', // 菜单名称（英文）
         href: '', // 链接地址
         sort: 0, // 排序
-
+        status: 1, // 状态1:显示，0：隐藏
     },
 })
 
@@ -75,6 +75,7 @@ const openDialog = async (row?: MenuApi_MenuItem | number) => {
         form.data.title_en = ''
         form.data.href = ''
         form.data.sort = 0
+        form.data.status = 1
 
         form.data.p_id = typeof row === 'number' ? row : ''
     } else if (row) { // 修改
@@ -89,6 +90,7 @@ const openDialog = async (row?: MenuApi_MenuItem | number) => {
         form.data.href = row.href
         form.data.sort = row.sort
         form.data.p_id = row.p_id || ''
+        form.data.status = row.status || 0
     }
 
     defData.routeArr = arr
@@ -120,10 +122,11 @@ const onConfirm = useThrottleFn(async () => {
         sort: Number(form.data.sort),
         title: form.data.title?.trim() ?? '',
         title_en: form.data.title_en?.trim() ?? '',
+        status: Number(form.data.status || 0),
     }
 
     if (defData.type === 1) {
-        const res = await ApiFunc(MenuApi.add(data))
+        const res = await ApiFunc(setMenuAdd(data))
         if (res.code !== 200) return ElMessage.error(res.msg)
         ElMessage.success('添加成功')
     } else {
@@ -132,7 +135,7 @@ const onConfirm = useThrottleFn(async () => {
             id: form.data.id,
         }
 
-        const res = await ApiFunc(MenuApi.edit(param))
+        const res = await ApiFunc(setMenuUpdate(param))
         if (res.code !== 200) return ElMessage.error(res.msg)
         ElMessage.success('修改成功')
     }
@@ -179,6 +182,16 @@ defineExpose({
             <el-form-item label="排序">
                 <el-input-number v-model="form.data.sort" :min="0" :max="10000" controls-position="right" placeholder=""
                     class="w100%" />
+            </el-form-item>
+            <el-form-item label="是否显示" prop="status">
+                <el-radio-group v-model="form.data.status">
+                    <el-radio :label="1">
+                        是
+                    </el-radio>
+                    <el-radio :label="0">
+                        否
+                    </el-radio>
+                </el-radio-group>
             </el-form-item>
         </el-form>
     </co-drawer>

@@ -1,9 +1,8 @@
 <script lang="ts" setup>
 import MenuModel from '@/views/system/menu/components/MenuModel.vue'
 import { PAGINATION } from '@/config/global'
-
-import { MenuApi } from '@/api/system/menu'
 import { filterTreeList } from '@/utils/common/tree'
+import { getMenuList, setMenuDelete } from '@/api/system';
 
 const modelRef = ref<InstanceType<typeof MenuModel> | null>(null)
 const myTableRef = ref()
@@ -40,8 +39,8 @@ const tableData = reactive<TableType<TableDataItem>>({
         { property: 'title_en', label: '英文菜单名称', minWidth: 150 },
         { property: 'href', label: '链接地址', minWidth: 150 },
         // { property: 'redirect', label: '重定向', width: 200 },
-        // { property: 'page_path', label: '组件路径', width: 200 },
         { property: 'sort', label: '排序', width: 100, align: 'center' },
+        { property: 'status', label: '是否显示', width:  100, align: 'center', slot: true },
         { property: 'operate', label: '操作', width: 130, fixed: 'right', align: 'center', slot: true },
     ],
     pagination: {
@@ -51,7 +50,7 @@ const tableData = reactive<TableType<TableDataItem>>({
 
 // 初始化菜单数据
 const initTableData = async () => {
-    const res = await MenuApi.getList()
+    const res = await getMenuList()
     if (res.code !== 200) return ElMessage.error(res.msg)
 
     defData.menuData = res.data.list
@@ -97,7 +96,7 @@ const onRowDel = (row: MenuApi_MenuItem) => {
         type: 'warning',
         buttonSize: 'default',
     }).then(async () => {
-        const res = await MenuApi.del({ id: row.id })
+        const res = await setMenuDelete({ id: row.id })
         if (res.code !== 200) return ElMessage.error(res.msg)
 
         ElMessage.success('删除成功')
@@ -134,6 +133,14 @@ onBeforeMount(() => {
             class="jm-box table-box" :data="tableData.data" :row-class-name="setRowClassName" row-key="id"
             :tree-props="{ children: 'children', hasChildren: 'hasChildren' }" :default-expand-all="defData.expand"
             @update:page="onHandleCurrentChange" @row-click="rowClick">
+                <template #status="{ scopes }">
+                <el-tag v-if="scopes.row.status" type="primary">
+                    是
+                </el-tag>
+                <el-tag v-else type="info">
+                    否
+                </el-tag>
+            </template>
             <template #operate="{ scopes }">
                 <el-button size="small" text type="primary" @click.stop="onOpenAddMenu(scopes.row)">
                     新增

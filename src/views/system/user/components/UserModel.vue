@@ -6,7 +6,7 @@ import { useThrottleFn } from '@vueuse/core'
 
 import { useLoadingSubmit } from '@/hooks/useLoadingSubmit'
 import { verifyFormData } from '@/utils/element/form'
-import { UserApi } from '@/api/system/user'
+import { setUserAdd, setUserUpdate } from '@/api/system'
 
 const emits = defineEmits<{
     update: []
@@ -120,7 +120,7 @@ const onConfirm = useThrottleFn(async () => {
     }
 
     if (defData.type === 1) {
-        const res = await ApiFunc(UserApi.add(data))
+        const res = await ApiFunc(setUserAdd(data))
         if (res.code !== 200) return ElMessage.error(res.msg)
         ElMessage.success('添加成功')
     } else {
@@ -133,7 +133,7 @@ const onConfirm = useThrottleFn(async () => {
             param.password = form.data.new_password
         }
 
-        const res = await ApiFunc(UserApi.edit(param))
+        const res = await ApiFunc(setUserUpdate(param))
         if (res.code !== 200) return ElMessage.error(res.msg)
         ElMessage.success('修改成功')
     }

@@ -1,5 +1,5 @@
 <script lang="ts" setup>
-import { UserApi } from '@/api/system/user'
+import { getUserList, setUserDelete } from '@/api/system';
 import { PAGINATION } from '@/config/global'
 import UserModel from '@/views/system/user/components/UserDrawer.vue'
 
@@ -74,7 +74,7 @@ const initTableData = async () => {
         username: searchData.data.keyword.trim() ?? '',
         account: searchData.data.account.trim() ?? '',
     }
-    const res = await UserApi.getList(data)
+    const res = await getUserList(data)
     if (res.code !== 200) return ElMessage.error(res.msg)
 
     tableData.data = res.data.list
@@ -100,7 +100,7 @@ const onDel = (row: TableDataType) => {
         type: 'warning',
         buttonSize: 'default',
     }).then(async () => {
-        const res = await UserApi.del({ id: row.id })
+        const res = await setUserDelete({ id: row.id })
         if (res.code !== 200) return ElMessage.error(res.msg)
 
         ElMessage.success('删除成功')

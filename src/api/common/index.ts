@@ -11,7 +11,7 @@ export const CommonApi = {
      * 上传图片
      * @returns
      */
-    upload: (data: { file: File }) => post<string>('/api/common/upload', data, {
+    upload: (data: { file: File }) => post<string>('/api/v1/common/upload', data, {
         headers: {
             'Content-Type': 'multipart/form-data',
         },

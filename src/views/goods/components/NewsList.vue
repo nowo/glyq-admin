@@ -2,7 +2,7 @@
 import NewsModel from './NewsModel.vue'
 import { PAGINATION } from '@/config/global'
 import { getGoodsList, setGoodsDelete } from '@/api/list'
-import { MenuApi } from '@/api/system/menu'
+import { getMenuList } from '@/api/system';
 
 const props = defineProps<{
     // type: number
@@ -56,7 +56,7 @@ const tableData = reactive<TableType<TableDataItem>>({
 })
 
 const initDefaultData = async () => {
-    const res = await MenuApi.getList()
+    const res = await getMenuList()
     if (res.code !== 200) return ElMessage.error(res.msg)
 
     const list = res.data.list.filter(item => item.id === 3)
@@ -156,7 +156,7 @@ onBeforeMount(() => {
                 <el-tag v-if="scopes.row.isHide" type="info">
                     否
                 </el-tag>
-                <el-tag v-else type="">
+                <el-tag v-else type="primary">
                     是
                 </el-tag>
             </template>

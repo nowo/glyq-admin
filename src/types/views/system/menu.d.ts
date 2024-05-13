@@ -22,6 +22,7 @@ declare interface MenuApi_MenuItem {
     sort: 0
     title: '首页'
     title_en: 'Home'
+    status: 0 | 1
     createdAt: '2023-08-30T09:25:44.210Z'
     updatedAt: '2023-08-30T09:25:40.000Z'
     children?: MenuApi_MenuItem[]
@@ -36,7 +37,7 @@ declare interface MenuApi_Add {
     sort: number
     title: string
     title_en: string
-
+    status:number
     icon?: string
 }
 

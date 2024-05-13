@@ -65,7 +65,7 @@ const comData = computed(() => {
 const initDefaultData = async () => {
     if (defData.ready) return
 
-    // const res = await MenuApi.getList()
+    // const res = await getMenuList()
     // if (res.code !== 200) return ElMessage.error(res.msg)
 
     // const list = res.data.list.filter(item => item.id === 3)

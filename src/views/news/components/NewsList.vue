@@ -128,7 +128,7 @@ onBeforeMount(() => {
                 <el-tag v-if="scopes.row.isHide" type="info">
                     否
                 </el-tag>
-                <el-tag v-else type="">
+                <el-tag v-else type="primary">
                     是
                 </el-tag>
             </template>

@@ -1,6 +1,6 @@
 import { defineStore } from 'pinia'
-import { UserApi } from '@/api/system/user'
 import { Session } from '@/utils/storage'
+import { getAdminInfo } from '@/api/system'
 
 type MenuDataItem = UserApi_GetMenuItem
 
@@ -23,8 +23,8 @@ export const useUserState = defineStore('useUser', {
         async setUserInfo() {
             // 获取用户信息、同时获取到对应的菜单（减少首次进入等待时间）
             const [res1] = await Promise.all([
-                UserApi.getAdmin(),
-                // UserApi.getMenu(),
+                getAdminInfo(),
+                //getAdminMenu(),
             ])
 
             if (res1.code === 200) {

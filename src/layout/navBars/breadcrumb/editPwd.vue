@@ -5,8 +5,8 @@ import { ElMessage, ElMessageBox } from 'element-plus'
 
 import { wait } from '@/utils/common'
 import { Session } from '@/utils/storage'
-import { UserApi } from '@/api/system/user'
 import { useLoadingSubmit } from '@/hooks/useLoadingSubmit'
+import { setUserPassword } from '@/api/system'
 
 // 绑定表单
 const formRef = ref<FormInstance>()
@@ -65,7 +65,7 @@ const onConfirm = async () => {
         newPassword: formData.new_pwd.trim(),
     }
 
-    const res = await ApiFunc(UserApi.editPassword(data))
+    const res = await ApiFunc(setUserPassword(data))
     if (res.code !== 200) return ElMessage.error(res.msg)
 
     // ElMessage.success("修改成功");
