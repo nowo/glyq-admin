@@ -1,12 +1,10 @@
 <template>
     <!--  -->
-    <vue-particles id="tsparticles" :particles-init="particlesInit" :particles-loaded="particlesLoaded"
+    <vue-particles id="tsparticles" :particles-loaded="particlesLoaded"
         :options="options" />
 </template>
 
 <script lang="ts" setup>
-import { loadSlim } from 'tsparticles-slim' // if you are going to use `loadSlim`, install the "tsparticles-slim" package too.
-
 const options00 = ref({
     autoPlay: true,
     background: {
@@ -657,10 +655,7 @@ const options = {
     retina_detect: true,
 }
 
-const particlesInit = async (engine) => {
-    // await loadFull(engine);
-    await loadSlim(engine)
-}
+
 
 const particlesLoaded = async (container) => {
     console.log('Particles container loaded', container)
