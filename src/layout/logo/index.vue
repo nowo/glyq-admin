@@ -1,13 +1,3 @@
-<template>
-    <div v-if="setShowLogo" class="layout-logo" @click="onThemeConfigChange">
-        <img :src="logoMini" class="layout-logo-medium-img" width="35" height="32" alt="logo">
-        <span>{{ themeConfig.globalTitle }}</span>
-    </div>
-    <div v-else class="layout-logo-size" @click="onThemeConfigChange">
-        <img :src="logoMini" class="layout-logo-size-img">
-    </div>
-</template>
-
 <script lang="ts" setup>
 import { computed } from 'vue'
 import { storeToRefs } from 'pinia'
@@ -28,6 +18,16 @@ const onThemeConfigChange = () => {
     themeConfig.value.isCollapse = !themeConfig.value.isCollapse
 }
 </script>
+
+<template>
+    <div v-if="setShowLogo" class="layout-logo" @click="onThemeConfigChange">
+        <img :src="logoMini" class="layout-logo-medium-img" width="35" height="32" alt="logo">
+        <span>{{ themeConfig.globalTitle }}</span>
+    </div>
+    <div v-else class="layout-logo-size" @click="onThemeConfigChange">
+        <img :src="logoMini" class="layout-logo-size-img">
+    </div>
+</template>
 
 <style scoped lang="scss">
 .layout-logo {

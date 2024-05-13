@@ -1,7 +1,3 @@
-<template>
-    <canvas ref="canvas" width="140" height="40" style="cursor: pointer;" @click="draw" />
-</template>
-
 <script lang="ts" setup>
 import { onMounted, reactive, ref, watch } from 'vue'
 
@@ -85,3 +81,7 @@ onMounted(() => {
     draw()
 })
 </script>
+
+<template>
+    <canvas ref="canvas" width="140" height="40" style="cursor: pointer;" @click="draw" />
+</template>

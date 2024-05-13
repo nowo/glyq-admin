@@ -1,12 +1,3 @@
-<template>
-    <div class="login-scan-container">
-        <div ref="qrCodeRef" />
-        <div class="login-msg mt20px font12">
-            打开手机扫一扫，快速登录/注册
-        </div>
-    </div>
-</template>
-
 <script lang="ts" setup>
 // import { ref, defineComponent, onMounted } from 'vue';
 
@@ -27,6 +18,15 @@
 //     initCode();
 // });
 </script>
+
+<template>
+    <div class="login-scan-container">
+        <div ref="qrCodeRef" />
+        <div class="login-msg mt20px font12">
+            打开手机扫一扫，快速登录/注册
+        </div>
+    </div>
+</template>
 
 <style scoped lang="scss">
 .login-scan-animation {

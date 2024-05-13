@@ -1,45 +1,3 @@
-<template>
-    <my-box v-loading="defData.loading">
-        <div class="mb20px">
-            <span class="mr20px text-16px font-bold">{{ props.title }}</span>
-            <el-button type="success" @click="onOpenAdd">
-                <i class="i-ep-plus mr5px" />
-                新增
-            </el-button>
-            <el-button @click="onSearch">
-                <i class="i-ep-refresh mr5px" />
-                刷新
-            </el-button>
-        </div>
-        <MyTable v-model:page="tableData.pagination" v-model:table-header="tableData.tableHeader" class="jm-box table-box"
-            :data="tableData.data" @update:page="onHandleCurrentChange">
-            <template #img="{ scopes }">
-                <co-image :src="scopes.row.img" :icon-size="28" :preview-src-list="[scopes.row.img]" preview-teleported
-                    fit="contain" class="ma h50px w100px block!" />
-            </template>
-
-            <template #isHide="{ scopes }">
-                <el-tag v-if="scopes.row.isHide" type="info">
-                    隐藏
-                </el-tag>
-                <el-tag v-else type="primary">
-                    显示
-                </el-tag>
-            </template>
-
-            <template #operate="{ scopes }">
-                <el-button size="small" text type="primary" @click.stop="onOpenEdit(scopes.row)">
-                    修改
-                </el-button>
-                <el-button size="small" text type="primary" @click.stop="onRowDel(scopes.row)">
-                    删除
-                </el-button>
-            </template>
-        </MyTable>
-        <MenuModel ref="modelRef" v-bind="props" @update="initTableData" />
-    </my-box>
-</template>
-
 <script lang="ts" setup>
 import MenuModel from '@/views/home/components/BannerModel.vue'
 import { PAGINATION } from '@/config/global'
@@ -124,5 +82,47 @@ onBeforeMount(() => {
     initTableData()
 })
 </script>
+
+<template>
+    <my-box v-loading="defData.loading">
+        <div class="mb20px">
+            <span class="mr20px text-16px font-bold">{{ props.title }}</span>
+            <el-button type="success" @click="onOpenAdd">
+                <i class="i-ep-plus mr5px" />
+                新增
+            </el-button>
+            <el-button @click="onSearch">
+                <i class="i-ep-refresh mr5px" />
+                刷新
+            </el-button>
+        </div>
+        <MyTable v-model:page="tableData.pagination" v-model:table-header="tableData.tableHeader" class="jm-box table-box"
+            :data="tableData.data" @update:page="onHandleCurrentChange">
+            <template #img="{ scopes }">
+                <co-image :src="scopes.row.img" :icon-size="28" :preview-src-list="[scopes.row.img]" preview-teleported
+                    fit="contain" class="ma h50px w100px block!" />
+            </template>
+
+            <template #isHide="{ scopes }">
+                <el-tag v-if="scopes.row.isHide" type="info">
+                    隐藏
+                </el-tag>
+                <el-tag v-else type="primary">
+                    显示
+                </el-tag>
+            </template>
+
+            <template #operate="{ scopes }">
+                <el-button size="small" text type="primary" @click.stop="onOpenEdit(scopes.row)">
+                    修改
+                </el-button>
+                <el-button size="small" text type="primary" @click.stop="onRowDel(scopes.row)">
+                    删除
+                </el-button>
+            </template>
+        </MyTable>
+        <MenuModel ref="modelRef" v-bind="props" @update="initTableData" />
+    </my-box>
+</template>
 
 <style lang="scss" scoped></style>

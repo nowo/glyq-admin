@@ -1,7 +1,3 @@
-<template>
-    <component :is="curComponent" :class="themeConfig.layout" />
-</template>
-
 <script lang="ts" setup>
 import { defineAsyncComponent, onBeforeMount, onUnmounted, shallowRef, watch } from 'vue'
 import { storeToRefs } from 'pinia'
@@ -12,7 +8,7 @@ import { Local } from '@/utils/storage'
 const storesThemeConfig = useThemeConfig()
 const { themeConfig } = storeToRefs(storesThemeConfig)
 
-const layoutResizeBus = useEventBus<{ clientWidth: number; layout: MainLayoutType }>('layoutMobileResize')
+const layoutResizeBus = useEventBus<{ clientWidth: number, layout: MainLayoutType }>('layoutMobileResize')
 
 const curComponent = shallowRef()
 const setLayout = () => {
@@ -61,3 +57,7 @@ watch(() => themeConfig.value.layout, () => {
     setLayout()
 })
 </script>
+
+<template>
+    <component :is="curComponent" :class="themeConfig.layout" />
+</template>

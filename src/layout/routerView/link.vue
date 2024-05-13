@@ -1,11 +1,3 @@
-<template>
-    <div class="layout-view-bg-white layout-view-link flex" :style="{ height: `calc(100vh - ${setLinkHeight}` }">
-        <a :href="currentRouteMeta.linkUrl" target="_blank" rel="opener" class="flex-margin">
-            {{ currentRouteMeta.title }}：{{ currentRouteMeta.isLink }}
-        </a>
-    </div>
-</template>
-
 <script lang="ts" setup>
 import { computed, reactive, toRefs, watch } from 'vue'
 import type { RouteMeta } from 'vue-router'
@@ -38,3 +30,11 @@ watch(
 
 const { currentRouteMeta } = toRefs(state)
 </script>
+
+<template>
+    <div class="layout-view-bg-white layout-view-link flex" :style="{ height: `calc(100vh - ${setLinkHeight}` }">
+        <a :href="currentRouteMeta.linkUrl" target="_blank" rel="opener" class="flex-margin">
+            {{ currentRouteMeta.title }}：{{ currentRouteMeta.isLink }}
+        </a>
+    </div>
+</template>

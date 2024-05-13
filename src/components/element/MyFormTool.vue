@@ -1,41 +1,3 @@
-<template>
-    <el-form v-if="searchData.config.length" ref="formRef" v-bind="$attrs" :model="searchData.data">
-        <!-- :ref="setItemRef" -->
-        <!-- :ref="(el: FormItemInstance | any) => { if (el) formItemRef[index] = el }" -->
-        <el-form-item v-for="(item, index) in searchData.config" :key="index" ref="formItemRef"
-            :class="setFormItemClass(index)" v-bind="item.itemProp as any" :prop="item.itemProp.prop">
-            <div class="item-content" :style="{ width: setElWidth(item.width) }">
-                <slot v-if="item.slot" :name="item.itemProp.prop" :row="searchData.data" :width="setElWidth(item.width)" />
-                <el-input v-else v-model.trim="searchData.data[item.itemProp.prop]"
-                    :style="{ width: setElWidth(item.width) }" :placeholder="item.placeholder" clearable />
-            </div>
-        </el-form-item>
-        <el-form-item ref="lastItemRef" label="">
-            <el-button type="primary" @click="onSearch">
-                <el-icon>
-                    <ele-Search />
-                </el-icon>
-                查询
-            </el-button>
-            <el-button plain @click="onReset">
-                <el-icon>
-                    <ele-Refresh />
-                </el-icon>
-                重置
-            </el-button>
-            <slot />
-            <el-button v-if="!props.data.hideBtn" type="primary" plain link @click="onToggle">
-                <template v-if="defData.showAll">
-                    收起<el-icon><ele-ArrowUp /></el-icon>
-                </template>
-                <template v-else>
-                    展开<el-icon><ele-ArrowDown /></el-icon>
-                </template>
-            </el-button>
-        </el-form-item>
-    </el-form>
-</template>
-
 <script lang="ts" setup>
 import { useElementSize } from '@vueuse/core'
 import type { FormInstance, FormItemInstance } from 'element-plus'
@@ -167,6 +129,44 @@ onMounted(() => {
     // })
 })
 </script>
+
+<template>
+    <el-form v-if="searchData.config.length" ref="formRef" v-bind="$attrs" :model="searchData.data">
+        <!-- :ref="setItemRef" -->
+        <!-- :ref="(el: FormItemInstance | any) => { if (el) formItemRef[index] = el }" -->
+        <el-form-item v-for="(item, index) in searchData.config" :key="index" ref="formItemRef"
+            :class="setFormItemClass(index)" v-bind="item.itemProp as any" :prop="item.itemProp.prop">
+            <div class="item-content" :style="{ width: setElWidth(item.width) }">
+                <slot v-if="item.slot" :name="item.itemProp.prop" :row="searchData.data" :width="setElWidth(item.width)" />
+                <el-input v-else v-model.trim="searchData.data[item.itemProp.prop]"
+                    :style="{ width: setElWidth(item.width) }" :placeholder="item.placeholder" clearable />
+            </div>
+        </el-form-item>
+        <el-form-item ref="lastItemRef" label="">
+            <el-button type="primary" @click="onSearch">
+                <el-icon>
+                    <ele-Search />
+                </el-icon>
+                查询
+            </el-button>
+            <el-button plain @click="onReset">
+                <el-icon>
+                    <ele-Refresh />
+                </el-icon>
+                重置
+            </el-button>
+            <slot />
+            <el-button v-if="!props.data.hideBtn" type="primary" plain link @click="onToggle">
+                <template v-if="defData.showAll">
+                    收起<el-icon><ele-ArrowUp /></el-icon>
+                </template>
+                <template v-else>
+                    展开<el-icon><ele-ArrowDown /></el-icon>
+                </template>
+            </el-button>
+        </el-form-item>
+    </el-form>
+</template>
 
 <style lang="scss" scoped>
 .hide-item {

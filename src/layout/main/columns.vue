@@ -1,21 +1,3 @@
-<template>
-    <el-container v-if="isLoad" class="layout-container">
-        <ColumnsAside />
-        <div class="layout-columns-warp">
-            <Asides />
-            <!-- layout-backtop -->
-            <el-container class="flex-center-column" :class="{ 'layout-backtop': !isFixedHeader }">
-                <Headers v-if="isFixedHeader" />
-                <el-scrollbar :class="{ 'layout-backtop': isFixedHeader }">
-                    <Headers v-if="!isFixedHeader" />
-                    <Mains v-if="isRouterAlive" />
-                </el-scrollbar>
-            </el-container>
-        </div>
-        <el-backtop target=".layout-backtop .el-scrollbar__wrap" />
-    </el-container>
-</template>
-
 <script lang="ts" setup>
 import { computed, nextTick, provide, ref } from 'vue'
 import { storeToRefs } from 'pinia'
@@ -54,3 +36,21 @@ const isLoad = ref(true)
 //     }
 // })
 </script>
+
+<template>
+    <el-container v-if="isLoad" class="layout-container">
+        <ColumnsAside />
+        <div class="layout-columns-warp">
+            <Asides />
+            <!-- layout-backtop -->
+            <el-container class="flex-center-column" :class="{ 'layout-backtop': !isFixedHeader }">
+                <Headers v-if="isFixedHeader" />
+                <el-scrollbar :class="{ 'layout-backtop': isFixedHeader }">
+                    <Headers v-if="!isFixedHeader" />
+                    <Mains v-if="isRouterAlive" />
+                </el-scrollbar>
+            </el-container>
+        </div>
+        <el-backtop target=".layout-backtop .el-scrollbar__wrap" />
+    </el-container>
+</template>

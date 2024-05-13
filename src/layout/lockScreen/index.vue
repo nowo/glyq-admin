@@ -1,58 +1,3 @@
-<template>
-    <div v-show="isShowLockScreen">
-        <div class="layout-lock-screen-mask" />
-        <div class="layout-lock-screen-img" :class="{ 'layout-lock-screen-filter': isShowLockLogin }" />
-        <div class="layout-lock-screen">
-            <div ref="layoutLockScreenDateRef" class="layout-lock-screen-date" @mousedown.passive="onDown" @mousemove.passive="onMove"
-                @mouseup.passive="onEnd" @touchstart.passive.stop="onDown" @touchmove.passive.stop="onMove" @touchend.passive.stop="onEnd">
-                <div class="layout-lock-screen-date-box">
-                    <div class="layout-lock-screen-date-box-time">
-                        {{ time.hm }}<span class="layout-lock-screen-date-box-minutes">{{ time.s }}</span>
-                    </div>
-                    <div class="layout-lock-screen-date-box-info">
-                        {{ time.mdq }}
-                    </div>
-                </div>
-                <div class="layout-lock-screen-date-top" @click="slidingUnlock()">
-                    <SvgIcon name="ele-Top" />
-                    <div class="layout-lock-screen-date-top-text">
-                        上滑解锁
-                    </div>
-                </div>
-            </div>
-            <transition name="el-zoom-in-center">
-                <div v-show="isShowLockLogin" class="layout-lock-screen-login">
-                    <div class="layout-lock-screen-login-box">
-                        <div class="layout-lock-screen-login-box-img">
-                            <img src="@/assets/images/face.jpeg">
-                        </div>
-                        <div class="layout-lock-screen-login-box-name">
-                            Administrator
-                        </div>
-                        <div class="layout-lock-screen-login-box-value">
-                            <el-input ref="layoutLockScreenInputRef" v-model="lockScreenPassword" placeholder="请输入密码"
-                                @keyup.enter.stop="onLockScreenSubmit()">
-                                <template #append>
-                                    <el-button @click="onLockScreenSubmit">
-                                        <el-icon class="el-input__icon">
-                                            <ele-Right />
-                                        </el-icon>
-                                    </el-button>
-                                </template>
-                            </el-input>
-                        </div>
-                    </div>
-                    <div class="layout-lock-screen-login-icon">
-                        <SvgIcon name="ele-Microphone" :size="20" />
-                        <SvgIcon name="ele-AlarmClock" :size="20" />
-                        <SvgIcon name="ele-SwitchButton" :size="20" />
-                    </div>
-                </div>
-            </transition>
-        </div>
-    </div>
-</template>
-
 <script lang="ts" setup>
 import { nextTick, onMounted, onUnmounted, reactive, ref, toRefs } from 'vue'
 import { storeToRefs } from 'pinia'
@@ -207,6 +152,61 @@ onUnmounted(() => {
 
 const { isShowLockLogin, time, isShowLockScreen, lockScreenPassword } = toRefs(state)
 </script>
+
+<template>
+    <div v-show="isShowLockScreen">
+        <div class="layout-lock-screen-mask" />
+        <div class="layout-lock-screen-img" :class="{ 'layout-lock-screen-filter': isShowLockLogin }" />
+        <div class="layout-lock-screen">
+            <div ref="layoutLockScreenDateRef" class="layout-lock-screen-date" @mousedown.passive="onDown" @mousemove.passive="onMove"
+                @mouseup.passive="onEnd" @touchstart.passive.stop="onDown" @touchmove.passive.stop="onMove" @touchend.passive.stop="onEnd">
+                <div class="layout-lock-screen-date-box">
+                    <div class="layout-lock-screen-date-box-time">
+                        {{ time.hm }}<span class="layout-lock-screen-date-box-minutes">{{ time.s }}</span>
+                    </div>
+                    <div class="layout-lock-screen-date-box-info">
+                        {{ time.mdq }}
+                    </div>
+                </div>
+                <div class="layout-lock-screen-date-top" @click="slidingUnlock()">
+                    <SvgIcon name="ele-Top" />
+                    <div class="layout-lock-screen-date-top-text">
+                        上滑解锁
+                    </div>
+                </div>
+            </div>
+            <transition name="el-zoom-in-center">
+                <div v-show="isShowLockLogin" class="layout-lock-screen-login">
+                    <div class="layout-lock-screen-login-box">
+                        <div class="layout-lock-screen-login-box-img">
+                            <img src="@/assets/images/face.jpeg">
+                        </div>
+                        <div class="layout-lock-screen-login-box-name">
+                            Administrator
+                        </div>
+                        <div class="layout-lock-screen-login-box-value">
+                            <el-input ref="layoutLockScreenInputRef" v-model="lockScreenPassword" placeholder="请输入密码"
+                                @keyup.enter.stop="onLockScreenSubmit()">
+                                <template #append>
+                                    <el-button @click="onLockScreenSubmit">
+                                        <el-icon class="el-input__icon">
+                                            <ele-Right />
+                                        </el-icon>
+                                    </el-button>
+                                </template>
+                            </el-input>
+                        </div>
+                    </div>
+                    <div class="layout-lock-screen-login-icon">
+                        <SvgIcon name="ele-Microphone" :size="20" />
+                        <SvgIcon name="ele-AlarmClock" :size="20" />
+                        <SvgIcon name="ele-SwitchButton" :size="20" />
+                    </div>
+                </div>
+            </transition>
+        </div>
+    </div>
+</template>
 
 <style scoped lang="scss">
 .layout-lock-screen-fixed {

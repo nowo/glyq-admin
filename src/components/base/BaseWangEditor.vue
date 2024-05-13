@@ -1,15 +1,6 @@
-<template>
-    <div class="wang-editor-box">
-        <Toolbar :editor="editorRef" :default-config="toolbarConfig" :mode="mode" class="wang-editor-tool" />
-        <Editor v-model="valueHtml" :default-config="editorConfig" :mode="mode" style="height: 350px; overflow-y: hidden"
-            @on-created="handleCreated" @on-change="handleChange" @on-destroyed="handleDestroyed" @on-focus="handleFocus"
-            @on-blur="handleBlur" @custom-alert="customAlert" @custom-paste="customPaste" />
-    </div>
-</template>
-
 <script setup lang="ts">
 import '@wangeditor/editor/dist/css/style.css'
-import { onBeforeUnmount, onMounted, ref, shallowRef } from 'vue'
+import { onBeforeUnmount, ref, shallowRef } from 'vue'
 import { Editor, Toolbar } from '@wangeditor/editor-for-vue'
 import type { IEditorConfig } from '@wangeditor/editor'
 import { setSignRule } from '@/utils/http/crypto'
@@ -162,6 +153,15 @@ const disable = () => {
     editor.disable()
 }
 </script>
+
+<template>
+    <div class="wang-editor-box">
+        <Toolbar :editor="editorRef" :default-config="toolbarConfig" :mode="mode" class="wang-editor-tool" />
+        <Editor v-model="valueHtml" :default-config="editorConfig" :mode="mode" style="height: 350px; overflow-y: hidden"
+            @on-created="handleCreated" @on-change="handleChange" @on-destroyed="handleDestroyed" @on-focus="handleFocus"
+            @on-blur="handleBlur" @custom-alert="customAlert" @custom-paste="customPaste" />
+    </div>
+</template>
 
 <style lang="scss" scoped>
 .wang-editor-box {

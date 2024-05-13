@@ -1,22 +1,3 @@
-<template>
-    <transition name="el-zoom-in-center">
-        <div v-show="isShow" :key="Math.random()" aria-hidden="true"
-            class="el-dropdown__popper el-popper is-light is-pure custom-contextmenu" role="tooltip"
-            data-popper-placement="bottom" :style="`top: ${dropdowns.y + 5}px;left: ${dropdowns.x}px;`">
-            <ul class="el-dropdown-menu">
-                <template v-for="(v, k) in dropdownList">
-                    <li v-if="!v.affix" :key="k" class="el-dropdown-menu__item" aria-disabled="false" tabindex="-1"
-                        @click="onCurrentContextmenuClick(v.contextMenuClickId)">
-                        <SvgIcon :name="v.icon" />
-                        <span>{{ v.txt }}</span>
-                    </li>
-                </template>
-            </ul>
-            <div class="el-popper__arrow" :style="{ left: `${arrowLeft}px` }" />
-        </div>
-    </transition>
-</template>
-
 <script lang="ts" setup>
 import type { PropType } from 'vue'
 import { computed, onMounted, onUnmounted, reactive, toRefs, watch } from 'vue'
@@ -104,6 +85,25 @@ defineExpose({
     openContextmenu,
 })
 </script>
+
+<template>
+    <transition name="el-zoom-in-center">
+        <div v-show="isShow" :key="Math.random()" aria-hidden="true"
+            class="el-dropdown__popper el-popper is-light is-pure custom-contextmenu" role="tooltip"
+            data-popper-placement="bottom" :style="`top: ${dropdowns.y + 5}px;left: ${dropdowns.x}px;`">
+            <ul class="el-dropdown-menu">
+                <template v-for="(v, k) in dropdownList">
+                    <li v-if="!v.affix" :key="k" class="el-dropdown-menu__item" aria-disabled="false" tabindex="-1"
+                        @click="onCurrentContextmenuClick(v.contextMenuClickId)">
+                        <SvgIcon :name="v.icon" />
+                        <span>{{ v.txt }}</span>
+                    </li>
+                </template>
+            </ul>
+            <div class="el-popper__arrow" :style="{ left: `${arrowLeft}px` }" />
+        </div>
+    </transition>
+</template>
 
 <style scoped lang="scss">
 .custom-contextmenu {

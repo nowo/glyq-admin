@@ -1,11 +1,3 @@
-<template>
-    <div v-loading="iframeLoading" class="layout-view-bg-white mt1px flex"
-        :style="{ height: `calc(100vh - ${setIframeHeight}`, border: 'none' }">
-        <iframe v-show="!iframeLoading" ref="iframeDom" :src="iframeUrl" frameborder="0" height="100%"
-            width="100%" />
-    </div>
-</template>
-
 <script lang="ts" setup>
 import { computed, nextTick, onMounted, reactive, toRefs, watch } from 'vue'
 import { storeToRefs } from 'pinia'
@@ -59,3 +51,11 @@ watch(
 
 const { iframeDom, iframeLoading, iframeUrl } = toRefs(state)
 </script>
+
+<template>
+    <div v-loading="iframeLoading" class="layout-view-bg-white mt1px flex"
+        :style="{ height: `calc(100vh - ${setIframeHeight}`, border: 'none' }">
+        <iframe v-show="!iframeLoading" ref="iframeDom" :src="iframeUrl" frameborder="0" height="100%"
+            width="100%" />
+    </div>
+</template>

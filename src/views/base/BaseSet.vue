@@ -1,28 +1,3 @@
-<template>
-    <my-box class="b-none!">
-        <!-- v-if="defData.ready" -->
-        <div class="tab-box">
-            <el-tabs v-model="activeName" tab-position="left" @tab-click="handleClick">
-                <el-tab-pane label="基本设置" name="1">
-                    <el-scrollbar>
-                        <SetBasic :data="companyInfo" />
-                    </el-scrollbar>
-                </el-tab-pane>
-                <el-tab-pane label="关于我们" name="2" lazy>
-                    <el-scrollbar>
-                        <SetAbout />
-                    </el-scrollbar>
-                </el-tab-pane>
-                <el-tab-pane label="联系我们" name="3" lazy>
-                    <el-scrollbar>
-                        <SetContact />
-                    </el-scrollbar>
-                </el-tab-pane>
-            </el-tabs>
-        </div>
-    </my-box>
-</template>
-
 <script lang="ts" setup>
 import type { TabsPaneContext } from 'element-plus'
 import { ElMessage } from 'element-plus'
@@ -60,6 +35,31 @@ onBeforeMount(() => {
     initDefaultData()
 })
 </script>
+
+<template>
+    <my-box class="b-none!">
+        <!-- v-if="defData.ready" -->
+        <div class="tab-box">
+            <el-tabs v-model="activeName" tab-position="left" @tab-click="handleClick">
+                <el-tab-pane label="基本设置" name="1">
+                    <el-scrollbar>
+                        <SetBasic :data="companyInfo" />
+                    </el-scrollbar>
+                </el-tab-pane>
+                <el-tab-pane label="关于我们" name="2" lazy>
+                    <el-scrollbar>
+                        <SetAbout />
+                    </el-scrollbar>
+                </el-tab-pane>
+                <el-tab-pane label="联系我们" name="3" lazy>
+                    <el-scrollbar>
+                        <SetContact />
+                    </el-scrollbar>
+                </el-tab-pane>
+            </el-tabs>
+        </div>
+    </my-box>
+</template>
 
 <style lang="scss" scoped>
 .tab-box {

@@ -1,28 +1,8 @@
-<template>
-    <my-box class="b-none!">
-        <!-- v-if="defData.ready" -->
-        <div class="tab-box">
-            <el-tabs v-model="activeName" tab-position="left" @tab-click="handleClick">
-                <el-tab-pane label="轮播图" name="1">
-                    <el-scrollbar>
-                        <IndexList :type="1" title="轮播图" />
-                    </el-scrollbar>
-                </el-tab-pane>
-                <el-tab-pane label="友情链接" name="2" lazy>
-                    <el-scrollbar>
-                        <IndexList :type="2" title="友情链接" />
-                    </el-scrollbar>
-                </el-tab-pane>
-            </el-tabs>
-        </div>
-    </my-box>
-</template>
-
 <script lang="ts" setup>
 import type { TabsPaneContext } from 'element-plus'
 
 import IndexList from '@/views/home/components/IndexList.vue'
-import { getSystemInfo } from '@/api/system';
+import { getSystemInfo } from '@/api/system'
 
 const activeName = ref('1')
 
@@ -53,6 +33,26 @@ onBeforeMount(() => {
     initDefaultData()
 })
 </script>
+
+<template>
+    <my-box class="b-none!">
+        <!-- v-if="defData.ready" -->
+        <div class="tab-box">
+            <el-tabs v-model="activeName" tab-position="left" @tab-click="handleClick">
+                <el-tab-pane label="轮播图" name="1">
+                    <el-scrollbar>
+                        <IndexList :type="1" title="轮播图" />
+                    </el-scrollbar>
+                </el-tab-pane>
+                <el-tab-pane label="友情链接" name="2" lazy>
+                    <el-scrollbar>
+                        <IndexList :type="2" title="友情链接" />
+                    </el-scrollbar>
+                </el-tab-pane>
+            </el-tabs>
+        </div>
+    </my-box>
+</template>
 
 <style lang="scss" scoped>
 .tab-box {

@@ -1,15 +1,3 @@
-<template>
-    <el-main class="layout-main">
-        <ElScrollbar ref="layoutScrollbarRef" native :class="{ 'layout-scrollbar':
-            (!isClassicOrTransverse && !currentRouteMeta.isLink && !currentRouteMeta.isIframe)
-            || (!isClassicOrTransverse && currentRouteMeta.isLink && !currentRouteMeta.isIframe) }">
-            <LayoutParentView :style="{ padding: !isClassicOrTransverse || (currentRouteMeta.isLink && currentRouteMeta.isIframe) ? '0' : '15px',
-                                        transition: 'padding 0.3s ease-in-out' }" />
-            <Footers v-if="themeConfig.isFooter" />
-        </ElScrollbar>
-    </el-main>
-</template>
-
 <script lang="ts" setup>
 import { computed, onMounted, reactive, ref, toRefs, watch } from 'vue'
 import { useRoute } from 'vue-router'
@@ -82,6 +70,18 @@ watch(
 
 const { currentRouteMeta } = toRefs(state)
 </script>
+
+<template>
+    <el-main class="layout-main">
+        <ElScrollbar ref="layoutScrollbarRef" native :class="{ 'layout-scrollbar':
+            (!isClassicOrTransverse && !currentRouteMeta.isLink && !currentRouteMeta.isIframe)
+            || (!isClassicOrTransverse && currentRouteMeta.isLink && !currentRouteMeta.isIframe) }">
+            <LayoutParentView :style="{ padding: !isClassicOrTransverse || (currentRouteMeta.isLink && currentRouteMeta.isIframe) ? '0' : '15px',
+                                        transition: 'padding 0.3s ease-in-out' }" />
+            <Footers v-if="themeConfig.isFooter" />
+        </ElScrollbar>
+    </el-main>
+</template>
 
 <style lang="scss" scoped>
 .layout-main {

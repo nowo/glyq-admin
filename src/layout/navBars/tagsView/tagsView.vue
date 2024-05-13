@@ -1,37 +1,3 @@
-<template>
-    <div class="layout-navbars-tagsView"
-        :class="{ 'layout-navbars-tagsView-shadow': getThemeConfig.layout === 'classic' }">
-        <ElScrollbar ref="scrollbarRef" @wheel.prevent="onHandleScroll">
-            <ul ref="tagsUlRef" class="layout-navbars-tagsView-ul" :class="setTagsStyle">
-                <li v-for="(v, k) in state.tagsViewList" :key="k" :ref="
-                    (el: any) => { if (el) tagsRefs[k] = el; }
-                "
-                    class="layout-navbars-tagsView-ul-li" :data-url="v.url"
-                    :class="{ 'is-active': isActive(v) }" @contextmenu.prevent="onContextmenu(v, $event)" @click="onTagsClick(v, k)">
-                    <i v-if="isActive(v)" class="layout-navbars-tagsView-ul-li-iconfont" />
-                    <SvgIcon v-if="!isActive(v) && getThemeConfig.isTagsViewIcon" :name="v.meta.icon" class="pr5px" />
-                    <span class="layout-tagsView-name">{{ setTagsViewNameI18n(v) }}</span>
-                    <template v-if="isActive(v)">
-                        <SvgIcon name="ele-RefreshRight" class="layout-navbars-tagsView-ul-li-refresh ml5px"
-                            @click.stop="refreshCurrentTagsView($route.fullPath)" />
-                        <SvgIcon v-if="!v.meta.isAffix" name="ele-Close"
-                            class="layout-navbars-tagsView-ul-li-icon layout-icon-active"
-                            @click.stop="closeCurrentTagsView(getThemeConfig.isShareTagsView ? v.path : v.url)" />
-                    </template>
-                    <SvgIcon v-if="!v.meta.isAffix" name="ele-Close"
-                        class="layout-navbars-tagsView-ul-li-icon layout-icon-three"
-                        @click.stop="closeCurrentTagsView(getThemeConfig.isShareTagsView ? v.path : v.url)" />
-                </li>
-            </ul>
-        </ElScrollbar>
-        <Teleport to="#app">
-            <Contextmenu ref="contextmenuRef" :dropdown="state.dropdown"
-                @current-contextmenu-click="onCurrentContextmenuClick" />
-            <TagFullClose v-if="!themeConfig.isLockScreen" />
-        </Teleport>
-    </div>
-</template>
-
 <script lang="ts" setup>
 import { computed, nextTick, onBeforeMount, onBeforeUpdate, onMounted, onUnmounted, reactive, ref, watch } from 'vue'
 import { onBeforeRouteUpdate, useRoute, useRouter } from 'vue-router'
@@ -560,6 +526,40 @@ watch(tagsViewRoutes, (val) => {
 //     deep: true,
 // });
 </script>
+
+<template>
+    <div class="layout-navbars-tagsView"
+        :class="{ 'layout-navbars-tagsView-shadow': getThemeConfig.layout === 'classic' }">
+        <ElScrollbar ref="scrollbarRef" @wheel.prevent="onHandleScroll">
+            <ul ref="tagsUlRef" class="layout-navbars-tagsView-ul" :class="setTagsStyle">
+                <li v-for="(v, k) in state.tagsViewList" :key="k" :ref="
+                    (el: any) => { if (el) tagsRefs[k] = el; }
+                "
+                    class="layout-navbars-tagsView-ul-li" :data-url="v.url"
+                    :class="{ 'is-active': isActive(v) }" @contextmenu.prevent="onContextmenu(v, $event)" @click="onTagsClick(v, k)">
+                    <i v-if="isActive(v)" class="layout-navbars-tagsView-ul-li-iconfont" />
+                    <SvgIcon v-if="!isActive(v) && getThemeConfig.isTagsViewIcon" :name="v.meta.icon" class="pr5px" />
+                    <span class="layout-tagsView-name">{{ setTagsViewNameI18n(v) }}</span>
+                    <template v-if="isActive(v)">
+                        <SvgIcon name="ele-RefreshRight" class="layout-navbars-tagsView-ul-li-refresh ml5px"
+                            @click.stop="refreshCurrentTagsView($route.fullPath)" />
+                        <SvgIcon v-if="!v.meta.isAffix" name="ele-Close"
+                            class="layout-navbars-tagsView-ul-li-icon layout-icon-active"
+                            @click.stop="closeCurrentTagsView(getThemeConfig.isShareTagsView ? v.path : v.url)" />
+                    </template>
+                    <SvgIcon v-if="!v.meta.isAffix" name="ele-Close"
+                        class="layout-navbars-tagsView-ul-li-icon layout-icon-three"
+                        @click.stop="closeCurrentTagsView(getThemeConfig.isShareTagsView ? v.path : v.url)" />
+                </li>
+            </ul>
+        </ElScrollbar>
+        <Teleport to="#app">
+            <Contextmenu ref="contextmenuRef" :dropdown="state.dropdown"
+                @current-contextmenu-click="onCurrentContextmenuClick" />
+            <TagFullClose v-if="!themeConfig.isLockScreen" />
+        </Teleport>
+    </div>
+</template>
 
 <style scoped lang="scss">
 .layout-tagsView-name {

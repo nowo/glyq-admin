@@ -1,58 +1,3 @@
-<template>
-    <div class="icon-selector h100% w100%">
-        <el-popover placement="bottom" :width="fontIconWidth" trigger="click" transition="el-zoom-in-top"
-            popper-class="icon-selector-popper" @show="onPopoverShow">
-            <template #reference>
-                <ElInput ref="inputWidthRef" v-model="fontIconSearch" :placeholder="fontIconPlaceholder"
-                    :clearable="clearable" :disabled="disabled" :size="inputSize" @clear="onClearFontIcon"
-                    @focus="onIconFocus" @blur="onIconBlur">
-                    <template #prepend>
-                        <SvgIcon v-if="fontIconPrefix === '' ? prepend?.indexOf('ele-') > -1 : fontIconPrefix?.indexOf('ele-') > -1"
-                            :name="fontIconPrefix === '' ? prepend : fontIconPrefix" class="font14" />
-                        <i v-else :class="fontIconPrefix === '' ? prepend : fontIconPrefix" class="font14" />
-                    </template>
-                </ElInput>
-            </template>
-            <template #default>
-                <div class="icon-selector-warp">
-                    <div class="icon-selector-warp-title flex">
-                        <div class="input-x flex-auto">
-                            <ElInput v-model="searchText" :placeholder="title" />
-                        </div>
-                        <div v-if="type === 'all'" class="icon-selector-warp-title-tab">
-                            <span :class="{ 'span-active': fontIconType === 'ali' }" class="ml10px" title="iconfont 图标"
-                                @click="onIconChange('ali')">ali</span>
-                            <span :class="{ 'span-active': fontIconType === 'ele' }" class="ml10px" title="elementPlus 图标"
-                                @click="onIconChange('ele')">ele</span>
-                            <span :class="{ 'span-active': fontIconType === 'awe' }" class="ml10px"
-                                title="font awesome 图标" @click="onIconChange('awe')">awe</span>
-                        </div>
-                    </div>
-                    <div class="icon-selector-warp-row">
-                        <el-scrollbar ref="selectorScrollbarRef">
-                            <el-row v-if="fontIconSheetsFilterList.length > 0" :gutter="10">
-                                <el-col v-for="(v, k) in fontIconSheetsFilterList" :key="k" :xs="6" :sm="4" :md="4"
-                                    :lg="4" :xl="4" @click="onColClick(v)">
-                                    <div class="icon-selector-warp-item"
-                                        :class="{ 'icon-selector-active': fontIconPrefix === v }">
-                                        <div class="flex-margin">
-                                            <div class="icon-selector-warp-item-value">
-                                                <SvgIcon :name="v" />
-                                            </div>
-                                        </div>
-                                    </div>
-                                </el-col>
-                            </el-row>
-                            <el-empty v-if="fontIconSheetsFilterList.length <= 0" :image-size="100"
-                                :description="emptyDescription" />
-                        </el-scrollbar>
-                    </div>
-                </div>
-            </template>
-        </el-popover>
-    </div>
-</template>
-
 <script lang="ts" setup>
 import { computed, nextTick, onMounted, reactive, ref, toRefs, watch } from 'vue'
 import { ElInput } from 'element-plus'
@@ -245,6 +190,61 @@ const {
     fontIconType,
 } = toRefs(state)
 </script>
+
+<template>
+    <div class="icon-selector h100% w100%">
+        <el-popover placement="bottom" :width="fontIconWidth" trigger="click" transition="el-zoom-in-top"
+            popper-class="icon-selector-popper" @show="onPopoverShow">
+            <template #reference>
+                <ElInput ref="inputWidthRef" v-model="fontIconSearch" :placeholder="fontIconPlaceholder"
+                    :clearable="clearable" :disabled="disabled" :size="inputSize" @clear="onClearFontIcon"
+                    @focus="onIconFocus" @blur="onIconBlur">
+                    <template #prepend>
+                        <SvgIcon v-if="fontIconPrefix === '' ? prepend?.indexOf('ele-') > -1 : fontIconPrefix?.indexOf('ele-') > -1"
+                            :name="fontIconPrefix === '' ? prepend : fontIconPrefix" class="font14" />
+                        <i v-else :class="fontIconPrefix === '' ? prepend : fontIconPrefix" class="font14" />
+                    </template>
+                </ElInput>
+            </template>
+            <template #default>
+                <div class="icon-selector-warp">
+                    <div class="icon-selector-warp-title flex">
+                        <div class="input-x flex-auto">
+                            <ElInput v-model="searchText" :placeholder="title" />
+                        </div>
+                        <div v-if="type === 'all'" class="icon-selector-warp-title-tab">
+                            <span :class="{ 'span-active': fontIconType === 'ali' }" class="ml10px" title="iconfont 图标"
+                                @click="onIconChange('ali')">ali</span>
+                            <span :class="{ 'span-active': fontIconType === 'ele' }" class="ml10px" title="elementPlus 图标"
+                                @click="onIconChange('ele')">ele</span>
+                            <span :class="{ 'span-active': fontIconType === 'awe' }" class="ml10px"
+                                title="font awesome 图标" @click="onIconChange('awe')">awe</span>
+                        </div>
+                    </div>
+                    <div class="icon-selector-warp-row">
+                        <el-scrollbar ref="selectorScrollbarRef">
+                            <el-row v-if="fontIconSheetsFilterList.length > 0" :gutter="10">
+                                <el-col v-for="(v, k) in fontIconSheetsFilterList" :key="k" :xs="6" :sm="4" :md="4"
+                                    :lg="4" :xl="4" @click="onColClick(v)">
+                                    <div class="icon-selector-warp-item"
+                                        :class="{ 'icon-selector-active': fontIconPrefix === v }">
+                                        <div class="flex-margin">
+                                            <div class="icon-selector-warp-item-value">
+                                                <SvgIcon :name="v" />
+                                            </div>
+                                        </div>
+                                    </div>
+                                </el-col>
+                            </el-row>
+                            <el-empty v-if="fontIconSheetsFilterList.length <= 0" :image-size="100"
+                                :description="emptyDescription" />
+                        </el-scrollbar>
+                    </div>
+                </div>
+            </template>
+        </el-popover>
+    </div>
+</template>
 
 <style lang="scss" scoped>
 .input-x {

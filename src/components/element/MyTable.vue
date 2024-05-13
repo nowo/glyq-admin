@@ -1,40 +1,3 @@
-<template>
-    <div ref="tablePageRef" class="table-page">
-        <div class="table-page-content">
-            <ElTable ref="tableRef" v-bind="$attrs" :data="props.data" :max-height="tableHeight">
-                <ElTableColumn v-for="(item, index) in headerList" :key="index" v-bind="item as any"
-                    show-overflow-tooltip>
-                    <template v-if="item.slotHeader" #header="scope">
-                        <slot :name="`${item.property}Header`" :scopes="scope" />
-                    </template>
-                    <!-- 这里根据slot字段来判断是否使用插槽 -->
-                    <template v-if="item.type !== 'selection' && item.type !== 'index'" #default="scope">
-                        <slot v-if="item.slot" :name="item.property" :scopes="scope" />
-                        <span v-else>{{ scope.row[item.property] }}</span>
-                    </template>
-                </ElTableColumn>
-            </ElTable>
-        </div>
-        <!-- <el-popover :width="300" popper-class="popover-box" trigger="click" @show="onSetTable">
-            <template #reference>
-                <el-avatar src="https://avatars.githubusercontent.com/u/72015883?v=4" />
-            </template>
-            <template #default>
-                <ul ref="moveRef" class="move-box">
-                    <li v-for="(item, index) in setHeader" :key="index" :data-key="item.property">
-                        <el-icon class="move-icon mr5px"><ele-Rank /></el-icon><el-checkbox v-model="item.check"
-                            :label="item.label" />
-                    </li>
-                </ul>
-            </template>
-        </el-popover> -->
-        <ElPagination v-if="defData.pagination.total" ref="pageRef" v-model:current-page="defData.pagination.page"
-            v-model:page-size="defData.pagination.page_size" :small="smallSize" :page-sizes="defData.pagination.page_sizes"
-            :total="defData.pagination.total" :pager-count="5" background layout="total, sizes, prev, pager, next, jumper"
-            class="mt15px" @size-change="onHandleSizeChange" @current-change="onHandleCurrentChange" />
-    </div>
-</template>
-
 <script lang="ts" setup>
 import type { PropType } from 'vue'
 import { computed, nextTick, reactive, ref } from 'vue'
@@ -188,6 +151,43 @@ defineExpose({
     tableRef,
 })
 </script>
+
+<template>
+    <div ref="tablePageRef" class="table-page">
+        <div class="table-page-content">
+            <ElTable ref="tableRef" v-bind="$attrs" :data="props.data" :max-height="tableHeight">
+                <ElTableColumn v-for="(item, index) in headerList" :key="index" v-bind="item as any"
+                    show-overflow-tooltip>
+                    <template v-if="item.slotHeader" #header="scope">
+                        <slot :name="`${item.property}Header`" :scopes="scope" />
+                    </template>
+                    <!-- 这里根据slot字段来判断是否使用插槽 -->
+                    <template v-if="item.type !== 'selection' && item.type !== 'index'" #default="scope">
+                        <slot v-if="item.slot" :name="item.property" :scopes="scope" />
+                        <span v-else>{{ scope.row[item.property] }}</span>
+                    </template>
+                </ElTableColumn>
+            </ElTable>
+        </div>
+        <!-- <el-popover :width="300" popper-class="popover-box" trigger="click" @show="onSetTable">
+            <template #reference>
+                <el-avatar src="https://avatars.githubusercontent.com/u/72015883?v=4" />
+            </template>
+            <template #default>
+                <ul ref="moveRef" class="move-box">
+                    <li v-for="(item, index) in setHeader" :key="index" :data-key="item.property">
+                        <el-icon class="move-icon mr5px"><ele-Rank /></el-icon><el-checkbox v-model="item.check"
+                            :label="item.label" />
+                    </li>
+                </ul>
+            </template>
+        </el-popover> -->
+        <ElPagination v-if="defData.pagination.total" ref="pageRef" v-model:current-page="defData.pagination.page"
+            v-model:page-size="defData.pagination.page_size" :small="smallSize" :page-sizes="defData.pagination.page_sizes"
+            :total="defData.pagination.total" :pager-count="5" background layout="total, sizes, prev, pager, next, jumper"
+            class="mt15px" @size-change="onHandleSizeChange" @current-change="onHandleCurrentChange" />
+    </div>
+</template>
 
 <style lang="scss" scoped>
 .table-page {

@@ -1,54 +1,3 @@
-<template>
-    <div class="upload-box" :class="`limit${props.limit}`">
-        <el-upload v-if="props.type === 'text'" v-model:file-list="defData.uploadList" class="upload-text"
-            :class="{ 'hide-upload': defData.hideUpload }" action="/" list-type="text" :limit="props.limit"
-            :on-change="onImgChange" :auto-upload="false" :accept="props.accept" :multiple="props.multiple">
-            <!--  :on-preview="onImgPreview" :on-remove="onImgRemove" -->
-            <el-button type="primary" plain link>
-                上传
-            </el-button>
-            <template #file="{ file }">
-                <el-button type="primary" plain link @click="onImgPreview(file)">
-                    查看
-                </el-button>
-                <el-button v-if="!props.readonly" type="info" link @click="removeImg(file)">
-                    删除
-                </el-button>
-            </template>
-        </el-upload>
-        <el-upload v-else v-model:file-list="defData.uploadList" :class="{ 'hide-upload': defData.hideUpload }" action="/"
-            list-type="picture-card" :limit="props.limit" :on-change="onImgChange" :auto-upload="false"
-            :accept="props.accept" :multiple="props.multiple">
-            <el-icon>
-                <ele-Plus />
-            </el-icon>
-            <template #file="{ file }">
-                <div>
-                    <img class="el-upload-list__item-thumbnail" :src="file.url" alt="">
-                    <span class="el-upload-list__item-actions">
-                        <span class="el-upload-list__item-preview" @click="onImgPreview(file)">
-                            <el-icon>
-                                <ele-ZoomIn />
-                            </el-icon>
-                        </span>
-                        <span v-if="!props.readonly" class="el-upload-list__item-delete" @click="removeImg(file)">
-                            <el-icon>
-                                <ele-Delete />
-                            </el-icon>
-                        </span>
-                    </span>
-                </div>
-            </template>
-        </el-upload>
-
-        <el-image-viewer v-if="showImg.viewer" :url-list="showImg.list" :z-index="10000" :initial-index="showImg.index"
-            teleported @close="closeView" />
-        <el-dialog v-model="defData.videoVisible" width="600px" draggable append-to-body>
-            <video class="h350px w100%" :src="defData.videoUrl" controls />
-        </el-dialog>
-    </div>
-</template>
-
 <script lang="ts" setup>
 import type { UploadFile, UploadFiles } from 'element-plus'
 import { ElMessage } from 'element-plus'
@@ -103,7 +52,7 @@ const defData = reactive({
     ready: false,
     hideUpload: false,
     allFile: [] as AllFileList[], // 所有图片数组
-    uploadList: [] as { name: string; url: string }[], // 已上传的图片
+    uploadList: [] as { name: string, url: string }[], // 已上传的图片
     deleteList: [] as string[], // 暂存需要删除的图片
 
     videoVisible: false,
@@ -245,6 +194,57 @@ defineExpose({
     onDeleteFile,
 })
 </script>
+
+<template>
+    <div class="upload-box" :class="`limit${props.limit}`">
+        <el-upload v-if="props.type === 'text'" v-model:file-list="defData.uploadList" class="upload-text"
+            :class="{ 'hide-upload': defData.hideUpload }" action="/" list-type="text" :limit="props.limit"
+            :on-change="onImgChange" :auto-upload="false" :accept="props.accept" :multiple="props.multiple">
+            <!--  :on-preview="onImgPreview" :on-remove="onImgRemove" -->
+            <el-button type="primary" plain link>
+                上传
+            </el-button>
+            <template #file="{ file }">
+                <el-button type="primary" plain link @click="onImgPreview(file)">
+                    查看
+                </el-button>
+                <el-button v-if="!props.readonly" type="info" link @click="removeImg(file)">
+                    删除
+                </el-button>
+            </template>
+        </el-upload>
+        <el-upload v-else v-model:file-list="defData.uploadList" :class="{ 'hide-upload': defData.hideUpload }" action="/"
+            list-type="picture-card" :limit="props.limit" :on-change="onImgChange" :auto-upload="false"
+            :accept="props.accept" :multiple="props.multiple">
+            <el-icon>
+                <ele-Plus />
+            </el-icon>
+            <template #file="{ file }">
+                <div>
+                    <img class="el-upload-list__item-thumbnail" :src="file.url" alt="">
+                    <span class="el-upload-list__item-actions">
+                        <span class="el-upload-list__item-preview" @click="onImgPreview(file)">
+                            <el-icon>
+                                <ele-ZoomIn />
+                            </el-icon>
+                        </span>
+                        <span v-if="!props.readonly" class="el-upload-list__item-delete" @click="removeImg(file)">
+                            <el-icon>
+                                <ele-Delete />
+                            </el-icon>
+                        </span>
+                    </span>
+                </div>
+            </template>
+        </el-upload>
+
+        <el-image-viewer v-if="showImg.viewer" :url-list="showImg.list" :z-index="10000" :initial-index="showImg.index"
+            teleported @close="closeView" />
+        <el-dialog v-model="defData.videoVisible" width="600px" draggable append-to-body>
+            <video class="h350px w100%" :src="defData.videoUrl" controls />
+        </el-dialog>
+    </div>
+</template>
 
 <style lang="scss" scoped>
 .hide-upload {

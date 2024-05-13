@@ -1,3 +1,20 @@
+<script lang="ts" setup>
+import type { PropType } from 'vue'
+import { computed } from 'vue'
+
+const props = defineProps({
+    child: {
+        type: Array as PropType<any[]>,
+        default: () => [],
+    },
+})
+
+// 获取父级菜单数据
+const childList = computed(() => {
+    return props.child
+})
+</script>
+
 <template>
     <template v-for="val in childList">
         <el-sub-menu v-if="val.children && val.children.length > 0" :key="val.path" :index="val.path">
@@ -26,20 +43,3 @@
         </template>
     </template>
 </template>
-
-<script lang="ts" setup>
-import type { PropType } from 'vue'
-import { computed } from 'vue'
-
-const props = defineProps({
-    child: {
-        type: Array as PropType<any[]>,
-        default: () => [],
-    },
-})
-
-// 获取父级菜单数据
-const childList = computed(() => {
-    return props.child
-})
-</script>

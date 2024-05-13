@@ -1,36 +1,3 @@
-<template>
-    <div class="el-menu-horizontal-warp">
-        <ElScrollbar ref="elMenuHorizontalScrollRef" @wheel.passive.prevent="onElMenuHorizontalScroll">
-            <el-menu router :default-active="state.defaultActive" :ellipsis="false" background-color="transparent"
-                mode="horizontal">
-                <template v-for="val in menuLists">
-                    <el-sub-menu v-if="val.children && val.children.length > 0" :key="val.path" :index="val.path">
-                        <template #title>
-                            <SvgIcon :name="val.meta.icon" />
-                            <span>{{ val.meta.title }}</span>
-                        </template>
-                        <SubItem :child="val.children" />
-                    </el-sub-menu>
-                    <template v-else>
-                        <el-menu-item :key="val.path" :index="val.path">
-                            <template v-if="!val.meta.isLink || (val.meta.isLink && val.meta.isIframe)" #title>
-                                <SvgIcon :name="val.meta.icon" />
-                                {{ val.meta.title }}
-                            </template>
-                            <template v-else #title>
-                                <a :href="val.meta.isLink" target="_blank" rel="opener" class="w100%">
-                                    <SvgIcon :name="val.meta.icon" />
-                                    {{ val.meta.title }}
-                                </a>
-                            </template>
-                        </el-menu-item>
-                    </template>
-                </template>
-            </el-menu>
-        </ElScrollbar>
-    </div>
-</template>
-
 <script lang="ts" setup>
 import type { PropType } from 'vue'
 import { computed, nextTick, onBeforeMount, onMounted, reactive, ref } from 'vue'
@@ -133,6 +100,39 @@ onBeforeRouteUpdate((to) => {
     }
 })
 </script>
+
+<template>
+    <div class="el-menu-horizontal-warp">
+        <ElScrollbar ref="elMenuHorizontalScrollRef" @wheel.passive.prevent="onElMenuHorizontalScroll">
+            <el-menu router :default-active="state.defaultActive" :ellipsis="false" background-color="transparent"
+                mode="horizontal">
+                <template v-for="val in menuLists">
+                    <el-sub-menu v-if="val.children && val.children.length > 0" :key="val.path" :index="val.path">
+                        <template #title>
+                            <SvgIcon :name="val.meta.icon" />
+                            <span>{{ val.meta.title }}</span>
+                        </template>
+                        <SubItem :child="val.children" />
+                    </el-sub-menu>
+                    <template v-else>
+                        <el-menu-item :key="val.path" :index="val.path">
+                            <template v-if="!val.meta.isLink || (val.meta.isLink && val.meta.isIframe)" #title>
+                                <SvgIcon :name="val.meta.icon" />
+                                {{ val.meta.title }}
+                            </template>
+                            <template v-else #title>
+                                <a :href="val.meta.isLink" target="_blank" rel="opener" class="w100%">
+                                    <SvgIcon :name="val.meta.icon" />
+                                    {{ val.meta.title }}
+                                </a>
+                            </template>
+                        </el-menu-item>
+                    </template>
+                </template>
+            </el-menu>
+        </ElScrollbar>
+    </div>
+</template>
 
 <style scoped lang="scss">
 .el-menu-horizontal-warp {

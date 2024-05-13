@@ -1,84 +1,3 @@
-<template>
-    <div class="layout-navbars-breadcrumb-user pr15px">
-        <!-- :style="{ flex: layoutUserFlexNum }" -->
-
-        <template v-if="userState.state">
-            <el-dropdown :show-timeout="70" :hide-timeout="50" trigger="click" @command="onComponentSizeChange">
-                <div class="layout-navbars-breadcrumb-user-icon">
-                    <i class="iconfont icon-ziti" title="组件大小" />
-                </div>
-                <template #dropdown>
-                    <el-dropdown-menu>
-                        <el-dropdown-item command="large" :disabled="state.disabledSize === 'large'">
-                            大型
-                        </el-dropdown-item>
-                        <el-dropdown-item command="default" :disabled="state.disabledSize === 'default'">
-                            默认
-                        </el-dropdown-item>
-                        <el-dropdown-item command="small" :disabled="state.disabledSize === 'small'">
-                            小型
-                        </el-dropdown-item>
-                    </el-dropdown-menu>
-                </template>
-            </el-dropdown>
-            <div class="layout-navbars-breadcrumb-user-icon" @click="onLayoutSettingClick">
-                <i class="iconfont icon-skin" title="布局配置" />
-            </div>
-            <div class="layout-navbars-breadcrumb-user-icon" @click="onSearchClick">
-                <el-icon title="菜单搜索">
-                    <ele-Search />
-                </el-icon>
-            </div>
-            <div class="layout-navbars-breadcrumb-user-icon">
-                <UserNews />
-            </div>
-        </template>
-        <div class="layout-navbars-breadcrumb-user-icon">
-            <a :href="setHomeUrl()" target="_blank">
-                <i class="iconfont icon-home" title="首页" />
-            </a>
-        </div>
-        <div class="layout-navbars-breadcrumb-user-icon mr10px" @click="onScreenFullClick">
-            <i class="iconfont" :title="state.isScreenFull ? '关全屏' : '开全屏'"
-                :class="!state.isScreenFull ? 'icon-fullscreen' : 'icon-exit-fullscreen'" />
-        </div>
-        <el-dropdown :show-timeout="70" :hide-timeout="50" @command="onHandleCommandClick">
-            <span class="layout-navbars-breadcrumb-user-link">
-                <!-- <el-avatar v-if="userInfos.photo" :src="userInfos.photo" :size="2
-                " class="mr5px" /> -->
-                <el-avatar icon="ele-UserFilled" :size="25" class="mr5px" />
-                {{ state.name }}
-                <el-icon class="el-icon--right">
-                    <ele-ArrowDown />
-                </el-icon>
-            </span>
-            <template #dropdown>
-                <el-dropdown-menu>
-                    <!-- <el-dropdown-item command="/">
-                        首页
-                    </el-dropdown-item> -->
-                    <el-dropdown-item command="change">
-                        修改密码
-                    </el-dropdown-item>
-                    <!-- <el-dropdown-item command="clear">
-                        清空后台缓存
-                    </el-dropdown-item> -->
-                    <!-- <el-dropdown-item command="/401">401</el-dropdown-item> -->
-                    <el-dropdown-item divided command="logOut">
-                        退出登录
-                    </el-dropdown-item>
-                </el-dropdown-menu>
-            </template>
-        </el-dropdown>
-        <Search ref="searchRef" />
-
-        <Teleport to="#app">
-            <Settings v-show="userState.state && themeConfig.lockScreenTime > 1" ref="settingsRef" />
-            <EditPwd ref="editPwdRef" />
-        </Teleport>
-    </div>
-</template>
-
 <script lang="ts" setup>
 import { defineAsyncComponent, onMounted, reactive, ref } from 'vue'
 import { useRouter } from 'vue-router'
@@ -218,6 +137,87 @@ onMounted(() => {
     }
 })
 </script>
+
+<template>
+    <div class="layout-navbars-breadcrumb-user pr15px">
+        <!-- :style="{ flex: layoutUserFlexNum }" -->
+
+        <template v-if="userState.state">
+            <el-dropdown :show-timeout="70" :hide-timeout="50" trigger="click" @command="onComponentSizeChange">
+                <div class="layout-navbars-breadcrumb-user-icon">
+                    <i class="iconfont icon-ziti" title="组件大小" />
+                </div>
+                <template #dropdown>
+                    <el-dropdown-menu>
+                        <el-dropdown-item command="large" :disabled="state.disabledSize === 'large'">
+                            大型
+                        </el-dropdown-item>
+                        <el-dropdown-item command="default" :disabled="state.disabledSize === 'default'">
+                            默认
+                        </el-dropdown-item>
+                        <el-dropdown-item command="small" :disabled="state.disabledSize === 'small'">
+                            小型
+                        </el-dropdown-item>
+                    </el-dropdown-menu>
+                </template>
+            </el-dropdown>
+            <div class="layout-navbars-breadcrumb-user-icon" @click="onLayoutSettingClick">
+                <i class="iconfont icon-skin" title="布局配置" />
+            </div>
+            <div class="layout-navbars-breadcrumb-user-icon" @click="onSearchClick">
+                <el-icon title="菜单搜索">
+                    <ele-Search />
+                </el-icon>
+            </div>
+            <div class="layout-navbars-breadcrumb-user-icon">
+                <UserNews />
+            </div>
+        </template>
+        <div class="layout-navbars-breadcrumb-user-icon">
+            <a :href="setHomeUrl()" target="_blank">
+                <i class="iconfont icon-home" title="首页" />
+            </a>
+        </div>
+        <div class="layout-navbars-breadcrumb-user-icon mr10px" @click="onScreenFullClick">
+            <i class="iconfont" :title="state.isScreenFull ? '关全屏' : '开全屏'"
+                :class="!state.isScreenFull ? 'icon-fullscreen' : 'icon-exit-fullscreen'" />
+        </div>
+        <el-dropdown :show-timeout="70" :hide-timeout="50" @command="onHandleCommandClick">
+            <span class="layout-navbars-breadcrumb-user-link">
+                <!-- <el-avatar v-if="userInfos.photo" :src="userInfos.photo" :size="2
+                " class="mr5px" /> -->
+                <el-avatar icon="ele-UserFilled" :size="25" class="mr5px" />
+                {{ state.name }}
+                <el-icon class="el-icon--right">
+                    <ele-ArrowDown />
+                </el-icon>
+            </span>
+            <template #dropdown>
+                <el-dropdown-menu>
+                    <!-- <el-dropdown-item command="/">
+                        首页
+                    </el-dropdown-item> -->
+                    <el-dropdown-item command="change">
+                        修改密码
+                    </el-dropdown-item>
+                    <!-- <el-dropdown-item command="clear">
+                        清空后台缓存
+                    </el-dropdown-item> -->
+                    <!-- <el-dropdown-item command="/401">401</el-dropdown-item> -->
+                    <el-dropdown-item divided command="logOut">
+                        退出登录
+                    </el-dropdown-item>
+                </el-dropdown-menu>
+            </template>
+        </el-dropdown>
+        <Search ref="searchRef" />
+
+        <Teleport to="#app">
+            <Settings v-show="userState.state && themeConfig.lockScreenTime > 1" ref="settingsRef" />
+            <EditPwd ref="editPwdRef" />
+        </Teleport>
+    </div>
+</template>
 
 <style scoped lang="scss">
 .layout-navbars-breadcrumb-user {

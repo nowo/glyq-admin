@@ -1,3 +1,8 @@
+<script lang="ts" setup>
+import Account from '@/views/login/components/account.vue'
+import Particle from '@/views/login/components/particle.vue'
+</script>
+
 <template>
     <div class="h100vh w100%">
         <Particle class="fixed left-0 top-0" />
@@ -13,10 +18,5 @@
         </div>
     </div>
 </template>
-
-<script lang="ts" setup>
-import Account from '@/views/login/components/account.vue'
-import Particle from '@/views/login/components/particle.vue'
-</script>
 
 <style lang="scss" scoped></style>

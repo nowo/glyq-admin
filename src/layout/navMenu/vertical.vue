@@ -1,37 +1,3 @@
-<template>
-    <el-menu class="menu-box" router :default-active="defaultActive" background-color="transparent"
-        :collapse="isCollapse" :unique-opened="getThemeConfig.isUniqueOpened" :collapse-transition="false">
-        <template v-for="val in menuLists">
-            <el-sub-menu v-if="val.children && val.children.length > 0" :key="val.path" :index="val.path">
-                <template #title>
-                    <SvgIcon :name="val.meta!.icon" />
-                    <span>{{ val.meta?.title }}</span>
-                </template>
-                <SubItem :child="val.children" />
-            </el-sub-menu>
-            <template v-else>
-                <el-menu-item :key="val.path" :index="val.path">
-                    <SvgIcon :name="val.meta!.icon" />
-                    <template v-if="!val.meta?.isLink || (val.meta.isLink && val.meta.isIframe)" #title>
-                        <!-- <el-badge :value="12" class="menu-badge">
-                            <span>{{ val.meta?.title }}</span>
-                        </el-badge> -->
-                        <span>{{ val.meta?.title }}
-                            <el-tag v-if="setTipsTag(val)" type="danger" size="small" effect="dark" round
-                                disable-transitions>
-                                {{ setTipsTag(val) }}
-                            </el-tag>
-                        </span>
-                    </template>
-                    <template v-else #title>
-                        <a :href="val.meta.isLink" target="_blank" rel="opener" class="w100%">{{ val.meta.title }}</a>
-                    </template>
-                </el-menu-item>
-            </template>
-        </template>
-    </el-menu>
-</template>
-
 <script lang="ts" setup>
 import type { PropType } from 'vue'
 import { computed, onMounted, reactive, toRefs, watch } from 'vue'
@@ -114,6 +80,40 @@ onBeforeRouteUpdate((to) => {
 
 const { defaultActive, isCollapse } = toRefs(state)
 </script>
+
+<template>
+    <el-menu class="menu-box" router :default-active="defaultActive" background-color="transparent"
+        :collapse="isCollapse" :unique-opened="getThemeConfig.isUniqueOpened" :collapse-transition="false">
+        <template v-for="val in menuLists">
+            <el-sub-menu v-if="val.children && val.children.length > 0" :key="val.path" :index="val.path">
+                <template #title>
+                    <SvgIcon :name="val.meta!.icon" />
+                    <span>{{ val.meta?.title }}</span>
+                </template>
+                <SubItem :child="val.children" />
+            </el-sub-menu>
+            <template v-else>
+                <el-menu-item :key="val.path" :index="val.path">
+                    <SvgIcon :name="val.meta!.icon" />
+                    <template v-if="!val.meta?.isLink || (val.meta.isLink && val.meta.isIframe)" #title>
+                        <!-- <el-badge :value="12" class="menu-badge">
+                            <span>{{ val.meta?.title }}</span>
+                        </el-badge> -->
+                        <span>{{ val.meta?.title }}
+                            <el-tag v-if="setTipsTag(val)" type="danger" size="small" effect="dark" round
+                                disable-transitions>
+                                {{ setTipsTag(val) }}
+                            </el-tag>
+                        </span>
+                    </template>
+                    <template v-else #title>
+                        <a :href="val.meta.isLink" target="_blank" rel="opener" class="w100%">{{ val.meta.title }}</a>
+                    </template>
+                </el-menu-item>
+            </template>
+        </template>
+    </el-menu>
+</template>
 
 <style lang="scss" scoped>
 .menu-box {

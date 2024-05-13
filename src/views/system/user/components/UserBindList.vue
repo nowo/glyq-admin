@@ -1,11 +1,3 @@
-<template>
-    <my-dialog v-model:visible="defData.visible" auto-height hidden :title="comData.title"
-        width="680px" @close="onClose" @cancel="onClose" @confirm="onConfirm">
-        <my-table v-model:page="tableData.pagination" :table-header="tableData.tableHeader" :data="tableData.data"
-            class="jm-box" @update:page="onHandleCurrentChange" />
-    </my-dialog>
-</template>
-
 <script lang="ts" setup>
 import { computed, reactive, ref } from 'vue'
 import type { FormInstance } from 'element-plus'
@@ -90,5 +82,13 @@ defineExpose({
     openDialog,
 })
 </script>
+
+<template>
+    <my-dialog v-model:visible="defData.visible" auto-height hidden :title="comData.title"
+        width="680px" @close="onClose" @cancel="onClose" @confirm="onConfirm">
+        <my-table v-model:page="tableData.pagination" :table-header="tableData.tableHeader" :data="tableData.data"
+            class="jm-box" @update:page="onHandleCurrentChange" />
+    </my-dialog>
+</template>
 
 <style lang="scss" scoped></style>

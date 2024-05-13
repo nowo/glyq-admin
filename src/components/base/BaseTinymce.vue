@@ -1,9 +1,3 @@
-<template>
-    <div class="tinymce-box">
-        123456
-    </div>
-</template>
-
 <script setup lang="ts">
 import { computed, reactive, ref, watchEffect } from 'vue'
 
@@ -143,6 +137,12 @@ defineExpose({
     clear,
 })
 </script>
+
+<template>
+    <div class="tinymce-box">
+        123456
+    </div>
+</template>
 
 <style lang="scss" scoped>
 .tinymce-box {

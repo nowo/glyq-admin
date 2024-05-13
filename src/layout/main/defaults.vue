@@ -1,17 +1,3 @@
-<template>
-    <el-container class="layout-container">
-        <Asides />
-        <el-container class="flex-center-column" :class="{ 'layout-backtop': !isFixedHeader }">
-            <Headers v-if="isFixedHeader" />
-            <ElScrollbar ref="layoutDefaultsScrollbarRef" :class="{ 'layout-backtop': isFixedHeader }">
-                <Headers v-if="!isFixedHeader" />
-                <Mains v-if="isRouterAlive" />
-            </ElScrollbar>
-        </el-container>
-        <el-backtop target=".layout-backtop .el-scrollbar__wrap" />
-    </el-container>
-</template>
-
 <script lang="ts" setup>
 import { computed, nextTick, provide, ref, watch } from 'vue'
 import { useRoute } from 'vue-router'
@@ -48,3 +34,17 @@ watch(
     },
 )
 </script>
+
+<template>
+    <el-container class="layout-container">
+        <Asides />
+        <el-container class="flex-center-column" :class="{ 'layout-backtop': !isFixedHeader }">
+            <Headers v-if="isFixedHeader" />
+            <ElScrollbar ref="layoutDefaultsScrollbarRef" :class="{ 'layout-backtop': isFixedHeader }">
+                <Headers v-if="!isFixedHeader" />
+                <Mains v-if="isRouterAlive" />
+            </ElScrollbar>
+        </el-container>
+        <el-backtop target=".layout-backtop .el-scrollbar__wrap" />
+    </el-container>
+</template>

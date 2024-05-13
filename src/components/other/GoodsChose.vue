@@ -1,42 +1,3 @@
-<template>
-    <my-dialog v-model:visible="defData.visible" title="选择商品" width="1000px" @close="onClose" @cancel="onClose"
-        @confirm="onConfirm">
-        <MyFormTool ref="formToolRef" class="form-bx" :data="searchData" :rules="rules" inline @submit.prevent="onSearch">
-            <template #class_id="{ row }">
-                <my-cascader v-model="row.class_id" :options="defData.classList"
-                    :props="{ checkStrictly: true, emitPath: false, value: 'cat_id', label: 'cat_name' }"
-                    placeholder="" />
-            </template>
-            <template #brand_id="{ row }">
-                <div class="flex items-center">
-                    <el-select v-model="row.brand_id" class="w130px" filterable clearable>
-                        <el-option v-for="item in defData.brandList" :key="item.brand_id" :label="item.brand_name"
-                            :value="item.brand_id" />
-                    </el-select>
-                    <el-checkbox v-model="row.is_chose" class="ml5px w65px" label="Option 1" @change="showChoseData">
-                        已选<span>{{ defData.multipleSelection.length || '' }}</span>
-                    </el-checkbox>
-                </div>
-            </template>
-        </MyFormTool>
-        <MyTable ref="myTableRef" v-model:page="tableData.pagination" v-model:table-header="tableData.tableHeader"
-            class="table-box dialog-flex" scrollbar-always-on :data="tableData.data" row-key="goods_id"
-            @update:page="onHandleCurrentChange" @selection-change="onTableSelect" @row-click="rowClick">
-            <template #goods_img="{ scopes }">
-                <el-image style="width: 34px;height:34px;display:block;" :src="scopes.row.goods_img" fit="cover">
-                    <template #error>
-                        <div class="image-err">
-                            <el-icon>
-                                <ele-Picture />
-                            </el-icon>
-                        </div>
-                    </template>
-                </el-image>
-            </template>
-        </MyTable>
-    </my-dialog>
-</template>
-
 <script lang="ts" setup>
 import { nextTick, onMounted, reactive, ref } from 'vue'
 import type { FormRules } from 'element-plus'
@@ -260,6 +221,45 @@ defineExpose({
     openDialog,
 })
 </script>
+
+<template>
+    <my-dialog v-model:visible="defData.visible" title="选择商品" width="1000px" @close="onClose" @cancel="onClose"
+        @confirm="onConfirm">
+        <MyFormTool ref="formToolRef" class="form-bx" :data="searchData" :rules="rules" inline @submit.prevent="onSearch">
+            <template #class_id="{ row }">
+                <my-cascader v-model="row.class_id" :options="defData.classList"
+                    :props="{ checkStrictly: true, emitPath: false, value: 'cat_id', label: 'cat_name' }"
+                    placeholder="" />
+            </template>
+            <template #brand_id="{ row }">
+                <div class="flex items-center">
+                    <el-select v-model="row.brand_id" class="w130px" filterable clearable>
+                        <el-option v-for="item in defData.brandList" :key="item.brand_id" :label="item.brand_name"
+                            :value="item.brand_id" />
+                    </el-select>
+                    <el-checkbox v-model="row.is_chose" class="ml5px w65px" label="Option 1" @change="showChoseData">
+                        已选<span>{{ defData.multipleSelection.length || '' }}</span>
+                    </el-checkbox>
+                </div>
+            </template>
+        </MyFormTool>
+        <MyTable ref="myTableRef" v-model:page="tableData.pagination" v-model:table-header="tableData.tableHeader"
+            class="table-box dialog-flex" scrollbar-always-on :data="tableData.data" row-key="goods_id"
+            @update:page="onHandleCurrentChange" @selection-change="onTableSelect" @row-click="rowClick">
+            <template #goods_img="{ scopes }">
+                <el-image style="width: 34px;height:34px;display:block;" :src="scopes.row.goods_img" fit="cover">
+                    <template #error>
+                        <div class="image-err">
+                            <el-icon>
+                                <ele-Picture />
+                            </el-icon>
+                        </div>
+                    </template>
+                </el-image>
+            </template>
+        </MyTable>
+    </my-dialog>
+</template>
 
 <style lang="scss" scoped>
 .form-bx {

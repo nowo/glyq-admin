@@ -1,9 +1,3 @@
-<template>
-    <!--  -->
-    <vue-particles id="tsparticles" :particles-loaded="particlesLoaded"
-        :options="options" />
-</template>
-
 <script lang="ts" setup>
 const options00 = ref({
     autoPlay: true,
@@ -655,12 +649,16 @@ const options = {
     retina_detect: true,
 }
 
-
-
 const particlesLoaded = async (container) => {
     console.log('Particles container loaded', container)
 }
 </script>
+
+<template>
+    <!--  -->
+    <vue-particles id="tsparticles" :particles-loaded="particlesLoaded"
+        :options="options" />
+</template>
 
 <style lang="scss" scoped>
 #tsparticles {

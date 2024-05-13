@@ -32,7 +32,7 @@ export function raw(args: { [x: string]: any }) {
 }
 
 // 接口加密
-export function crypto<T>(obj: T & { sign?: string; time?: number }) {
+export function crypto<T>(obj: T & { sign?: string, time?: number }) {
     // 密钥
     // let keys = "58402683605729e494da882524d1fe12";
     const keys = import.meta.env.VITE_SIGN_KEY

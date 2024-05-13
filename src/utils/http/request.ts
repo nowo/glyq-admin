@@ -148,7 +148,7 @@ service.interceptors.response.use((response) => {
     })
 })
 
-/** * 方法封装 **********************************/
+/** * 方法封装 */
 /**
  * @method post请求
  * @param {string} url 请求接口路由地址

@@ -1,14 +1,3 @@
-<template>
-    <div v-show="state.isDelayFooter" class="layout-footer mt15px">
-        <div class="layout-footer-warp">
-            <div>ICP备案：1901656597号-1</div>
-            <div class="mt5px">
-                深圳市 xxx 公司版权所有
-            </div>
-        </div>
-    </div>
-</template>
-
 <script lang="ts" setup>
 import { reactive } from 'vue'
 import { onBeforeRouteUpdate } from 'vue-router'
@@ -26,6 +15,17 @@ onBeforeRouteUpdate(() => {
     }, 0)
 })
 </script>
+
+<template>
+    <div v-show="state.isDelayFooter" class="layout-footer mt15px">
+        <div class="layout-footer-warp">
+            <div>ICP备案：1901656597号-1</div>
+            <div class="mt5px">
+                深圳市 xxx 公司版权所有
+            </div>
+        </div>
+    </div>
+</template>
 
 <style scoped lang="scss">
 .layout-footer {

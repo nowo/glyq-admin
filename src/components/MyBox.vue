@@ -1,9 +1,3 @@
-<template>
-    <div :class="[props.minHeight ? 'min-hei' : 'max-box', props.noTheme ? 'no-theme' : 'box-theme']">
-        <slot />
-    </div>
-</template>
-
 <script lang="ts" setup>
 import { computed } from 'vue'
 import { storeToRefs } from 'pinia'
@@ -33,6 +27,12 @@ const initTagViewHeight = computed(() => {
     else return isTagsView ? '114px' : '80px'
 })
 </script>
+
+<template>
+    <div :class="[props.minHeight ? 'min-hei' : 'max-box', props.noTheme ? 'no-theme' : 'box-theme']">
+        <slot />
+    </div>
+</template>
 
 <style lang="scss" scoped>
 $height: calc(100vh - v-bind(initTagViewHeight));

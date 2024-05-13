@@ -1,27 +1,3 @@
-<template>
-    <el-dialog v-model="visible" v-bind="$attrs" :fullscreen="defData.fullscreen" draggable @close="onClose">
-        <template #header>
-            <span class="el-dialog__title">
-                {{ props.title }}
-            </span>
-            <button v-if="!props.hidden" class="dialog-full el-dialog__headerbtn" @click="onToggle">
-                <SvgIcon class="el-dialog__close" :class="{ active: iconName === 'ele-CopyDocument' }" :name="iconName" />
-            </button>
-        </template>
-        <div :class="{ 'auto-height': props.autoHeight }" class="dialog-body-box">
-            <slot />
-        </div>
-        <template v-if="!props.noFooter" #footer>
-            <el-button @click="onCancel">
-                取 消
-            </el-button>
-            <el-button type="primary" :loading="props.loading" @click="onConfirm">
-                确 定
-            </el-button>
-        </template>
-    </el-dialog>
-</template>
-
 <script lang="ts" setup>
 import { computed, reactive } from 'vue'
 
@@ -99,6 +75,30 @@ const onConfirm = () => {
     // visible.value = false
 }
 </script>
+
+<template>
+    <el-dialog v-model="visible" v-bind="$attrs" :fullscreen="defData.fullscreen" draggable @close="onClose">
+        <template #header>
+            <span class="el-dialog__title">
+                {{ props.title }}
+            </span>
+            <button v-if="!props.hidden" class="dialog-full el-dialog__headerbtn" @click="onToggle">
+                <SvgIcon class="el-dialog__close" :class="{ active: iconName === 'ele-CopyDocument' }" :name="iconName" />
+            </button>
+        </template>
+        <div :class="{ 'auto-height': props.autoHeight }" class="dialog-body-box">
+            <slot />
+        </div>
+        <template v-if="!props.noFooter" #footer>
+            <el-button @click="onCancel">
+                取 消
+            </el-button>
+            <el-button type="primary" :loading="props.loading" @click="onConfirm">
+                确 定
+            </el-button>
+        </template>
+    </el-dialog>
+</template>
 
 <style lang="scss">
 .el-dialog.is-fullscreen {

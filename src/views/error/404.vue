@@ -1,3 +1,12 @@
+<script lang="ts" setup>
+import { useRouter } from 'vue-router'
+
+const router = useRouter()
+const onGoHome = () => {
+    router.push('/')
+}
+</script>
+
 <template>
     <my-box class="error" min-height>
         <div class="error-flex">
@@ -25,15 +34,6 @@
         </div>
     </my-box>
 </template>
-
-<script lang="ts" setup>
-import { useRouter } from 'vue-router'
-
-const router = useRouter()
-const onGoHome = () => {
-    router.push('/')
-}
-</script>
 
 <style scoped lang="scss">
 .error {

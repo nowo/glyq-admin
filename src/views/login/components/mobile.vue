@@ -1,3 +1,29 @@
+<script lang="ts">
+import { defineComponent, reactive, toRefs } from 'vue'
+
+// 定义接口来定义对象的类型
+interface LoginMobileState {
+    userName: any
+    code: string | number | undefined
+}
+
+// 定义对象与类型
+const ruleForm: LoginMobileState = {
+    userName: '',
+    code: '',
+}
+
+export default defineComponent({
+    name: 'LoginMobile',
+    setup() {
+        const state = reactive({ ruleForm })
+        return {
+            ...toRefs(state),
+        }
+    },
+})
+</script>
+
 <template>
     <el-form size="large" class="login-content-form">
         <el-form-item>
@@ -35,32 +61,6 @@
         </div>
     </el-form>
 </template>
-
-<script lang="ts">
-import { defineComponent, reactive, toRefs } from 'vue'
-
-// 定义接口来定义对象的类型
-interface LoginMobileState {
-    userName: any
-    code: string | number | undefined
-}
-
-// 定义对象与类型
-const ruleForm: LoginMobileState = {
-    userName: '',
-    code: '',
-}
-
-export default defineComponent({
-    name: 'LoginMobile',
-    setup() {
-        const state = reactive({ ruleForm })
-        return {
-            ...toRefs(state),
-        }
-    },
-})
-</script>
 
 <style scoped lang="scss">
 .login-content-form {

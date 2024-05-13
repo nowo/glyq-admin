@@ -1,16 +1,3 @@
-<template>
-    <ElCascader v-model="dat" :style="{ width: setElWidth(props.width as any) }" :props="props.props" clearable filterable
-        @change="getChangeValue">
-        <template #default="{ node, data: row }">
-            <template v-if="!node.isLeaf">
-                <span>{{ node.label }}</span>
-                <span> ({{ node.children.length }}) </span>
-            </template>
-            <span v-else @click.stop="getLastPid(node, row)">{{ node.label }}</span>
-        </template>
-    </ElCascader>
-</template>
-
 <script lang="ts" setup>
 import type { PropType } from 'vue'
 import { ref, watch } from 'vue'
@@ -49,7 +36,7 @@ const setElWidth = (wid?: string) => {
 }
 
 // 级联选择事件
-const getLastPid = (node: { valueByOption: PropsModelValue; isDisabled: boolean }, data: any) => {
+const getLastPid = (node: { valueByOption: PropsModelValue, isDisabled: boolean }, data: any) => {
     if (node.isDisabled) return
     dat.value = node.valueByOption
     emits('update:modelValue', node.valueByOption)
@@ -64,6 +51,19 @@ watch(() => props.modelValue, (n, o) => {
     dat.value = n || m
 })
 </script>
+
+<template>
+    <ElCascader v-model="dat" :style="{ width: setElWidth(props.width as any) }" :props="props.props" clearable filterable
+        @change="getChangeValue">
+        <template #default="{ node, data: row }">
+            <template v-if="!node.isLeaf">
+                <span>{{ node.label }}</span>
+                <span> ({{ node.children.length }}) </span>
+            </template>
+            <span v-else @click.stop="getLastPid(node, row)">{{ node.label }}</span>
+        </template>
+    </ElCascader>
+</template>
 
 <style lang="scss" scoped>
 

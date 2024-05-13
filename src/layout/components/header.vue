@@ -1,9 +1,3 @@
-<template>
-    <el-header v-show="!isTagsViewCurrentFull" class="layout-header" :height="setHeaderHeight">
-        <NavBarsIndex />
-    </el-header>
-</template>
-
 <script lang="ts" setup>
 import { computed } from 'vue'
 import { storeToRefs } from 'pinia'
@@ -22,3 +16,9 @@ const setHeaderHeight = computed(() => {
     else return '50px'
 })
 </script>
+
+<template>
+    <el-header v-show="!isTagsViewCurrentFull" class="layout-header" :height="setHeaderHeight">
+        <NavBarsIndex />
+    </el-header>
+</template>

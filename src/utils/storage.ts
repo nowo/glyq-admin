@@ -1,5 +1,3 @@
-import Cookies from 'js-cookie'
-
 /**
  * window.localStorage 浏览器永久缓存
  * @method set 设置永久缓存

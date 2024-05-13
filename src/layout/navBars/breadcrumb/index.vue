@@ -1,12 +1,3 @@
-<template>
-    <div class="layout-navbar-breadcrumb-index">
-        <Logo v-if="setIsShowLogo" />
-        <Breadcrumb />
-        <Horizontal v-if="isLayoutTransverse" :menu-list="state.menuList" />
-        <User />
-    </div>
-</template>
-
 <script lang="ts" setup>
 import { computed, onMounted, reactive } from 'vue'
 import type { RouteRecordRaw } from 'vue-router'
@@ -97,6 +88,15 @@ onMounted(() => {
     })
 })
 </script>
+
+<template>
+    <div class="layout-navbar-breadcrumb-index">
+        <Logo v-if="setIsShowLogo" />
+        <Breadcrumb />
+        <Horizontal v-if="isLayoutTransverse" :menu-list="state.menuList" />
+        <User />
+    </div>
+</template>
 
 <style scoped lang="scss">
 .layout-navbar-breadcrumb-index {

@@ -1,13 +1,3 @@
-<template>
-    <i v-if="isShowIconSvg" class="el-icon" :style="setIconSvgStyle">
-        <component :is="getIconName" />
-    </i>
-    <div v-else-if="isShowIconImg" :style="setIconImgOutStyle">
-        <img :src="getIconName" :style="setIconSvgInsStyle">
-    </div>
-    <i v-else :class="getIconName" :style="setIconSvgStyle" />
-</template>
-
 <script lang="ts" setup>
 import { computed } from 'vue'
 
@@ -61,3 +51,13 @@ const setIconSvgInsStyle = computed(() => {
     return `width: ${props.size}px;height: ${props.size}px;position: relative;left: -${props.size}px;${filterStyle.join('')}`
 })
 </script>
+
+<template>
+    <i v-if="isShowIconSvg" class="el-icon" :style="setIconSvgStyle">
+        <component :is="getIconName" />
+    </i>
+    <div v-else-if="isShowIconImg" :style="setIconImgOutStyle">
+        <img :src="getIconName" :style="setIconSvgInsStyle">
+    </div>
+    <i v-else :class="getIconName" :style="setIconSvgStyle" />
+</template>

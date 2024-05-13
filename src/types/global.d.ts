@@ -5,17 +5,16 @@ declare module 'element-china-area-data';
 declare module 'default-passive-events';
 declare module 'vue3-print-nb';
 
-
 declare module '*.vue' {
-    import { DefineComponent } from 'vue';
+    import type { DefineComponent } from 'vue'
     // eslint-disable-next-line @typescript-eslint/no-explicit-any, @typescript-eslint/ban-types
-    const component: DefineComponent<{}, {}, any>;
-    export default component;
+    const component: DefineComponent<{}, {}, any>
+    export default component
 }
 
 // 声明文件，定义全局变量。其它 app.config.globalProperties.xxx，使用 getCurrentInstance() 来获取
 interface Window {
-    nextLoading: boolean;
+    nextLoading: boolean
 }
 
 /**
@@ -23,46 +22,41 @@ interface Window {
  */
 declare type DateRangeType = [Date, Date] | [string, string]
 
-
-
 // search搜索项 数据格式公共类型
 declare interface SearchDataType<T = any, U = any> {
-    data: T,
+    data: T
     // config: {
     //     [key in keyof T]: { label: string, slot?: boolean, placeholder: string, width: string }
     // },
-    config: { itemProp: { label: string, prop: keyof T, [key: string]: any; }, slot?: boolean, placeholder?: string, width?: string }[]
-    searchFunc: () => void,     // 查询方法
+    config: { itemProp: { label: string, prop: keyof T, [key: string]: any }, slot?: boolean, placeholder?: string, width?: string }[]
+    searchFunc: () => void // 查询方法
     hideBtn?: boolean
     showAll?: boolean
 }
 
-
 interface TableHeader<T, U> {
-    property: keyof T | 'operate',
-    label: string,
-    slot?: string,
-    [key in U]: U[keyof U];
+    property: keyof T | 'operate'
+    label: string
+    slot?: string
+    [key in U]: U[keyof U]
 }
 
 // table 数据格式公共类型
 declare interface TableType<T = any, U = any> {
-    data: T[],
+    data: T[]
     tableHeader:
     {
-        property: keyof T | 'operate' | '',
-        label: string,
-        slot?: boolean,
-        [key: string]: any;
-    }[],
+        property: keyof T | 'operate' | ''
+        label: string
+        slot?: boolean
+        [key: string]: any
+    }[]
     pagination: {
-        total: number,
-        page: number,
-        page_size: number,
-        page_sizes: number[],
-    };
+        total: number
+        page: number
+        page_size: number
+        page_sizes: number[]
+    }
 }
-
-
 
 declare type LanguageType = 'cn' | 'en'

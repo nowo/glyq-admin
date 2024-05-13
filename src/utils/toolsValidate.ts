@@ -240,9 +240,7 @@ export function verifyPasswordPowerful(val: string) {
     // false: 强密码不正确
     if (!/^(?![a-zA-z]+$)(?!\d+$)(?![!@#$%^&\.*]+$)(?![a-zA-z\d]+$)(?![a-zA-z!@#$%^&\.*]+$)(?![\d!@#$%^&\.*]+$)[a-zA-Z\d!@#$%^&\.*]{6,16}$/.test(val)) {
         return false
-    }
-    // true: 强密码正确
-    else {
+    } else {// true: 强密码正确
         return true
     }
 }

@@ -34,7 +34,7 @@ export function getParentId<T extends object, K extends keyof T>(classifyList: T
  * @param key 查找值对应的键值，默认为id
  * @param children 子类的键值，默认children
  * @returns any[]
-*/
+ */
 export function getParentNode<T = any>(classifyList: Array<T>, val: T[keyof T], key = 'id' as keyof T, children = 'children' as keyof T): T[] {
     const temp: any[] = []
     const forFn = function (arr: any[], id: T[keyof T]) {
@@ -67,7 +67,7 @@ export function getParentNode<T = any>(classifyList: Array<T>, val: T[keyof T], 
  * @param key 查找值对应的键值，默认为id
  * @param children 子类的键值，默认children
  * @returns any[]
-*/
+ */
 export function getSiblingsNode<T = any>(classifyList: Array<T>, val: T[keyof T], key = 'id' as keyof T, children = 'children' as keyof T): T[] {
     let temp: any[] = []
     const forFn = function (arr: any[], id: T[keyof T]) {
@@ -128,7 +128,7 @@ export function transformTreeArr<T = any>(sNodes: T[], child = 'children' as key
  * @param key 上级所属的键值，默认pid
  * @param children 嵌套数组的子类，子类的键值，默认children
  * @returns any[]
-*/
+ */
 export function transformLevelArr<T = any>(classifyList: Array<T>, id = 'id' as keyof T, key = 'pid', children = 'children' as keyof T): T[] {
     const temp: any[] = []
     const forFn = function (arr: string | any[], val = 0) {

@@ -1,115 +1,3 @@
-<template>
-    <el-form ref="formRef" :model="form.data" :rules="rules" class="pl30px" label-position="top">
-        <el-tabs v-model="lang">
-            <el-tab-pane label="中文" name="cn" />
-            <el-tab-pane label="英文" name="en" />
-        </el-tabs>
-        <el-row>
-            <template v-if="lang === 'cn'">
-                <el-col :xs="24" :sm="24" :md="20" :lg="18" :xl="16" class="mb18px">
-                    <el-form-item prop="company" label="公司名称：">
-                        <el-input v-model="form.data.company" maxlength="100" clearable />
-                    </el-form-item>
-                </el-col>
-                <el-col :xs="24" :sm="24" :md="20" :lg="18" :xl="16" class="mb18px">
-                    <el-form-item prop="address" label="公司地址：">
-                        <el-input v-model="form.data.address" type="textarea" maxlength="200" clearable show-word-limit />
-                    </el-form-item>
-                </el-col>
-            </template>
-            <template v-else-if="lang === 'en'">
-                <el-col :xs="24" :sm="24" :md="20" :lg="18" :xl="16" class="mb18px">
-                    <el-form-item prop="company_en" label="英文公司名称：">
-                        <el-input v-model="form.data.company_en" maxlength="100" clearable />
-                    </el-form-item>
-                </el-col>
-                <el-col :xs="24" :sm="24" :md="20" :lg="18" :xl="16" class="mb18px">
-                    <el-form-item prop="address_en" label="英文公司地址：">
-                        <el-input v-model="form.data.address_en" type="textarea" maxlength="200" clearable
-                            show-word-limit />
-                    </el-form-item>
-                </el-col>
-            </template>
-
-            <el-col :xs="24" :sm="24" :md="18" :lg="12" :xl="10" class="mb18px">
-                <el-form-item prop="phone" label="联系方式：">
-                    <el-input v-model="form.data.phone" maxlength="50" clearable />
-                </el-form-item>
-            </el-col>
-
-            <el-col :xs="24" :sm="24" :md="20" :lg="18" :xl="16" class="mb18px">
-                <el-form-item prop="seo_keyword" label="SEO关键字：">
-                    <el-input v-model="form.data.seo_keyword" maxlength="80" clearable />
-                </el-form-item>
-            </el-col>
-            <el-col :xs="24" :sm="24" :md="20" :lg="18" :xl="16" class="mb18px">
-                <el-form-item prop="seo_description" label="SEO描述：">
-                    <el-input v-model="form.data.seo_description" type="textarea" show-word-limit maxlength="150"
-                        clearable />
-                </el-form-item>
-            </el-col>
-
-            <template v-if="lang === 'cn'">
-                <el-col :xs="24" :sm="24" :md="20" :lg="18" :xl="16" class="mb18px">
-                    <el-form-item prop="filing" label="备案号：">
-                        <el-input v-model="form.data.filing" maxlength="100" clearable />
-                    </el-form-item>
-                </el-col>
-                <el-col :xs="24" :sm="24" :md="20" :lg="18" :xl="16" class="mb18px">
-                    <el-form-item prop="copyright" label="版权信息：">
-                        <el-input v-model="form.data.copyright" maxlength="100" clearable />
-                    </el-form-item>
-                </el-col>
-            </template>
-
-            <template v-else-if="lang === 'en'">
-                <el-col :xs="24" :sm="24" :md="20" :lg="18" :xl="16" class="mb18px">
-                    <el-form-item prop="filing_en" label="英文备案号：">
-                        <el-input v-model="form.data.filing_en" maxlength="100" clearable />
-                    </el-form-item>
-                </el-col>
-                <el-col :xs="24" :sm="24" :md="20" :lg="18" :xl="16" class="mb18px">
-                    <el-form-item prop="copyright_en" label="英文版权信息：">
-                        <el-input v-model="form.data.copyright_en" maxlength="100" clearable />
-                    </el-form-item>
-                </el-col>
-            </template>
-
-            <el-col :xs="24" :sm="24" :md="20" :lg="18" :xl="16" class="mb18px">
-                <el-form-item prop="logo" label="网站logo：">
-                    <UploadFile v-model="form.data.logo" />
-                </el-form-item>
-            </el-col>
-            <el-col :xs="24" :sm="24" :md="20" :lg="18" :xl="16" class="mb18px">
-                <el-form-item prop="logo2" label="网站logo2：">
-                    <UploadFile v-model="form.data.logo2" />
-                </el-form-item>
-            </el-col>
-            <el-col :xs="24" :sm="24" :md="20" :lg="18" :xl="16" class="mb18px">
-                <el-form-item prop="icon" label="网站图标：">
-                    <UploadFile v-model="form.data.icon" />
-                </el-form-item>
-            </el-col>
-
-            <el-col :xs="24" :sm="24" :md="20" :lg="18" :xl="16" class="mb18px">
-                <el-form-item prop="qr_code" label="二维码：">
-                    <UploadFile v-model="form.data.qr_code" />
-                </el-form-item>
-            </el-col>
-            <el-col :xs="24" :sm="24" :md="24" :lg="24" :xl="24" class="mb18px">
-                <el-form-item>
-                    <el-button type="primary" :loading="btnLoading" @click="onSubmit">
-                        确定
-                    </el-button>
-                    <el-button @click="resetForm">
-                        重置
-                    </el-button>
-                </el-form-item>
-            </el-col>
-        </el-row>
-    </el-form>
-</template>
-
 <script setup lang="ts">
 import type { FormInstance, FormRules } from 'element-plus'
 import { setSystemInfo } from '@/api/system'
@@ -224,5 +112,117 @@ onBeforeMount(() => {
     initDefaultData()
 })
 </script>
+
+<template>
+    <el-form ref="formRef" :model="form.data" :rules="rules" class="pl30px" label-position="top">
+        <el-tabs v-model="lang">
+            <el-tab-pane label="中文" name="cn" />
+            <el-tab-pane label="英文" name="en" />
+        </el-tabs>
+        <el-row>
+            <template v-if="lang === 'cn'">
+                <el-col :xs="24" :sm="24" :md="20" :lg="18" :xl="16" class="mb18px">
+                    <el-form-item prop="company" label="公司名称：">
+                        <el-input v-model="form.data.company" maxlength="100" clearable />
+                    </el-form-item>
+                </el-col>
+                <el-col :xs="24" :sm="24" :md="20" :lg="18" :xl="16" class="mb18px">
+                    <el-form-item prop="address" label="公司地址：">
+                        <el-input v-model="form.data.address" type="textarea" maxlength="200" clearable show-word-limit />
+                    </el-form-item>
+                </el-col>
+            </template>
+            <template v-else-if="lang === 'en'">
+                <el-col :xs="24" :sm="24" :md="20" :lg="18" :xl="16" class="mb18px">
+                    <el-form-item prop="company_en" label="英文公司名称：">
+                        <el-input v-model="form.data.company_en" maxlength="100" clearable />
+                    </el-form-item>
+                </el-col>
+                <el-col :xs="24" :sm="24" :md="20" :lg="18" :xl="16" class="mb18px">
+                    <el-form-item prop="address_en" label="英文公司地址：">
+                        <el-input v-model="form.data.address_en" type="textarea" maxlength="200" clearable
+                            show-word-limit />
+                    </el-form-item>
+                </el-col>
+            </template>
+
+            <el-col :xs="24" :sm="24" :md="18" :lg="12" :xl="10" class="mb18px">
+                <el-form-item prop="phone" label="联系方式：">
+                    <el-input v-model="form.data.phone" maxlength="50" clearable />
+                </el-form-item>
+            </el-col>
+
+            <el-col :xs="24" :sm="24" :md="20" :lg="18" :xl="16" class="mb18px">
+                <el-form-item prop="seo_keyword" label="SEO关键字：">
+                    <el-input v-model="form.data.seo_keyword" maxlength="80" clearable />
+                </el-form-item>
+            </el-col>
+            <el-col :xs="24" :sm="24" :md="20" :lg="18" :xl="16" class="mb18px">
+                <el-form-item prop="seo_description" label="SEO描述：">
+                    <el-input v-model="form.data.seo_description" type="textarea" show-word-limit maxlength="150"
+                        clearable />
+                </el-form-item>
+            </el-col>
+
+            <template v-if="lang === 'cn'">
+                <el-col :xs="24" :sm="24" :md="20" :lg="18" :xl="16" class="mb18px">
+                    <el-form-item prop="filing" label="备案号：">
+                        <el-input v-model="form.data.filing" maxlength="100" clearable />
+                    </el-form-item>
+                </el-col>
+                <el-col :xs="24" :sm="24" :md="20" :lg="18" :xl="16" class="mb18px">
+                    <el-form-item prop="copyright" label="版权信息：">
+                        <el-input v-model="form.data.copyright" maxlength="100" clearable />
+                    </el-form-item>
+                </el-col>
+            </template>
+
+            <template v-else-if="lang === 'en'">
+                <el-col :xs="24" :sm="24" :md="20" :lg="18" :xl="16" class="mb18px">
+                    <el-form-item prop="filing_en" label="英文备案号：">
+                        <el-input v-model="form.data.filing_en" maxlength="100" clearable />
+                    </el-form-item>
+                </el-col>
+                <el-col :xs="24" :sm="24" :md="20" :lg="18" :xl="16" class="mb18px">
+                    <el-form-item prop="copyright_en" label="英文版权信息：">
+                        <el-input v-model="form.data.copyright_en" maxlength="100" clearable />
+                    </el-form-item>
+                </el-col>
+            </template>
+
+            <el-col :xs="24" :sm="24" :md="20" :lg="18" :xl="16" class="mb18px">
+                <el-form-item prop="logo" label="网站logo：">
+                    <UploadFile v-model="form.data.logo" />
+                </el-form-item>
+            </el-col>
+            <el-col :xs="24" :sm="24" :md="20" :lg="18" :xl="16" class="mb18px">
+                <el-form-item prop="logo2" label="网站logo2：">
+                    <UploadFile v-model="form.data.logo2" />
+                </el-form-item>
+            </el-col>
+            <el-col :xs="24" :sm="24" :md="20" :lg="18" :xl="16" class="mb18px">
+                <el-form-item prop="icon" label="网站图标：">
+                    <UploadFile v-model="form.data.icon" />
+                </el-form-item>
+            </el-col>
+
+            <el-col :xs="24" :sm="24" :md="20" :lg="18" :xl="16" class="mb18px">
+                <el-form-item prop="qr_code" label="二维码：">
+                    <UploadFile v-model="form.data.qr_code" />
+                </el-form-item>
+            </el-col>
+            <el-col :xs="24" :sm="24" :md="24" :lg="24" :xl="24" class="mb18px">
+                <el-form-item>
+                    <el-button type="primary" :loading="btnLoading" @click="onSubmit">
+                        确定
+                    </el-button>
+                    <el-button @click="resetForm">
+                        重置
+                    </el-button>
+                </el-form-item>
+            </el-col>
+        </el-row>
+    </el-form>
+</template>
 
 <style lang="scss" scoped></style>

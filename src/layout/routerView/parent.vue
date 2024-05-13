@@ -1,15 +1,3 @@
-<template>
-    <div class="h100%">
-        <router-view v-slot="{ Component }">
-            <transition :name="setTransitionName" mode="out-in">
-                <keep-alive :include="getKeepAliveNames">
-                    <component :is="Component" :key="state.refreshRouterViewKey" />
-                </keep-alive>
-            </transition>
-        </router-view>
-    </div>
-</template>
-
 <script lang="ts" setup>
 import { computed, nextTick, onBeforeMount, onMounted, reactive, watch } from 'vue'
 import { useRoute } from 'vue-router'
@@ -82,3 +70,15 @@ watch(
     },
 )
 </script>
+
+<template>
+    <div class="h100%">
+        <router-view v-slot="{ Component }">
+            <transition :name="setTransitionName" mode="out-in">
+                <keep-alive :include="getKeepAliveNames">
+                    <component :is="Component" :key="state.refreshRouterViewKey" />
+                </keep-alive>
+            </transition>
+        </router-view>
+    </div>
+</template>

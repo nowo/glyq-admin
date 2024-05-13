@@ -1,15 +1,3 @@
-<template>
-    <div v-show="!isTagsViewCurrentFull" class="h100%">
-        <el-aside class="layout-aside" :class="setCollapseStyle">
-            <Logo v-if="setShowLogo" />
-            <ElScrollbar ref="layoutAsideScrollbarRef" class="flex-auto" @mouseenter="onAsideEnterLeave(true)"
-                @mouseleave="onAsideEnterLeave(false)">
-                <Vertical :menu-list="state.menuList" />
-            </ElScrollbar>
-        </el-aside>
-    </div>
-</template>
-
 <script lang="ts" setup>
 import { computed, onBeforeMount, reactive, ref, watch } from 'vue'
 import { storeToRefs } from 'pinia'
@@ -33,7 +21,7 @@ const { themeConfig } = storeToRefs(storesThemeConfig)
 const { isTagsViewCurrentFull } = storeToRefs(storesTagsViewRoutes)
 
 const setMenuBus = useEventBus('setMenuList')
-const layoutResizeBus = useEventBus<{ clientWidth: number; layout: MainLayoutType }>('layoutMobileResize')
+const layoutResizeBus = useEventBus<{ clientWidth: number, layout: MainLayoutType }>('layoutMobileResize')
 const setFilterRouteBus = useEventBus('getBreadcrumbIndexSetFilterRoutes')
 const setSendColumnsChildBus = useEventBus<any>('setSendColumnsChild')
 const setSendClassicChildBus = useEventBus<any>('setSendClassicChild')
@@ -163,3 +151,15 @@ onBeforeMount(() => {
     })
 })
 </script>
+
+<template>
+    <div v-show="!isTagsViewCurrentFull" class="h100%">
+        <el-aside class="layout-aside" :class="setCollapseStyle">
+            <Logo v-if="setShowLogo" />
+            <ElScrollbar ref="layoutAsideScrollbarRef" class="flex-auto" @mouseenter="onAsideEnterLeave(true)"
+                @mouseleave="onAsideEnterLeave(false)">
+                <Vertical :menu-list="state.menuList" />
+            </ElScrollbar>
+        </el-aside>
+    </div>
+</template>

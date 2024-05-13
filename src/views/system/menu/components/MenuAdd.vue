@@ -1,184 +1,3 @@
-<template>
-    <el-dialog v-model="defData.visible" draggable title="新增菜单" width="860px">
-        <el-form ref="formRef" :model="formData" :rules="rules" label-width="90px">
-            <el-row :gutter="20">
-                <el-col :xs="24" :sm="18" :md="18" :lg="18" :xl="18" class="mb20px">
-                    <el-form-item label="上级菜单" prop="menuPidArr">
-                        <my-cascader v-model="formData.menuPidArr" class="w100%" :options="defData.routeArr"
-                            :props="{ checkStrictly: true, value: 'id', label: 'title', disabled: 'a_disable' }"
-                            placeholder="请选择上级菜单" />
-                    </el-form-item>
-                </el-col>
-                <el-col :xs="24" :sm="24" :md="24" :lg="24" :xl="24" class="mb20px">
-                    <el-form-item label="菜单类型" prop="menuType">
-                        <el-radio-group v-model="formData.menuType">
-                            <el-radio :label="1">
-                                菜单
-                            </el-radio>
-                            <el-radio :label="2">
-                                按钮
-                            </el-radio>
-                        </el-radio-group>
-                    </el-form-item>
-                </el-col>
-
-                <template v-if="formData.menuType === 1">
-                    <el-col :xs="24" :sm="12" :md="12" :lg="12" :xl="12" class="mb20px">
-                        <el-form-item label="菜单名称" prop="title">
-                            <el-input v-model="formData.title" maxlength="20" placeholder="请输入菜单名称" clearable />
-                        </el-form-item>
-                    </el-col>
-                    <el-col :xs="24" :sm="12" :md="12" :lg="12" :xl="12" class="mb20px">
-                        <!-- <el-form-item label="路由名称" prop="name">
-                                <el-input v-model="formData.name" maxlength="20" placeholder="路由中的 name 值" clearable>
-                                </el-input>
-                            </el-form-item> -->
-                    </el-col>
-                    <el-col :xs="24" :sm="12" :md="12" :lg="12" :xl="12" class="mb20px">
-                        <el-form-item label="视图路径" prop="component">
-                            <el-select v-model="formData.component" class="w100%" placeholder="视图路径" filterable clearable
-                                :filter-method="filterComponent">
-                                <el-option v-for="item in defData.componentList" :key="item.value" class="comp-box"
-                                    :label="item.value" :value="item.value" @click="choseComponent">
-                                    <span class="mr5px">{{ item.value }}</span>
-                                    <em>{{ item.title }}</em>
-                                </el-option>
-                            </el-select>
-                        </el-form-item>
-                    </el-col>
-                    <el-col :xs="24" :sm="12" :md="12" :lg="12" :xl="12" class="mb20px">
-                        <el-form-item label="api接口地址" prop="api_path">
-                            <el-input v-model="formData.api_path" maxlength="60" clearable />
-                        </el-form-item>
-                    </el-col>
-                    <el-col :xs="24" :sm="12" :md="12" :lg="12" :xl="12" class="mb20px">
-                        <el-form-item label="路由路径" prop="path">
-                            <el-input v-model="formData.path" maxlength="60" placeholder="路由路径，例如/abc" clearable />
-                        </el-form-item>
-                    </el-col>
-                    <el-col :xs="24" :sm="12" :md="12" :lg="12" :xl="12" class="mb20px">
-                        <el-form-item label="重定向" prop="redirect">
-                            <el-input v-model="formData.redirect" maxlength="60" placeholder="请输入路由重定向" clearable />
-                        </el-form-item>
-                    </el-col>
-                    <el-col :xs="24" :sm="12" :md="12" :lg="12" :xl="12" class="mb20px">
-                        <el-form-item label="菜单图标" prop="icon">
-                            <IconSelector v-model="formData.icon" placeholder="请输入菜单图标" type="all" />
-                        </el-form-item>
-                    </el-col>
-
-                    <el-col :xs="24" :sm="12" :md="12" :lg="12" :xl="12" class="mb20px">
-                        <el-form-item label="链接地址" prop="linkUrl">
-                            <el-input v-model="formData.linkUrl" placeholder="外链/内嵌时链接地址（http:xxx.com）" clearable
-                                :disabled="!formData.isLink" />
-                        </el-form-item>
-                    </el-col>
-                    <!-- <el-col :xs="24" :sm="12" :md="12" :lg="12" :xl="12" class="mb20px">
-                            <el-form-item label="权限标识" prop="roles">
-                                <el-select v-model="formData.roles" multiple placeholder="取角色管理" clearable class="w100%">
-                                    <el-option label="admin" value="admin"></el-option>
-                                    <el-option label="common" value="common"></el-option>
-                                </el-select>
-                            </el-form-item>
-                        </el-col> -->
-                </template>
-                <template v-if="formData.menuType === 2">
-                    <el-col :xs="24" :sm="12" :md="12" :lg="12" :xl="12" class="mb20px">
-                        <el-form-item label="按钮名称" prop="title">
-                            <el-input v-model="formData.title" maxlength="20" placeholder="请输入按钮名称" clearable />
-                        </el-form-item>
-                    </el-col>
-                    <el-col :xs="24" :sm="12" :md="12" :lg="12" :xl="12" class="mb20px">
-                        <el-form-item label="api接口地址" prop="api_path">
-                            <el-input v-model="formData.api_path" maxlength="60" clearable />
-                        </el-form-item>
-                    </el-col>
-                    <!-- <el-col :xs="24" :sm="12" :md="12" :lg="12" :xl="12"></el-col> -->
-                    <!-- <el-col :xs="24" :sm="12" :md="12" :lg="12" :xl="12" class="mb20px">
-                            <el-form-item label="权限标识">
-                                <el-input v-model="formData.btnPower" placeholder="请输入权限标识" clearable></el-input>
-                            </el-form-item>
-                        </el-col> -->
-                </template>
-                <el-col :xs="24" :sm="12" :md="12" :lg="12" :xl="12" class="mb20px">
-                    <el-form-item label="排序">
-                        <el-input-number v-model="formData.sort" :min="0" :max="10000" controls-position="right"
-                            placeholder="请输入排序" class="w100%" />
-                    </el-form-item>
-                </el-col>
-                <template v-if="formData.menuType === 1">
-                    <el-col :xs="24" :sm="12" :md="12" :lg="12" :xl="12" class="mb20px">
-                        <el-form-item label="是否隐藏">
-                            <el-radio-group v-model="formData.isHide">
-                                <el-radio :label="1">
-                                    隐藏
-                                </el-radio>
-                                <el-radio :label="0">
-                                    不隐藏
-                                </el-radio>
-                            </el-radio-group>
-                        </el-form-item>
-                    </el-col>
-                    <el-col :xs="24" :sm="12" :md="12" :lg="12" :xl="12" class="mb20px">
-                        <el-form-item label="页面缓存">
-                            <el-radio-group v-model="formData.isKeepAlive">
-                                <el-radio :label="1">
-                                    缓存
-                                </el-radio>
-                                <el-radio :label="0">
-                                    不缓存
-                                </el-radio>
-                            </el-radio-group>
-                        </el-form-item>
-                    </el-col>
-                    <el-col :xs="24" :sm="12" :md="12" :lg="12" :xl="12" class="mb20px">
-                        <el-form-item label="是否固定">
-                            <el-radio-group v-model="formData.isAffix">
-                                <el-radio :label="1">
-                                    固定
-                                </el-radio>
-                                <el-radio :label="0">
-                                    不固定
-                                </el-radio>
-                            </el-radio-group>
-                        </el-form-item>
-                    </el-col>
-                    <el-col :xs="24" :sm="12" :md="12" :lg="12" :xl="12" class="mb20px">
-                        <el-form-item label="是否外链">
-                            <el-radio-group v-model="formData.isLink">
-                                <el-radio :label="1">
-                                    是
-                                </el-radio>
-                                <el-radio :label="0">
-                                    否
-                                </el-radio>
-                            </el-radio-group>
-                        </el-form-item>
-                    </el-col>
-                    <el-col :xs="24" :sm="12" :md="12" :lg="12" :xl="12" class="mb20px">
-                        <el-form-item label="是否内嵌">
-                            <el-radio-group v-model="formData.isIframe" @change="onSelectIframeChange">
-                                <el-radio :label="1">
-                                    是
-                                </el-radio>
-                                <el-radio :label="0">
-                                    否
-                                </el-radio>
-                            </el-radio-group>
-                        </el-form-item>
-                    </el-col>
-                </template>
-            </el-row>
-        </el-form>
-        <template #footer>
-            <span class="dialog-footer">
-                <el-button @click="onCancel">取 消</el-button>
-                <el-button type="primary" :loading="btnLoading" @click="onSubmit">确 定</el-button>
-            </span>
-        </template>
-    </el-dialog>
-</template>
-
 <script lang="ts" setup>
 import type { PropType } from 'vue'
 import { inject, onMounted, reactive, ref } from 'vue'
@@ -381,6 +200,187 @@ defineExpose({
     openDialog,
 })
 </script>
+
+<template>
+    <el-dialog v-model="defData.visible" draggable title="新增菜单" width="860px">
+        <el-form ref="formRef" :model="formData" :rules="rules" label-width="90px">
+            <el-row :gutter="20">
+                <el-col :xs="24" :sm="18" :md="18" :lg="18" :xl="18" class="mb20px">
+                    <el-form-item label="上级菜单" prop="menuPidArr">
+                        <my-cascader v-model="formData.menuPidArr" class="w100%" :options="defData.routeArr"
+                            :props="{ checkStrictly: true, value: 'id', label: 'title', disabled: 'a_disable' }"
+                            placeholder="请选择上级菜单" />
+                    </el-form-item>
+                </el-col>
+                <el-col :xs="24" :sm="24" :md="24" :lg="24" :xl="24" class="mb20px">
+                    <el-form-item label="菜单类型" prop="menuType">
+                        <el-radio-group v-model="formData.menuType">
+                            <el-radio :label="1">
+                                菜单
+                            </el-radio>
+                            <el-radio :label="2">
+                                按钮
+                            </el-radio>
+                        </el-radio-group>
+                    </el-form-item>
+                </el-col>
+
+                <template v-if="formData.menuType === 1">
+                    <el-col :xs="24" :sm="12" :md="12" :lg="12" :xl="12" class="mb20px">
+                        <el-form-item label="菜单名称" prop="title">
+                            <el-input v-model="formData.title" maxlength="20" placeholder="请输入菜单名称" clearable />
+                        </el-form-item>
+                    </el-col>
+                    <el-col :xs="24" :sm="12" :md="12" :lg="12" :xl="12" class="mb20px">
+                        <!-- <el-form-item label="路由名称" prop="name">
+                                <el-input v-model="formData.name" maxlength="20" placeholder="路由中的 name 值" clearable>
+                                </el-input>
+                            </el-form-item> -->
+                    </el-col>
+                    <el-col :xs="24" :sm="12" :md="12" :lg="12" :xl="12" class="mb20px">
+                        <el-form-item label="视图路径" prop="component">
+                            <el-select v-model="formData.component" class="w100%" placeholder="视图路径" filterable clearable
+                                :filter-method="filterComponent">
+                                <el-option v-for="item in defData.componentList" :key="item.value" class="comp-box"
+                                    :label="item.value" :value="item.value" @click="choseComponent">
+                                    <span class="mr5px">{{ item.value }}</span>
+                                    <em>{{ item.title }}</em>
+                                </el-option>
+                            </el-select>
+                        </el-form-item>
+                    </el-col>
+                    <el-col :xs="24" :sm="12" :md="12" :lg="12" :xl="12" class="mb20px">
+                        <el-form-item label="api接口地址" prop="api_path">
+                            <el-input v-model="formData.api_path" maxlength="60" clearable />
+                        </el-form-item>
+                    </el-col>
+                    <el-col :xs="24" :sm="12" :md="12" :lg="12" :xl="12" class="mb20px">
+                        <el-form-item label="路由路径" prop="path">
+                            <el-input v-model="formData.path" maxlength="60" placeholder="路由路径，例如/abc" clearable />
+                        </el-form-item>
+                    </el-col>
+                    <el-col :xs="24" :sm="12" :md="12" :lg="12" :xl="12" class="mb20px">
+                        <el-form-item label="重定向" prop="redirect">
+                            <el-input v-model="formData.redirect" maxlength="60" placeholder="请输入路由重定向" clearable />
+                        </el-form-item>
+                    </el-col>
+                    <el-col :xs="24" :sm="12" :md="12" :lg="12" :xl="12" class="mb20px">
+                        <el-form-item label="菜单图标" prop="icon">
+                            <IconSelector v-model="formData.icon" placeholder="请输入菜单图标" type="all" />
+                        </el-form-item>
+                    </el-col>
+
+                    <el-col :xs="24" :sm="12" :md="12" :lg="12" :xl="12" class="mb20px">
+                        <el-form-item label="链接地址" prop="linkUrl">
+                            <el-input v-model="formData.linkUrl" placeholder="外链/内嵌时链接地址（http:xxx.com）" clearable
+                                :disabled="!formData.isLink" />
+                        </el-form-item>
+                    </el-col>
+                    <!-- <el-col :xs="24" :sm="12" :md="12" :lg="12" :xl="12" class="mb20px">
+                            <el-form-item label="权限标识" prop="roles">
+                                <el-select v-model="formData.roles" multiple placeholder="取角色管理" clearable class="w100%">
+                                    <el-option label="admin" value="admin"></el-option>
+                                    <el-option label="common" value="common"></el-option>
+                                </el-select>
+                            </el-form-item>
+                        </el-col> -->
+                </template>
+                <template v-if="formData.menuType === 2">
+                    <el-col :xs="24" :sm="12" :md="12" :lg="12" :xl="12" class="mb20px">
+                        <el-form-item label="按钮名称" prop="title">
+                            <el-input v-model="formData.title" maxlength="20" placeholder="请输入按钮名称" clearable />
+                        </el-form-item>
+                    </el-col>
+                    <el-col :xs="24" :sm="12" :md="12" :lg="12" :xl="12" class="mb20px">
+                        <el-form-item label="api接口地址" prop="api_path">
+                            <el-input v-model="formData.api_path" maxlength="60" clearable />
+                        </el-form-item>
+                    </el-col>
+                    <!-- <el-col :xs="24" :sm="12" :md="12" :lg="12" :xl="12"></el-col> -->
+                    <!-- <el-col :xs="24" :sm="12" :md="12" :lg="12" :xl="12" class="mb20px">
+                            <el-form-item label="权限标识">
+                                <el-input v-model="formData.btnPower" placeholder="请输入权限标识" clearable></el-input>
+                            </el-form-item>
+                        </el-col> -->
+                </template>
+                <el-col :xs="24" :sm="12" :md="12" :lg="12" :xl="12" class="mb20px">
+                    <el-form-item label="排序">
+                        <el-input-number v-model="formData.sort" :min="0" :max="10000" controls-position="right"
+                            placeholder="请输入排序" class="w100%" />
+                    </el-form-item>
+                </el-col>
+                <template v-if="formData.menuType === 1">
+                    <el-col :xs="24" :sm="12" :md="12" :lg="12" :xl="12" class="mb20px">
+                        <el-form-item label="是否隐藏">
+                            <el-radio-group v-model="formData.isHide">
+                                <el-radio :label="1">
+                                    隐藏
+                                </el-radio>
+                                <el-radio :label="0">
+                                    不隐藏
+                                </el-radio>
+                            </el-radio-group>
+                        </el-form-item>
+                    </el-col>
+                    <el-col :xs="24" :sm="12" :md="12" :lg="12" :xl="12" class="mb20px">
+                        <el-form-item label="页面缓存">
+                            <el-radio-group v-model="formData.isKeepAlive">
+                                <el-radio :label="1">
+                                    缓存
+                                </el-radio>
+                                <el-radio :label="0">
+                                    不缓存
+                                </el-radio>
+                            </el-radio-group>
+                        </el-form-item>
+                    </el-col>
+                    <el-col :xs="24" :sm="12" :md="12" :lg="12" :xl="12" class="mb20px">
+                        <el-form-item label="是否固定">
+                            <el-radio-group v-model="formData.isAffix">
+                                <el-radio :label="1">
+                                    固定
+                                </el-radio>
+                                <el-radio :label="0">
+                                    不固定
+                                </el-radio>
+                            </el-radio-group>
+                        </el-form-item>
+                    </el-col>
+                    <el-col :xs="24" :sm="12" :md="12" :lg="12" :xl="12" class="mb20px">
+                        <el-form-item label="是否外链">
+                            <el-radio-group v-model="formData.isLink">
+                                <el-radio :label="1">
+                                    是
+                                </el-radio>
+                                <el-radio :label="0">
+                                    否
+                                </el-radio>
+                            </el-radio-group>
+                        </el-form-item>
+                    </el-col>
+                    <el-col :xs="24" :sm="12" :md="12" :lg="12" :xl="12" class="mb20px">
+                        <el-form-item label="是否内嵌">
+                            <el-radio-group v-model="formData.isIframe" @change="onSelectIframeChange">
+                                <el-radio :label="1">
+                                    是
+                                </el-radio>
+                                <el-radio :label="0">
+                                    否
+                                </el-radio>
+                            </el-radio-group>
+                        </el-form-item>
+                    </el-col>
+                </template>
+            </el-row>
+        </el-form>
+        <template #footer>
+            <span class="dialog-footer">
+                <el-button @click="onCancel">取 消</el-button>
+                <el-button type="primary" :loading="btnLoading" @click="onSubmit">确 定</el-button>
+            </span>
+        </template>
+    </el-dialog>
+</template>
 
 <style lang="scss" scoped>
 .comp-box {

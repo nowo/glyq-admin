@@ -1,42 +1,3 @@
-<template>
-    <my-box>
-        <MyFormTool :data="searchData" inline @submit.prevent="onSearch">
-            <template #role_id="{ row }">
-                <el-select v-model="row.role_id" filterable clearable>
-                    <el-option v-for="item in defData.roleList" :key="item.id" :label="item.role_name" :value="item.id" />
-                </el-select>
-            </template>
-            <el-button type="success" @click="onAdd">
-                <el-icon>
-                    <ele-FolderAdd />
-                </el-icon>
-                新增用户
-            </el-button>
-        </MyFormTool>
-        <my-table v-model:page="tableData.pagination" :table-header="tableData.tableHeader" :data="tableData.data"
-            class="jm-box" @update:page="onHandleCurrentChange">
-            <template #status="{ scopes }">
-                <el-tag v-if="scopes.row.status === 1" type="success">
-                    启用
-                </el-tag>
-                <el-tag v-else type="info">
-                    禁用
-                </el-tag>
-            </template>
-
-            <template #operate="{ scopes }">
-                <el-button size="small" text type="primary" @click="onEdit(scopes.row)">
-                    修改
-                </el-button>
-                <el-button size="small" text type="primary" :disabled="scopes.row.id === 1" @click="onDel(scopes.row)">
-                    删除
-                </el-button>
-            </template>
-        </my-table>
-        <UserModel ref="modelRef" @update="initTableData" />
-    </my-box>
-</template>
-
 <script lang="ts" setup>
 import { UserApi } from '@/api/system/user'
 import { PAGINATION } from '@/config/global'
@@ -162,5 +123,44 @@ onBeforeMount(() => {
     initTableData()
 })
 </script>
+
+<template>
+    <my-box>
+        <MyFormTool :data="searchData" inline @submit.prevent="onSearch">
+            <template #role_id="{ row }">
+                <el-select v-model="row.role_id" filterable clearable>
+                    <el-option v-for="item in defData.roleList" :key="item.id" :label="item.role_name" :value="item.id" />
+                </el-select>
+            </template>
+            <el-button type="success" @click="onAdd">
+                <el-icon>
+                    <ele-FolderAdd />
+                </el-icon>
+                新增用户
+            </el-button>
+        </MyFormTool>
+        <my-table v-model:page="tableData.pagination" :table-header="tableData.tableHeader" :data="tableData.data"
+            class="jm-box" @update:page="onHandleCurrentChange">
+            <template #status="{ scopes }">
+                <el-tag v-if="scopes.row.status === 1" type="success">
+                    启用
+                </el-tag>
+                <el-tag v-else type="info">
+                    禁用
+                </el-tag>
+            </template>
+
+            <template #operate="{ scopes }">
+                <el-button size="small" text type="primary" @click="onEdit(scopes.row)">
+                    修改
+                </el-button>
+                <el-button size="small" text type="primary" :disabled="scopes.row.id === 1" @click="onDel(scopes.row)">
+                    删除
+                </el-button>
+            </template>
+        </my-table>
+        <UserModel ref="modelRef" @update="initTableData" />
+    </my-box>
+</template>
 
 <style lang="scss" scoped></style>

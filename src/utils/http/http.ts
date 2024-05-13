@@ -125,7 +125,7 @@ service.interceptors.response.use((response) => {
     return Promise.reject(error)
 })
 
-/** * 方法封装 **********************************/
+/** * 方法封装 */
 /**
  * @method post请求
  * @param {string} url 请求接口路由地址
@@ -176,10 +176,10 @@ const put = (url: string, data?: any, config?: AxiosRequestConfig): AxiosPromise
 }
 
 /**
- * @param {String} method  请求的方法：get、post、delete、put
- * @param {String} url     请求的url:
- * @param {Object} [data]    请求的参数
- * @param {Object} [config]  请求的配置
+ * @param {string} method  请求的方法：get、post、delete、put
+ * @param {string} url     请求的url:
+ * @param {object} [data]    请求的参数
+ * @param {object} [config]  请求的配置
  * @returns {Promise}     返回一个promise对象，其实就相当于axios请求数据的返回值
  * @example http({method,url,data,config})
  */

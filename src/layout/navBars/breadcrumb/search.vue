@@ -1,48 +1,3 @@
-<template>
-    <el-dialog v-model="isShowSearch" class="layout-search-dialog" width="560px" append-to-body destroy-on-close
-        close-on-click-modal :show-close="false">
-        <div class="cen-box">
-            <div class="operate-tips">
-                <div class="tip">
-                    <span>
-                        <SvgIcon name="ele-Top" />
-                    </span>
-                    <span>
-                        <SvgIcon name="ele-Bottom" />
-                    </span>
-                    切换搜索结果
-                </div>
-                <div class="tip">
-                    <span>Enter</span>
-                    访问页面
-                </div>
-                <div class="tip">
-                    <span>ESC</span>
-                    退出
-                </div>
-            </div>
-            <el-autocomplete ref="layoutMenuAutocompleteRef" v-model="menuQuery" :fetch-suggestions="menuSearch"
-                :teleported="false" placeholder="菜单搜索：支持中文、路由路径" @select="onHandleSelect"
-                @blur="onSearchBlur">
-                <template #prefix>
-                    <el-icon class="el-input__icon">
-                        <ele-Search />
-                    </el-icon>
-                </template>
-                <template #default="{ item }">
-                    <div class="flex-search-item">
-                        <span class="ico">
-                            <SvgIcon :name="item.meta.icon" />
-                        </span>
-                        {{ item.meta.title }}
-                        <em class="url ml5px">{{ item.path }}</em>
-                    </div>
-                </template>
-            </el-autocomplete>
-        </div>
-    </el-dialog>
-</template>
-
 <script lang="ts">
 import { defineComponent, nextTick, reactive, ref, toRefs } from 'vue'
 import { useRouter } from 'vue-router'
@@ -135,6 +90,51 @@ export default defineComponent({
     },
 })
 </script>
+
+<template>
+    <el-dialog v-model="isShowSearch" class="layout-search-dialog" width="560px" append-to-body destroy-on-close
+        close-on-click-modal :show-close="false">
+        <div class="cen-box">
+            <div class="operate-tips">
+                <div class="tip">
+                    <span>
+                        <SvgIcon name="ele-Top" />
+                    </span>
+                    <span>
+                        <SvgIcon name="ele-Bottom" />
+                    </span>
+                    切换搜索结果
+                </div>
+                <div class="tip">
+                    <span>Enter</span>
+                    访问页面
+                </div>
+                <div class="tip">
+                    <span>ESC</span>
+                    退出
+                </div>
+            </div>
+            <el-autocomplete ref="layoutMenuAutocompleteRef" v-model="menuQuery" :fetch-suggestions="menuSearch"
+                :teleported="false" placeholder="菜单搜索：支持中文、路由路径" @select="onHandleSelect"
+                @blur="onSearchBlur">
+                <template #prefix>
+                    <el-icon class="el-input__icon">
+                        <ele-Search />
+                    </el-icon>
+                </template>
+                <template #default="{ item }">
+                    <div class="flex-search-item">
+                        <span class="ico">
+                            <SvgIcon :name="item.meta.icon" />
+                        </span>
+                        {{ item.meta.title }}
+                        <em class="url ml5px">{{ item.path }}</em>
+                    </div>
+                </template>
+            </el-autocomplete>
+        </div>
+    </el-dialog>
+</template>
 
 <style scoped lang="scss">
 .cen-box {

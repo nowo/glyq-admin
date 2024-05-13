@@ -1,31 +1,3 @@
-<template>
-    <my-dialog v-model:visible="defData.visible" :loading="btnLoading" auto-height hidden title="修改密码" width="450px"
-        @close="onClose" @cancel="onClose" @confirm="onConfirm">
-        <el-form ref="formRef" :model="formData" :rules="rules" label-width="100px">
-            <el-row>
-                <el-col :xs="24" :sm="24" :md="24" :lg="23" :xl="23" class="mb20px">
-                    <el-form-item label="原密码" prop="now_pwd">
-                        <el-input v-model="formData.now_pwd" class="w100%" placeholder="请输入原密码" type="password"
-                            clearable show-password />
-                    </el-form-item>
-                </el-col>
-                <el-col :xs="24" :sm="24" :md="24" :lg="23" :xl="23" class="mb20px">
-                    <el-form-item label="新密码" prop="new_pwd">
-                        <el-input v-model="formData.new_pwd" class="w100%" placeholder="请输入新密码" type="password"
-                            show-password clearable />
-                    </el-form-item>
-                </el-col>
-                <el-col :xs="24" :sm="24" :md="24" :lg="23" :xl="23" class="mb20px">
-                    <el-form-item label="确认密码" prop="confirm_pwd">
-                        <el-input v-model="formData.confirm_pwd" class="w100%" placeholder="请输入确认密码" type="password"
-                            show-password clearable />
-                    </el-form-item>
-                </el-col>
-            </el-row>
-        </el-form>
-    </my-dialog>
-</template>
-
 <script lang="ts" setup>
 import { reactive, ref } from 'vue'
 import type { Action, FormInstance, FormRules } from 'element-plus'
@@ -119,5 +91,33 @@ defineExpose({
     openDialog,
 })
 </script>
+
+<template>
+    <my-dialog v-model:visible="defData.visible" :loading="btnLoading" auto-height hidden title="修改密码" width="450px"
+        @close="onClose" @cancel="onClose" @confirm="onConfirm">
+        <el-form ref="formRef" :model="formData" :rules="rules" label-width="100px">
+            <el-row>
+                <el-col :xs="24" :sm="24" :md="24" :lg="23" :xl="23" class="mb20px">
+                    <el-form-item label="原密码" prop="now_pwd">
+                        <el-input v-model="formData.now_pwd" class="w100%" placeholder="请输入原密码" type="password"
+                            clearable show-password />
+                    </el-form-item>
+                </el-col>
+                <el-col :xs="24" :sm="24" :md="24" :lg="23" :xl="23" class="mb20px">
+                    <el-form-item label="新密码" prop="new_pwd">
+                        <el-input v-model="formData.new_pwd" class="w100%" placeholder="请输入新密码" type="password"
+                            show-password clearable />
+                    </el-form-item>
+                </el-col>
+                <el-col :xs="24" :sm="24" :md="24" :lg="23" :xl="23" class="mb20px">
+                    <el-form-item label="确认密码" prop="confirm_pwd">
+                        <el-input v-model="formData.confirm_pwd" class="w100%" placeholder="请输入确认密码" type="password"
+                            show-password clearable />
+                    </el-form-item>
+                </el-col>
+            </el-row>
+        </el-form>
+    </my-dialog>
+</template>
 
 <style lang="scss" scoped></style>

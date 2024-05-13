@@ -1,3 +1,36 @@
+<script lang="ts" setup>
+import { computed, reactive } from 'vue'
+
+const defData = reactive({
+
+    newsList: [
+        // {
+        //     label: '标题...',
+        //     value: '简介...',
+        //     time: '2020-12-08',
+        // },
+    ] as {
+        label: '标题...'
+        value: '简介...'
+        time: '2020-12-08'
+    }[],
+})
+
+const isDot = computed(() => {
+    return defData.newsList.length > 0
+})
+
+// 全部已读点击
+const onAllReadClick = () => {
+    defData.newsList = []
+    // emits('clear', true)
+}
+// 前往通知中心点击
+const onGoToGitClick = () => {
+
+}
+</script>
+
 <template>
     <el-popover placement="bottom" trigger="click" transition="el-zoom-in-top" :width="300" :persistent="false">
         <template #reference>
@@ -38,39 +71,6 @@
         </template>
     </el-popover>
 </template>
-
-<script lang="ts" setup>
-import { computed, reactive } from 'vue'
-
-const defData = reactive({
-
-    newsList: [
-        // {
-        //     label: '标题...',
-        //     value: '简介...',
-        //     time: '2020-12-08',
-        // },
-    ] as {
-        label: '标题...'
-        value: '简介...'
-        time: '2020-12-08'
-    }[],
-})
-
-const isDot = computed(() => {
-    return defData.newsList.length > 0
-})
-
-// 全部已读点击
-const onAllReadClick = () => {
-    defData.newsList = []
-    // emits('clear', true)
-}
-// 前往通知中心点击
-const onGoToGitClick = () => {
-
-}
-</script>
 
 <style scoped lang="scss">
 .layout-navbars-breadcrumb-user-news {

@@ -159,8 +159,8 @@ export function formatAxis(param: Date): string {
 /**
  * @description 时间戳转化为年 月 日 时 分 秒
  * @method formatTime(format,num)
- * @param {number|Date} [num = new Date().getTime()|new Date] 时间戳或者时间对象,默认使用当前时间戳, new Date().getTime(); 获取当前时间戳（毫秒）
- * @param {string} [format='YYYY-mm-dd HH:MM:SS'] 时间格式,不填时默认使用'YYYY-mm-dd HH:MM:SS'格式,更改只需替换中间连接符号就行'YYYY年mm月dd日 HH时MM分SS秒'
+ * @param {number|Date} [num] 时间戳或者时间对象,默认使用当前时间戳, new Date().getTime(); 获取当前时间戳（毫秒）
+ * @param {string} [format] 时间格式,不填时默认使用'YYYY-mm-dd HH:MM:SS'格式,更改只需替换中间连接符号就行'YYYY年mm月dd日 HH时MM分SS秒'
  * @example
  *  var sjc = 1472048779952; //js一般获取的时间戳是13位，PHP一般是10位
     formatTime(sjc,'YYYY-mm-dd HH:MM:SS')

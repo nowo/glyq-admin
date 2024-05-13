@@ -1,10 +1,10 @@
-<template>
-    <div class="img-mask" />
-</template>
-
 <script lang="ts" setup>
 
 </script>
+
+<template>
+    <div class="img-mask" />
+</template>
 
 <style lang="scss" scoped>
 .img-mask {

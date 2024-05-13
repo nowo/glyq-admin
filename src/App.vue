@@ -1,10 +1,3 @@
-<template>
-    <el-config-provider :size="globalSize" :locale="zhCn" :message="messageConfig">
-        <router-view v-show="themeConfig.lockScreenTime > 1" />
-        <LockScreen v-if="themeConfig.isLockScreen" />
-    </el-config-provider>
-</template>
-
 <script lang="ts" setup>
 import { nextTick, onBeforeMount, onMounted, onUnmounted, reactive, ref } from 'vue'
 import zhCn from 'element-plus/es/locale/lang/zh-cn'
@@ -67,5 +60,12 @@ onUnmounted(() => {
     window.removeEventListener('resize', onLayoutResize)
 })
 </script>
+
+<template>
+    <el-config-provider :size="globalSize" :locale="zhCn" :message="messageConfig">
+        <router-view v-show="themeConfig.lockScreenTime > 1" />
+        <LockScreen v-if="themeConfig.isLockScreen" />
+    </el-config-provider>
+</template>
 
 <style></style>

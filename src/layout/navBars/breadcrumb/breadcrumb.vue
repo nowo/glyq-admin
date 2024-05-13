@@ -1,33 +1,3 @@
-<template>
-    <div v-if="isShowBreadcrumb" class="layout-navbars-breadcrumb">
-        <SvgIcon class="layout-navbars-breadcrumb-icon" :name="themeConfig.isCollapse ? 'ele-Expand' : 'ele-Fold'"
-            :size="16" @click="onThemeConfigChange" />
-        <el-breadcrumb class="layout-navbars-breadcrumb-hide layout-breadcrumb-text">
-            <transition-group name="breadcrumb">
-                <el-breadcrumb-item v-for="(v, k) in breadcrumbList2" :key="k">
-                    <!-- 最后一个时 -->
-                    <!-- v.meta.tagsViewName ? v.meta.tagsViewName :  -->
-                    <span v-if="k === breadcrumbList2.length - 1" :title="v.meta?.title"
-                        class="layout-navbars-breadcrumb-span">
-                        <SvgIcon v-if="themeConfig.isBreadcrumbIcon" :name="v.meta!.icon"
-                            class="layout-navbars-breadcrumb-iconfont" />
-
-                        <span class="layout-breadcrumb-name">
-                            <!-- v.meta.tagsViewName ? v.meta.tagsViewName :  -->
-                            {{ v.meta?.title }}
-                        </span>
-                    </span>
-                    <a v-else :title="v.meta?.title" @click.prevent="onBreadcrumbClick(v)">
-                        <SvgIcon v-if="themeConfig.isBreadcrumbIcon" :name="v.meta!.icon"
-                            class="layout-navbars-breadcrumb-iconfont" />
-                        <span class="layout-breadcrumb-name">{{ v.meta?.title }}</span>
-                    </a>
-                </el-breadcrumb-item>
-            </transition-group>
-        </el-breadcrumb>
-    </div>
-</template>
-
 <script lang="ts" setup>
 import { computed, onMounted, reactive, toRefs } from 'vue'
 import type { RouteRecordRaw } from 'vue-router'
@@ -148,6 +118,36 @@ onBeforeRouteUpdate((to) => {
 })
 const { breadcrumbList2 } = toRefs(state)
 </script>
+
+<template>
+    <div v-if="isShowBreadcrumb" class="layout-navbars-breadcrumb">
+        <SvgIcon class="layout-navbars-breadcrumb-icon" :name="themeConfig.isCollapse ? 'ele-Expand' : 'ele-Fold'"
+            :size="16" @click="onThemeConfigChange" />
+        <el-breadcrumb class="layout-navbars-breadcrumb-hide layout-breadcrumb-text">
+            <transition-group name="breadcrumb">
+                <el-breadcrumb-item v-for="(v, k) in breadcrumbList2" :key="k">
+                    <!-- 最后一个时 -->
+                    <!-- v.meta.tagsViewName ? v.meta.tagsViewName :  -->
+                    <span v-if="k === breadcrumbList2.length - 1" :title="v.meta?.title"
+                        class="layout-navbars-breadcrumb-span">
+                        <SvgIcon v-if="themeConfig.isBreadcrumbIcon" :name="v.meta!.icon"
+                            class="layout-navbars-breadcrumb-iconfont" />
+
+                        <span class="layout-breadcrumb-name">
+                            <!-- v.meta.tagsViewName ? v.meta.tagsViewName :  -->
+                            {{ v.meta?.title }}
+                        </span>
+                    </span>
+                    <a v-else :title="v.meta?.title" @click.prevent="onBreadcrumbClick(v)">
+                        <SvgIcon v-if="themeConfig.isBreadcrumbIcon" :name="v.meta!.icon"
+                            class="layout-navbars-breadcrumb-iconfont" />
+                        <span class="layout-breadcrumb-name">{{ v.meta?.title }}</span>
+                    </a>
+                </el-breadcrumb-item>
+            </transition-group>
+        </el-breadcrumb>
+    </div>
+</template>
 
 <style scoped lang="scss">
 .layout-breadcrumb-name {

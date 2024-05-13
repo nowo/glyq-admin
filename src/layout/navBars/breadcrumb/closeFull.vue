@@ -1,11 +1,3 @@
-<template>
-    <div v-if="isTagsViewCurrentFull" class="layout-navbars-close-full">
-        <div class="layout-navbars-close-full-icon">
-            <SvgIcon name="ele-Close" title="关闭全屏" @click="onCloseFullscreen" />
-        </div>
-    </div>
-</template>
-
 <script lang="ts" setup>
 import { storeToRefs } from 'pinia'
 import { useTagsViewRoutes } from '@/stores/tagsViewRoutes'
@@ -17,6 +9,14 @@ const onCloseFullscreen = () => {
     stores.setCurrentFullscreen(false)
 }
 </script>
+
+<template>
+    <div v-if="isTagsViewCurrentFull" class="layout-navbars-close-full">
+        <div class="layout-navbars-close-full-icon">
+            <SvgIcon name="ele-Close" title="关闭全屏" @click="onCloseFullscreen" />
+        </div>
+    </div>
+</template>
 
 <style scoped lang="scss">
 .layout-navbars-close-full {

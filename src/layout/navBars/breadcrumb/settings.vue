@@ -1,3 +1,245 @@
+<script lang="ts" setup>
+import { computed, nextTick, onMounted, reactive } from 'vue'
+import { ElMessage } from 'element-plus'
+import { storeToRefs } from 'pinia'
+import { useEventBus } from '@vueuse/core'
+import { useThemeConfig } from '@/stores/themeConfig'
+import { getDarkColor, getLightColor } from '@/utils/theme'
+import { verifyAndSpace } from '@/utils/toolsValidate'
+import { Local } from '@/utils/storage'
+import Watermark from '@/utils/wartermark'
+import commonFunction from '@/utils/commonFunction'
+import { isMobile } from '@/utils/other'
+
+const storesThemeConfig = useThemeConfig()
+const { themeConfig } = storeToRefs(storesThemeConfig)
+const { copyText } = commonFunction()
+
+const layoutResizeBus = useEventBus<{ clientWidth: number, layout: MainLayoutType }>('layoutMobileResize')
+const setFilterRouteBus = useEventBus('getBreadcrumbIndexSetFilterRoutes')
+const openShareTagsViewBus = useEventBus('openShareTagsView')
+const openOrCloseSortableBus = useEventBus('openOrCloseSortable')
+
+const state = reactive({
+    isMobile: false,
+})
+// 获取布局配置信息
+const getThemeConfig = computed(() => {
+    return themeConfig.value
+})
+// 1、全局主题
+const onColorPickerChange = () => {
+    if (!getThemeConfig.value.primary) return ElMessage.warning('全局主题 primary 颜色值不能为空')
+    // 颜色加深
+    document.documentElement.style.setProperty('--el-color-primary-dark-2', `${getDarkColor(getThemeConfig.value.primary, 0.1)}`)
+    document.documentElement.style.setProperty('--el-color-primary', getThemeConfig.value.primary)
+    // 颜色变浅
+    for (let i = 1; i <= 9; i++) {
+        document.documentElement.style.setProperty(`--el-color-primary-light-${i}`, `${getLightColor(getThemeConfig.value.primary, i / 10)}`)
+    }
+    setDispatchThemeConfig()
+}
+// 2、菜单 / 顶栏
+const onBgColorPickerChange = (bg: keyof typeof getThemeConfig.value) => {
+    document.documentElement.style.setProperty(`--next-bg-${bg}`, getThemeConfig.value[bg] as string)
+    if (bg === 'menuBar') {
+        document.documentElement.style.setProperty('--next-bg-menuBar-light-1', getLightColor(getThemeConfig.value.menuBar, 0.05) as string)
+    }
+    onTopBarGradualChange()
+    onMenuBarGradualChange()
+    onColumnsMenuBarGradualChange()
+    setDispatchThemeConfig()
+}
+// 2、菜单 / 顶栏 --> 顶栏背景渐变
+const onTopBarGradualChange = () => {
+    setGradualFun('.layout-navbars-breadcrumb-index', getThemeConfig.value.isTopBarColorGradual, getThemeConfig.value.topBar)
+}
+// 2、菜单 / 顶栏 --> 菜单背景渐变
+const onMenuBarGradualChange = () => {
+    setGradualFun('.layout-container .el-aside', getThemeConfig.value.isMenuBarColorGradual, getThemeConfig.value.menuBar)
+}
+// 2、菜单 / 顶栏 --> 分栏菜单背景渐变
+const onColumnsMenuBarGradualChange = () => {
+    setGradualFun('.layout-container .layout-columns-aside', getThemeConfig.value.isColumnsMenuBarColorGradual, getThemeConfig.value.columnsMenuBar)
+}
+// 2、菜单 / 顶栏 --> 背景渐变函数
+const setGradualFun = (el: string, bool: boolean, color: string) => {
+    setTimeout(() => {
+        const els = document.querySelector(el)
+        if (!els) return false
+        document.documentElement.style.setProperty('--el-menu-bg-color', document.documentElement.style.getPropertyValue('--next-bg-menuBar'))
+        if (bool) els.setAttribute('style', `background:linear-gradient(to bottom left , ${color}, ${getLightColor(color, 0.6)}) !important;`)
+        else els.setAttribute('style', '')
+        setLocalThemeConfig()
+    }, 200)
+}
+// 3、界面设置 --> 菜单水平折叠
+const onThemeConfigChange = () => {
+    setDispatchThemeConfig()
+}
+// 3、界面设置 --> 固定 Header
+const onIsFixedHeaderChange = () => {
+    getThemeConfig.value.isFixedHeaderChange = !getThemeConfig.value.isFixedHeader
+    setLocalThemeConfig()
+}
+// 3、界面设置 --> 经典布局分割菜单
+const onClassicSplitMenuChange = () => {
+    getThemeConfig.value.isBreadcrumb = false
+    setLocalThemeConfig()
+    setFilterRouteBus.emit()
+}
+// 4、界面显示 --> 侧边栏 Logo
+const onIsShowLogoChange = () => {
+    getThemeConfig.value.isShowLogoChange = !getThemeConfig.value.isShowLogo
+    setLocalThemeConfig()
+}
+// 4、界面显示 --> 面包屑 Breadcrumb
+const onIsBreadcrumbChange = () => {
+    if (getThemeConfig.value.layout === 'classic') {
+        getThemeConfig.value.isClassicSplitMenu = false
+    }
+    setLocalThemeConfig()
+}
+// 4、界面显示 --> 开启 TagsView 拖拽
+const onSortableTagsViewChange = () => {
+    openOrCloseSortableBus.emit()
+    setLocalThemeConfig()
+}
+// 4、界面显示 --> 开启 TagsView 共用
+const onShareTagsViewChange = () => {
+    openShareTagsViewBus.emit()
+    setLocalThemeConfig()
+}
+// 4、界面显示 --> 灰色模式/色弱模式
+const onAddFilterChange = (attr: string) => {
+    if (attr === 'grayscale') {
+        if (getThemeConfig.value.isGrayscale) getThemeConfig.value.isInvert = false
+    } else {
+        if (getThemeConfig.value.isInvert) getThemeConfig.value.isGrayscale = false
+    }
+    const cssAttr
+        = attr === 'grayscale' ? `grayscale(${getThemeConfig.value.isGrayscale ? 1 : 0})` : `invert(${getThemeConfig.value.isInvert ? '80%' : '0%'})`
+    const appEle: any = document.body
+    appEle.setAttribute('style', `filter: ${cssAttr}`)
+    setLocalThemeConfig()
+}
+// 4、界面显示 --> 深色模式
+const onAddDarkChange = () => {
+    const body = document.documentElement as HTMLElement
+    if (getThemeConfig.value.isIsDark) body.setAttribute('data-theme', 'dark')
+    else body.setAttribute('data-theme', '')
+}
+// 4、界面显示 --> 开启水印
+const onWaterMarkChange = () => {
+    getThemeConfig.value.isWaterMark ? Watermark.set(getThemeConfig.value.WaterMarkText) : Watermark.del()
+    setLocalThemeConfig()
+}
+// 4、界面显示 --> 水印文案
+const onWaterMarkTextInput = (val: any) => {
+    getThemeConfig.value.WaterMarkText = verifyAndSpace(val)
+    if (getThemeConfig.value.WaterMarkText === '') return false
+    if (getThemeConfig.value.isWaterMark) Watermark.set(getThemeConfig.value.WaterMarkText)
+    setLocalThemeConfig()
+}
+// 5、布局切换
+const onSetLayout = (layout: MainLayoutType) => {
+    Local.set('oldLayout', layout)
+    if (getThemeConfig.value.layout === layout) return false
+    if (layout === 'transverse') getThemeConfig.value.isCollapse = false
+    getThemeConfig.value.layout = layout
+    getThemeConfig.value.isDrawer = false
+    initLayoutChangeFun()
+}
+// 设置布局切换函数
+const initLayoutChangeFun = () => {
+    onBgColorPickerChange('menuBar')
+    onBgColorPickerChange('menuBarColor')
+    onBgColorPickerChange('topBar')
+    onBgColorPickerChange('topBarColor')
+    onBgColorPickerChange('columnsMenuBar')
+    onBgColorPickerChange('columnsMenuBarColor')
+}
+// 关闭弹窗时，初始化变量。变量用于处理 proxy.$refs.layoutScrollbarRef.update()
+const onDrawerClose = () => {
+    getThemeConfig.value.isFixedHeaderChange = false
+    getThemeConfig.value.isShowLogoChange = false
+    getThemeConfig.value.isDrawer = false
+    setLocalThemeConfig()
+}
+// 布局配置弹窗打开
+const openDrawer = () => {
+    getThemeConfig.value.isDrawer = true
+}
+// 触发 store 布局配置更新
+const setDispatchThemeConfig = () => {
+    setLocalThemeConfig()
+    setLocalThemeConfigStyle()
+}
+// 存储布局配置
+const setLocalThemeConfig = () => {
+    Local.remove('themeConfig')
+    Local.set('themeConfig', getThemeConfig.value)
+}
+// 存储布局配置全局主题样式（html根标签）
+const setLocalThemeConfigStyle = () => {
+    Local.set('themeConfigStyle', document.documentElement.style.cssText)
+}
+// 一键复制配置
+const onCopyConfigClick = () => {
+    const copyThemeConfig = Local.get('themeConfig')
+    copyThemeConfig.isDrawer = false
+    copyText(JSON.stringify(copyThemeConfig)).then(() => {
+        getThemeConfig.value.isDrawer = false
+    })
+}
+// 一键恢复默认
+const onResetConfigClick = () => {
+    Local.clear()
+    window.location.reload()
+}
+// 初始化菜单样式等
+const initSetStyle = () => {
+    // 2、菜单 / 顶栏 --> 顶栏背景渐变
+    onTopBarGradualChange()
+    // 2、菜单 / 顶栏 --> 菜单背景渐变
+    onMenuBarGradualChange()
+    // 2、菜单 / 顶栏 --> 分栏菜单背景渐变
+    onColumnsMenuBarGradualChange()
+}
+onMounted(() => {
+    nextTick(() => {
+        // 判断当前布局是否不相同，不相同则初始化当前布局的样式，防止监听窗口大小改变时，布局配置logo、菜单背景等部分布局失效问题
+        if (!Local.get('frequency')) initLayoutChangeFun()
+        Local.set('frequency', 1)
+        // 监听窗口大小改变，非默认布局，设置成默认布局（适配移动端）
+        layoutResizeBus.on((res) => {
+            getThemeConfig.value.layout = res.layout
+            getThemeConfig.value.isDrawer = false
+            initLayoutChangeFun()
+            state.isMobile = isMobile()
+        })
+        setTimeout(() => {
+            // 默认样式
+            onColorPickerChange()
+            // 灰色模式
+            if (getThemeConfig.value.isGrayscale) onAddFilterChange('grayscale')
+            // 色弱模式
+            if (getThemeConfig.value.isInvert) onAddFilterChange('invert')
+            // 深色模式
+            if (getThemeConfig.value.isIsDark) onAddDarkChange()
+            // 开启水印
+            onWaterMarkChange()
+            // 初始化菜单样式等
+            initSetStyle()
+        }, 100)
+    })
+})
+
+defineExpose({
+    openDrawer,
+})
+</script>
+
 <template>
     <div class="layout-breadcrumb-setting">
         <el-drawer v-model="getThemeConfig.isDrawer" title="布局配置" direction="rtl" destroy-on-close size="260px"
@@ -468,248 +710,6 @@
         </el-drawer>
     </div>
 </template>
-
-<script lang="ts" setup>
-import { computed, nextTick, onMounted, reactive } from 'vue'
-import { ElMessage } from 'element-plus'
-import { storeToRefs } from 'pinia'
-import { useEventBus } from '@vueuse/core'
-import { useThemeConfig } from '@/stores/themeConfig'
-import { getDarkColor, getLightColor } from '@/utils/theme'
-import { verifyAndSpace } from '@/utils/toolsValidate'
-import { Local } from '@/utils/storage'
-import Watermark from '@/utils/wartermark'
-import commonFunction from '@/utils/commonFunction'
-import { isMobile } from '@/utils/other'
-
-const storesThemeConfig = useThemeConfig()
-const { themeConfig } = storeToRefs(storesThemeConfig)
-const { copyText } = commonFunction()
-
-const layoutResizeBus = useEventBus<{ clientWidth: number; layout: MainLayoutType }>('layoutMobileResize')
-const setFilterRouteBus = useEventBus('getBreadcrumbIndexSetFilterRoutes')
-const openShareTagsViewBus = useEventBus('openShareTagsView')
-const openOrCloseSortableBus = useEventBus('openOrCloseSortable')
-
-const state = reactive({
-    isMobile: false,
-})
-// 获取布局配置信息
-const getThemeConfig = computed(() => {
-    return themeConfig.value
-})
-// 1、全局主题
-const onColorPickerChange = () => {
-    if (!getThemeConfig.value.primary) return ElMessage.warning('全局主题 primary 颜色值不能为空')
-    // 颜色加深
-    document.documentElement.style.setProperty('--el-color-primary-dark-2', `${getDarkColor(getThemeConfig.value.primary, 0.1)}`)
-    document.documentElement.style.setProperty('--el-color-primary', getThemeConfig.value.primary)
-    // 颜色变浅
-    for (let i = 1; i <= 9; i++) {
-        document.documentElement.style.setProperty(`--el-color-primary-light-${i}`, `${getLightColor(getThemeConfig.value.primary, i / 10)}`)
-    }
-    setDispatchThemeConfig()
-}
-// 2、菜单 / 顶栏
-const onBgColorPickerChange = (bg: keyof typeof getThemeConfig.value) => {
-    document.documentElement.style.setProperty(`--next-bg-${bg}`, getThemeConfig.value[bg] as string)
-    if (bg === 'menuBar') {
-        document.documentElement.style.setProperty('--next-bg-menuBar-light-1', getLightColor(getThemeConfig.value.menuBar, 0.05) as string)
-    }
-    onTopBarGradualChange()
-    onMenuBarGradualChange()
-    onColumnsMenuBarGradualChange()
-    setDispatchThemeConfig()
-}
-// 2、菜单 / 顶栏 --> 顶栏背景渐变
-const onTopBarGradualChange = () => {
-    setGradualFun('.layout-navbars-breadcrumb-index', getThemeConfig.value.isTopBarColorGradual, getThemeConfig.value.topBar)
-}
-// 2、菜单 / 顶栏 --> 菜单背景渐变
-const onMenuBarGradualChange = () => {
-    setGradualFun('.layout-container .el-aside', getThemeConfig.value.isMenuBarColorGradual, getThemeConfig.value.menuBar)
-}
-// 2、菜单 / 顶栏 --> 分栏菜单背景渐变
-const onColumnsMenuBarGradualChange = () => {
-    setGradualFun('.layout-container .layout-columns-aside', getThemeConfig.value.isColumnsMenuBarColorGradual, getThemeConfig.value.columnsMenuBar)
-}
-// 2、菜单 / 顶栏 --> 背景渐变函数
-const setGradualFun = (el: string, bool: boolean, color: string) => {
-    setTimeout(() => {
-        const els = document.querySelector(el)
-        if (!els) return false
-        document.documentElement.style.setProperty('--el-menu-bg-color', document.documentElement.style.getPropertyValue('--next-bg-menuBar'))
-        if (bool) els.setAttribute('style', `background:linear-gradient(to bottom left , ${color}, ${getLightColor(color, 0.6)}) !important;`)
-        else els.setAttribute('style', '')
-        setLocalThemeConfig()
-    }, 200)
-}
-// 3、界面设置 --> 菜单水平折叠
-const onThemeConfigChange = () => {
-    setDispatchThemeConfig()
-}
-// 3、界面设置 --> 固定 Header
-const onIsFixedHeaderChange = () => {
-    getThemeConfig.value.isFixedHeaderChange = !getThemeConfig.value.isFixedHeader
-    setLocalThemeConfig()
-}
-// 3、界面设置 --> 经典布局分割菜单
-const onClassicSplitMenuChange = () => {
-    getThemeConfig.value.isBreadcrumb = false
-    setLocalThemeConfig()
-    setFilterRouteBus.emit()
-}
-// 4、界面显示 --> 侧边栏 Logo
-const onIsShowLogoChange = () => {
-    getThemeConfig.value.isShowLogoChange = !getThemeConfig.value.isShowLogo
-    setLocalThemeConfig()
-}
-// 4、界面显示 --> 面包屑 Breadcrumb
-const onIsBreadcrumbChange = () => {
-    if (getThemeConfig.value.layout === 'classic') {
-        getThemeConfig.value.isClassicSplitMenu = false
-    }
-    setLocalThemeConfig()
-}
-// 4、界面显示 --> 开启 TagsView 拖拽
-const onSortableTagsViewChange = () => {
-    openOrCloseSortableBus.emit()
-    setLocalThemeConfig()
-}
-// 4、界面显示 --> 开启 TagsView 共用
-const onShareTagsViewChange = () => {
-    openShareTagsViewBus.emit()
-    setLocalThemeConfig()
-}
-// 4、界面显示 --> 灰色模式/色弱模式
-const onAddFilterChange = (attr: string) => {
-    if (attr === 'grayscale') {
-        if (getThemeConfig.value.isGrayscale) getThemeConfig.value.isInvert = false
-    } else {
-        if (getThemeConfig.value.isInvert) getThemeConfig.value.isGrayscale = false
-    }
-    const cssAttr
-        = attr === 'grayscale' ? `grayscale(${getThemeConfig.value.isGrayscale ? 1 : 0})` : `invert(${getThemeConfig.value.isInvert ? '80%' : '0%'})`
-    const appEle: any = document.body
-    appEle.setAttribute('style', `filter: ${cssAttr}`)
-    setLocalThemeConfig()
-}
-// 4、界面显示 --> 深色模式
-const onAddDarkChange = () => {
-    const body = document.documentElement as HTMLElement
-    if (getThemeConfig.value.isIsDark) body.setAttribute('data-theme', 'dark')
-    else body.setAttribute('data-theme', '')
-}
-// 4、界面显示 --> 开启水印
-const onWaterMarkChange = () => {
-    getThemeConfig.value.isWaterMark ? Watermark.set(getThemeConfig.value.WaterMarkText) : Watermark.del()
-    setLocalThemeConfig()
-}
-// 4、界面显示 --> 水印文案
-const onWaterMarkTextInput = (val: any) => {
-    getThemeConfig.value.WaterMarkText = verifyAndSpace(val)
-    if (getThemeConfig.value.WaterMarkText === '') return false
-    if (getThemeConfig.value.isWaterMark) Watermark.set(getThemeConfig.value.WaterMarkText)
-    setLocalThemeConfig()
-}
-// 5、布局切换
-const onSetLayout = (layout: MainLayoutType) => {
-    Local.set('oldLayout', layout)
-    if (getThemeConfig.value.layout === layout) return false
-    if (layout === 'transverse') getThemeConfig.value.isCollapse = false
-    getThemeConfig.value.layout = layout
-    getThemeConfig.value.isDrawer = false
-    initLayoutChangeFun()
-}
-// 设置布局切换函数
-const initLayoutChangeFun = () => {
-    onBgColorPickerChange('menuBar')
-    onBgColorPickerChange('menuBarColor')
-    onBgColorPickerChange('topBar')
-    onBgColorPickerChange('topBarColor')
-    onBgColorPickerChange('columnsMenuBar')
-    onBgColorPickerChange('columnsMenuBarColor')
-}
-// 关闭弹窗时，初始化变量。变量用于处理 proxy.$refs.layoutScrollbarRef.update()
-const onDrawerClose = () => {
-    getThemeConfig.value.isFixedHeaderChange = false
-    getThemeConfig.value.isShowLogoChange = false
-    getThemeConfig.value.isDrawer = false
-    setLocalThemeConfig()
-}
-// 布局配置弹窗打开
-const openDrawer = () => {
-    getThemeConfig.value.isDrawer = true
-}
-// 触发 store 布局配置更新
-const setDispatchThemeConfig = () => {
-    setLocalThemeConfig()
-    setLocalThemeConfigStyle()
-}
-// 存储布局配置
-const setLocalThemeConfig = () => {
-    Local.remove('themeConfig')
-    Local.set('themeConfig', getThemeConfig.value)
-}
-// 存储布局配置全局主题样式（html根标签）
-const setLocalThemeConfigStyle = () => {
-    Local.set('themeConfigStyle', document.documentElement.style.cssText)
-}
-// 一键复制配置
-const onCopyConfigClick = () => {
-    const copyThemeConfig = Local.get('themeConfig')
-    copyThemeConfig.isDrawer = false
-    copyText(JSON.stringify(copyThemeConfig)).then(() => {
-        getThemeConfig.value.isDrawer = false
-    })
-}
-// 一键恢复默认
-const onResetConfigClick = () => {
-    Local.clear()
-    window.location.reload()
-}
-// 初始化菜单样式等
-const initSetStyle = () => {
-    // 2、菜单 / 顶栏 --> 顶栏背景渐变
-    onTopBarGradualChange()
-    // 2、菜单 / 顶栏 --> 菜单背景渐变
-    onMenuBarGradualChange()
-    // 2、菜单 / 顶栏 --> 分栏菜单背景渐变
-    onColumnsMenuBarGradualChange()
-}
-onMounted(() => {
-    nextTick(() => {
-        // 判断当前布局是否不相同，不相同则初始化当前布局的样式，防止监听窗口大小改变时，布局配置logo、菜单背景等部分布局失效问题
-        if (!Local.get('frequency')) initLayoutChangeFun()
-        Local.set('frequency', 1)
-        // 监听窗口大小改变，非默认布局，设置成默认布局（适配移动端）
-        layoutResizeBus.on((res) => {
-            getThemeConfig.value.layout = res.layout
-            getThemeConfig.value.isDrawer = false
-            initLayoutChangeFun()
-            state.isMobile = isMobile()
-        })
-        setTimeout(() => {
-            // 默认样式
-            onColorPickerChange()
-            // 灰色模式
-            if (getThemeConfig.value.isGrayscale) onAddFilterChange('grayscale')
-            // 色弱模式
-            if (getThemeConfig.value.isInvert) onAddFilterChange('invert')
-            // 深色模式
-            if (getThemeConfig.value.isIsDark) onAddDarkChange()
-            // 开启水印
-            onWaterMarkChange()
-            // 初始化菜单样式等
-            initSetStyle()
-        }, 100)
-    })
-})
-
-defineExpose({
-    openDrawer,
-})
-</script>
 
 <style scoped lang="scss">
 .layout-breadcrumb-setting-bar {

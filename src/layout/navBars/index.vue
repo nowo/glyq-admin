@@ -1,10 +1,3 @@
-<template>
-    <div class="layout-navbar-container">
-        <BreadcrumbIndex />
-        <TagsView v-if="setShowTagsView" />
-    </div>
-</template>
-
 <script lang="ts" setup>
 import { computed } from 'vue'
 import { storeToRefs } from 'pinia'
@@ -20,6 +13,13 @@ const setShowTagsView = computed(() => {
     return layout !== 'classic' && isTagsView
 })
 </script>
+
+<template>
+    <div class="layout-navbar-container">
+        <BreadcrumbIndex />
+        <TagsView v-if="setShowTagsView" />
+    </div>
+</template>
 
 <style scoped lang="scss">
 .layout-navbar-container {

@@ -1,46 +1,3 @@
-<template>
-    <my-box v-loading="defData.loading">
-        <my-form-tool :data="searchData" inline @submit.prevent="onSearch">
-            <template #type="{ row }">
-                <el-select v-model="row.type" clearable filterable>
-                    <el-option v-for="item in defData.menuData" :key="item.id" :label="item.title" :value="item.id" />
-                </el-select>
-            </template>
-            <el-button type="success" @click="onOpenAdd()">
-                <i class="i-ep-plus mr5px" />
-                新增{{ props.title }}
-            </el-button>
-        </my-form-tool>
-        <MyTable v-model:page="tableData.pagination" v-model:table-header="tableData.tableHeader" class="jm-box table-box"
-            :data="tableData.data" @update:page="onHandleCurrentChange">
-            <template #img="{ scopes }">
-                <co-image :src="scopes.row.img" :icon-size="28" :preview-src-list="[scopes.row.img]" preview-teleported
-                    fit="contain" class="ma h50px w60px block!" />
-            </template>
-            <template #type="{ scopes }">
-                {{ getGoodsTypeName(scopes.row) }}
-            </template>
-            <template #isHide="{ scopes }">
-                <el-tag v-if="scopes.row.isHide" type="info">
-                    否
-                </el-tag>
-                <el-tag v-else type="">
-                    是
-                </el-tag>
-            </template>
-            <template #operate="{ scopes }">
-                <el-button size="small" text type="primary" @click.stop="onOpenEdit(scopes.row)">
-                    修改
-                </el-button>
-                <el-button size="small" text type="primary" @click.stop="onRowDel(scopes.row)">
-                    删除
-                </el-button>
-            </template>
-        </MyTable>
-        <NewsModel ref="modelRef" v-bind="props" :list="defData.menuData" @update="initTableData" />
-    </my-box>
-</template>
-
 <script lang="ts" setup>
 import NewsModel from './NewsModel.vue'
 import { PAGINATION } from '@/config/global'
@@ -172,6 +129,49 @@ onBeforeMount(() => {
     initTableData()
 })
 </script>
+
+<template>
+    <my-box v-loading="defData.loading">
+        <my-form-tool :data="searchData" inline @submit.prevent="onSearch">
+            <template #type="{ row }">
+                <el-select v-model="row.type" clearable filterable>
+                    <el-option v-for="item in defData.menuData" :key="item.id" :label="item.title" :value="item.id" />
+                </el-select>
+            </template>
+            <el-button type="success" @click="onOpenAdd()">
+                <i class="i-ep-plus mr5px" />
+                新增{{ props.title }}
+            </el-button>
+        </my-form-tool>
+        <MyTable v-model:page="tableData.pagination" v-model:table-header="tableData.tableHeader" class="jm-box table-box"
+            :data="tableData.data" @update:page="onHandleCurrentChange">
+            <template #img="{ scopes }">
+                <co-image :src="scopes.row.img" :icon-size="28" :preview-src-list="[scopes.row.img]" preview-teleported
+                    fit="contain" class="ma h50px w60px block!" />
+            </template>
+            <template #type="{ scopes }">
+                {{ getGoodsTypeName(scopes.row) }}
+            </template>
+            <template #isHide="{ scopes }">
+                <el-tag v-if="scopes.row.isHide" type="info">
+                    否
+                </el-tag>
+                <el-tag v-else type="">
+                    是
+                </el-tag>
+            </template>
+            <template #operate="{ scopes }">
+                <el-button size="small" text type="primary" @click.stop="onOpenEdit(scopes.row)">
+                    修改
+                </el-button>
+                <el-button size="small" text type="primary" @click.stop="onRowDel(scopes.row)">
+                    删除
+                </el-button>
+            </template>
+        </MyTable>
+        <NewsModel ref="modelRef" v-bind="props" :list="defData.menuData" @update="initTableData" />
+    </my-box>
+</template>
 
 <style lang="scss" scoped>
 .table-box {

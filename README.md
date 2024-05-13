@@ -26,7 +26,6 @@
 
 基于 vue3.x + CompositionAPI + typescript + vite + element plus + vue-router-next + pinia + vueuse，后台前端项目代码。
 
-
 #### 🚧 安装 cnpm、yarn
 
 - 复制代码(桌面 cmd 运行) `npm install -g cnpm --registry=https://registry.npm.taobao.org`

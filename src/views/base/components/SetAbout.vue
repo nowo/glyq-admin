@@ -1,41 +1,3 @@
-<template>
-    <el-form ref="formRef" :model="form.data" :rules="rules" class="p20px" label-position="top">
-        <!-- <el-tabs v-model="lang">
-            <el-tab-pane label="中文" name="cn" />
-            <el-tab-pane label="英文" name="en" />
-        </el-tabs> -->
-        <el-row>
-            <el-col :xs="24" :sm="24" :md="24" :lg="20" :xl="16" class="mb18px">
-                <el-form-item prop="img" label="图片：">
-                    <UploadFile v-model="form.data.img" />
-                </el-form-item>
-            </el-col>
-
-            <el-col :xs="24" :sm="24" :md="24" :lg="20" :xl="16" class="mb18px">
-                <el-form-item prop="content" label="描述信息：">
-                    <BaseWangEditor v-model="form.data.content" />
-                </el-form-item>
-            </el-col>
-            <el-col :xs="24" :sm="24" :md="24" :lg="20" :xl="16" class="mb18px">
-                <el-form-item prop="content_en" label="英文描述信息：">
-                    <BaseWangEditor v-model="form.data.content_en" />
-                </el-form-item>
-            </el-col>
-
-            <el-col :xs="24" :sm="24" :md="24" :lg="24" :xl="24" class="mb18px">
-                <el-form-item>
-                    <el-button type="primary" :loading="btnLoading" @click="onSubmit">
-                        确定
-                    </el-button>
-                    <el-button @click="resetForm">
-                        重置
-                    </el-button>
-                </el-form-item>
-            </el-col>
-        </el-row>
-    </el-form>
-</template>
-
 <script setup lang="ts">
 import type { FormInstance, FormRules } from 'element-plus'
 import { getOtherInfo, setOtherInfoUpdate } from '@/api/list'
@@ -122,5 +84,43 @@ onBeforeMount(() => {
     initDefaultData()
 })
 </script>
+
+<template>
+    <el-form ref="formRef" :model="form.data" :rules="rules" class="p20px" label-position="top">
+        <!-- <el-tabs v-model="lang">
+            <el-tab-pane label="中文" name="cn" />
+            <el-tab-pane label="英文" name="en" />
+        </el-tabs> -->
+        <el-row>
+            <el-col :xs="24" :sm="24" :md="24" :lg="20" :xl="16" class="mb18px">
+                <el-form-item prop="img" label="图片：">
+                    <UploadFile v-model="form.data.img" />
+                </el-form-item>
+            </el-col>
+
+            <el-col :xs="24" :sm="24" :md="24" :lg="20" :xl="16" class="mb18px">
+                <el-form-item prop="content" label="描述信息：">
+                    <BaseWangEditor v-model="form.data.content" />
+                </el-form-item>
+            </el-col>
+            <el-col :xs="24" :sm="24" :md="24" :lg="20" :xl="16" class="mb18px">
+                <el-form-item prop="content_en" label="英文描述信息：">
+                    <BaseWangEditor v-model="form.data.content_en" />
+                </el-form-item>
+            </el-col>
+
+            <el-col :xs="24" :sm="24" :md="24" :lg="24" :xl="24" class="mb18px">
+                <el-form-item>
+                    <el-button type="primary" :loading="btnLoading" @click="onSubmit">
+                        确定
+                    </el-button>
+                    <el-button @click="resetForm">
+                        重置
+                    </el-button>
+                </el-form-item>
+            </el-col>
+        </el-row>
+    </el-form>
+</template>
 
 <style lang="scss" scoped></style>

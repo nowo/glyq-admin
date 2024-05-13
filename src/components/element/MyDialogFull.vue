@@ -1,12 +1,3 @@
-<template>
-    <span class="el-dialog__title">
-        {{ props.text }}
-    </span>
-    <button v-if="!props.hidden" class="dialog-full el-dialog__headerbtn" @click="onToggle">
-        <SvgIcon class="el-dialog__close" :class="{ active: iconName === 'ele-CopyDocument' }" :name="iconName" />
-    </button>
-</template>
-
 <script lang="ts" setup>
 import { computed, reactive } from 'vue'
 
@@ -43,6 +34,15 @@ const onToggle = () => {
     emits('update:fullscreen', defData.fullscreen)
 }
 </script>
+
+<template>
+    <span class="el-dialog__title">
+        {{ props.text }}
+    </span>
+    <button v-if="!props.hidden" class="dialog-full el-dialog__headerbtn" @click="onToggle">
+        <SvgIcon class="el-dialog__close" :class="{ active: iconName === 'ele-CopyDocument' }" :name="iconName" />
+    </button>
+</template>
 
 <style lang="scss" scoped>
 .dialog-full {

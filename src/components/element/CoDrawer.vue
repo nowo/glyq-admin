@@ -1,22 +1,3 @@
-<template>
-    <el-drawer v-model="visible" v-bind="$attrs" @close="onClose">
-        <template #header>
-            <h3>{{ props.title }}</h3>
-        </template>
-        <template #default>
-            <slot />
-        </template>
-        <template v-if="!props.noFooter" #footer>
-            <el-button @click="onCancel">
-                取 消
-            </el-button>
-            <el-button type="primary" :loading="props.loading" @click="onConfirm">
-                确 定
-            </el-button>
-        </template>
-    </el-drawer>
-</template>
-
 <script lang="ts" setup>
 import { computed, reactive } from 'vue'
 
@@ -90,3 +71,22 @@ const onConfirm = () => {
     // visible.value = false
 }
 </script>
+
+<template>
+    <el-drawer v-model="visible" v-bind="$attrs" @close="onClose">
+        <template #header>
+            <h3>{{ props.title }}</h3>
+        </template>
+        <template #default>
+            <slot />
+        </template>
+        <template v-if="!props.noFooter" #footer>
+            <el-button @click="onCancel">
+                取 消
+            </el-button>
+            <el-button type="primary" :loading="props.loading" @click="onConfirm">
+                确 定
+            </el-button>
+        </template>
+    </el-drawer>
+</template>

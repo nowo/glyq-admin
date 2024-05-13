@@ -1,42 +1,8 @@
-<template>
-    <co-drawer v-model="defData.visible" :title="comData.title" size="40%" :loading="btnLoading" @close="onClose"
-        @cancel="onClose" @confirm="onConfirm">
-        <el-form ref="formRef" :model="form.data" :rules="rules" label-width="110px">
-            <!-- <el-tabs v-model="lang" class="-mt15px">
-                <el-tab-pane label="中文" name="cn" />
-                <el-tab-pane label="英文" name="en" />
-            </el-tabs> -->
-
-            <el-form-item label="上级菜单" prop="p_id">
-                <my-cascader v-model="form.data.p_id" class="w100%" :options="defData.routeArr"
-                    :props="{ checkStrictly: true, value: 'id', label: 'title', disabled: 'disabled' }"
-                    placeholder="请选择上级菜单" />
-            </el-form-item>
-            <el-form-item label="菜单名称" prop="title">
-                <el-input v-model="form.data.title" maxlength="20" placeholder="请输入菜单名称" clearable />
-            </el-form-item>
-
-            <el-form-item label="英文菜单名称" prop="title_en">
-                <el-input v-model="form.data.title_en" maxlength="30" placeholder="请输入英文菜单名称" clearable />
-            </el-form-item>
-            <el-form-item label="链接地址" prop="href">
-                <el-input v-model="form.data.href" maxlength="200" placeholder="" clearable
-                    :disabled="defData.type === 2" />
-            </el-form-item>
-            <el-form-item label="排序">
-                <el-input-number v-model="form.data.sort" :min="0" :max="10000" controls-position="right" placeholder=""
-                    class="w100%" />
-            </el-form-item>
-        </el-form>
-    </co-drawer>
-</template>
-
 <script lang="ts" setup>
 import type { FormInstance, FormRules } from 'element-plus'
-import { MainPage } from '@/router/layout'
 import { deepClone } from '@/utils/other'
-import { getParentId, setDisableTree } from '@/utils/common/tree'
-import { formErrorMessage, verifyFormData } from '@/utils/element/form'
+import { setDisableTree } from '@/utils/common/tree'
+import { verifyFormData } from '@/utils/element/form'
 import { MenuApi } from '@/api/system/menu'
 import { useLoadingSubmit } from '@/hooks/useLoadingSubmit'
 
@@ -184,5 +150,38 @@ defineExpose({
     openDialog,
 })
 </script>
+
+<template>
+    <co-drawer v-model="defData.visible" :title="comData.title" size="40%" :loading="btnLoading" @close="onClose"
+        @cancel="onClose" @confirm="onConfirm">
+        <el-form ref="formRef" :model="form.data" :rules="rules" label-width="110px">
+            <!-- <el-tabs v-model="lang" class="-mt15px">
+                <el-tab-pane label="中文" name="cn" />
+                <el-tab-pane label="英文" name="en" />
+            </el-tabs> -->
+
+            <el-form-item label="上级菜单" prop="p_id">
+                <my-cascader v-model="form.data.p_id" class="w100%" :options="defData.routeArr"
+                    :props="{ checkStrictly: true, value: 'id', label: 'title', disabled: 'disabled' }"
+                    placeholder="请选择上级菜单" />
+            </el-form-item>
+            <el-form-item label="菜单名称" prop="title">
+                <el-input v-model="form.data.title" maxlength="20" placeholder="请输入菜单名称" clearable />
+            </el-form-item>
+
+            <el-form-item label="英文菜单名称" prop="title_en">
+                <el-input v-model="form.data.title_en" maxlength="30" placeholder="请输入英文菜单名称" clearable />
+            </el-form-item>
+            <el-form-item label="链接地址" prop="href">
+                <el-input v-model="form.data.href" maxlength="200" placeholder="" clearable
+                    :disabled="defData.type === 2" />
+            </el-form-item>
+            <el-form-item label="排序">
+                <el-input-number v-model="form.data.sort" :min="0" :max="10000" controls-position="right" placeholder=""
+                    class="w100%" />
+            </el-form-item>
+        </el-form>
+    </co-drawer>
+</template>
 
 <style lang="scss" scoped></style>

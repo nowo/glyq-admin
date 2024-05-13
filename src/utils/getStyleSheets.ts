@@ -100,7 +100,7 @@ export const initIconfont = {
 /**
  * @function 获取去css图标的class类名
  * @param {string} prefix 区分字体图标的前缀,例如：.icon-
- * @param {string} [fullIcon=''] 是否需要图标的class全名,例如：iconfont
+ * @param {string} [fullIcon] 是否需要图标的class全名,例如：iconfont
  * @returns {string[]}
  * @example initIcon(".icon-","iconfont").then((res)=>{//res;})
  */

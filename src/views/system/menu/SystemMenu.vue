@@ -1,33 +1,3 @@
-<template>
-    <my-box v-loading="defData.loading">
-        <my-form-tool :data="searchData" inline @submit.prevent="onSearch">
-            <el-button type="success" @click="onOpenAddMenu('')">
-                <el-icon>
-                    <ele-FolderAdd />
-                </el-icon>
-                新增菜单
-            </el-button>
-        </my-form-tool>
-        <MyTable ref="myTableRef" v-model:page="tableData.pagination" v-model:table-header="tableData.tableHeader"
-            class="jm-box table-box" :data="tableData.data" :row-class-name="setRowClassName" row-key="id"
-            :tree-props="{ children: 'children', hasChildren: 'hasChildren' }" :default-expand-all="defData.expand"
-            @update:page="onHandleCurrentChange" @row-click="rowClick">
-            <template #operate="{ scopes }">
-                <el-button size="small" text type="primary" @click.stop="onOpenAddMenu(scopes.row)">
-                    新增
-                </el-button>
-                <el-button size="small" text type="primary" @click.stop="onOpenEditMenu(scopes.row)">
-                    修改
-                </el-button>
-                <el-button size="small" text type="primary" @click.stop="onRowDel(scopes.row)">
-                    删除
-                </el-button>
-            </template>
-        </MyTable>
-        <MenuModel ref="modelRef" :data="defData.menuData" @update="initTableData" />
-    </my-box>
-</template>
-
 <script lang="ts" setup>
 import MenuModel from '@/views/system/menu/components/MenuModel.vue'
 import { PAGINATION } from '@/config/global'
@@ -149,6 +119,36 @@ onBeforeMount(() => {
     initTableData()
 })
 </script>
+
+<template>
+    <my-box v-loading="defData.loading">
+        <my-form-tool :data="searchData" inline @submit.prevent="onSearch">
+            <el-button type="success" @click="onOpenAddMenu('')">
+                <el-icon>
+                    <ele-FolderAdd />
+                </el-icon>
+                新增菜单
+            </el-button>
+        </my-form-tool>
+        <MyTable ref="myTableRef" v-model:page="tableData.pagination" v-model:table-header="tableData.tableHeader"
+            class="jm-box table-box" :data="tableData.data" :row-class-name="setRowClassName" row-key="id"
+            :tree-props="{ children: 'children', hasChildren: 'hasChildren' }" :default-expand-all="defData.expand"
+            @update:page="onHandleCurrentChange" @row-click="rowClick">
+            <template #operate="{ scopes }">
+                <el-button size="small" text type="primary" @click.stop="onOpenAddMenu(scopes.row)">
+                    新增
+                </el-button>
+                <el-button size="small" text type="primary" @click.stop="onOpenEditMenu(scopes.row)">
+                    修改
+                </el-button>
+                <el-button size="small" text type="primary" @click.stop="onRowDel(scopes.row)">
+                    删除
+                </el-button>
+            </template>
+        </MyTable>
+        <MenuModel ref="modelRef" :data="defData.menuData" @update="initTableData" />
+    </my-box>
+</template>
 
 <style lang="scss" scoped>
 .table-box {

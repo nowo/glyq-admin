@@ -1,48 +1,6 @@
-<template>
-    <co-drawer v-model="defData.visible" :title="comData.title" size="40%" :loading="btnLoading" @close="onClose"
-        @cancel="onClose" @confirm="onConfirm">
-        <el-form ref="formRef" :model="form.data" :rules="rules" label-width="110px">
-            <el-form-item label="标题" prop="title">
-                <el-input v-model="form.data.title" maxlength="20" placeholder="请输入标题" clearable />
-            </el-form-item>
-
-            <el-form-item label="英文标题" prop="title_en">
-                <el-input v-model="form.data.title_en" maxlength="30" placeholder="请输入英文标题" clearable />
-            </el-form-item>
-
-            <el-form-item label="图片" prop="img">
-                <UploadFile v-model="form.data.img" />
-            </el-form-item>
-
-            <el-form-item label="链接地址" prop="href">
-                <el-input v-model="form.data.href" maxlength="200" placeholder="" clearable />
-            </el-form-item>
-
-            <el-form-item label="排序" prop="sort">
-                <el-input-number v-model="form.data.sort" :min="0" :max="10000" controls-position="right" placeholder=""
-                    class="w100%" />
-            </el-form-item>
-            <el-form-item label="是否隐藏" prop="isHide">
-                <el-radio-group v-model="form.data.isHide">
-                    <el-radio :label="true">
-                        是
-                    </el-radio>
-                    <el-radio :label="false">
-                        否
-                    </el-radio>
-                </el-radio-group>
-            </el-form-item>
-        </el-form>
-    </co-drawer>
-</template>
-
 <script lang="ts" setup>
 import type { FormInstance, FormRules } from 'element-plus'
-import { MainPage } from '@/router/layout'
-import { deepClone } from '@/utils/other'
-import { getParentId, setDisableTree } from '@/utils/common/tree'
-import { formErrorMessage, verifyFormData } from '@/utils/element/form'
-import { MenuApi } from '@/api/system/menu'
+import { verifyFormData } from '@/utils/element/form'
 import { useLoadingSubmit } from '@/hooks/useLoadingSubmit'
 import { setBannerAdd, setBannerUpdate } from '@/api/list'
 
@@ -184,6 +142,44 @@ defineExpose({
     openDialog,
 })
 </script>
+
+<template>
+    <co-drawer v-model="defData.visible" :title="comData.title" size="40%" :loading="btnLoading" @close="onClose"
+        @cancel="onClose" @confirm="onConfirm">
+        <el-form ref="formRef" :model="form.data" :rules="rules" label-width="110px">
+            <el-form-item label="标题" prop="title">
+                <el-input v-model="form.data.title" maxlength="20" placeholder="请输入标题" clearable />
+            </el-form-item>
+
+            <el-form-item label="英文标题" prop="title_en">
+                <el-input v-model="form.data.title_en" maxlength="30" placeholder="请输入英文标题" clearable />
+            </el-form-item>
+
+            <el-form-item label="图片" prop="img">
+                <UploadFile v-model="form.data.img" />
+            </el-form-item>
+
+            <el-form-item label="链接地址" prop="href">
+                <el-input v-model="form.data.href" maxlength="200" placeholder="" clearable />
+            </el-form-item>
+
+            <el-form-item label="排序" prop="sort">
+                <el-input-number v-model="form.data.sort" :min="0" :max="10000" controls-position="right" placeholder=""
+                    class="w100%" />
+            </el-form-item>
+            <el-form-item label="是否隐藏" prop="isHide">
+                <el-radio-group v-model="form.data.isHide">
+                    <el-radio :label="true">
+                        是
+                    </el-radio>
+                    <el-radio :label="false">
+                        否
+                    </el-radio>
+                </el-radio-group>
+            </el-form-item>
+        </el-form>
+    </co-drawer>
+</template>
 
 <style lang="scss" scoped>
 .comp-box {

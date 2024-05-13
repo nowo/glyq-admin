@@ -1,33 +1,3 @@
-<template>
-    <co-drawer v-model:visible="defData.visible" :loading="btnLoading" auto-height hidden :title="comData.title" size="30%"
-        @close="onClose" @cancel="onClose" @confirm="onConfirm">
-        <!-- class="dialog-flex" -->
-        <el-form ref="formRef" class="pr5px" :model="form.data" :rules="rules" label-width="85px">
-            <el-form-item label="用户名称" prop="name">
-                <el-input v-model="form.data.name" class="w100%" placeholder="请输入用户名称" maxlength="20" clearable />
-            </el-form-item>
-
-            <el-form-item label="登录账号" prop="account">
-                <el-input v-model="form.data.account" class="w100%" placeholder="请输入登录账号" maxlength="20" clearable />
-            </el-form-item>
-
-            <el-form-item v-if="defData.type === 1" label="登录密码" prop="password">
-                <el-input v-model="form.data.password" class="w100%" placeholder="请输入登录密码" maxlength="20" clearable
-                    show-password />
-            </el-form-item>
-            <el-form-item v-else label="登录密码" prop="new_password">
-                <el-input v-model="form.data.new_password" class="w100%" placeholder="请输入登录密码" maxlength="20" show-password
-                    clearable />
-            </el-form-item>
-
-            <el-form-item label="状态" prop="status">
-                <el-switch v-model="form.data.status" inline-prompt active-text="启" inactive-text="禁" :active-value="1"
-                    :inactive-value="2" />
-            </el-form-item>
-        </el-form>
-    </co-drawer>
-</template>
-
 <script lang="ts" setup>
 import { computed, onMounted, reactive, ref } from 'vue'
 import type { FormInstance, FormRules } from 'element-plus'
@@ -181,5 +151,35 @@ defineExpose({
     openDialog,
 })
 </script>
+
+<template>
+    <co-drawer v-model:visible="defData.visible" :loading="btnLoading" auto-height hidden :title="comData.title" size="30%"
+        @close="onClose" @cancel="onClose" @confirm="onConfirm">
+        <!-- class="dialog-flex" -->
+        <el-form ref="formRef" class="pr5px" :model="form.data" :rules="rules" label-width="85px">
+            <el-form-item label="用户名称" prop="name">
+                <el-input v-model="form.data.name" class="w100%" placeholder="请输入用户名称" maxlength="20" clearable />
+            </el-form-item>
+
+            <el-form-item label="登录账号" prop="account">
+                <el-input v-model="form.data.account" class="w100%" placeholder="请输入登录账号" maxlength="20" clearable />
+            </el-form-item>
+
+            <el-form-item v-if="defData.type === 1" label="登录密码" prop="password">
+                <el-input v-model="form.data.password" class="w100%" placeholder="请输入登录密码" maxlength="20" clearable
+                    show-password />
+            </el-form-item>
+            <el-form-item v-else label="登录密码" prop="new_password">
+                <el-input v-model="form.data.new_password" class="w100%" placeholder="请输入登录密码" maxlength="20" show-password
+                    clearable />
+            </el-form-item>
+
+            <el-form-item label="状态" prop="status">
+                <el-switch v-model="form.data.status" inline-prompt active-text="启" inactive-text="禁" :active-value="1"
+                    :inactive-value="2" />
+            </el-form-item>
+        </el-form>
+    </co-drawer>
+</template>
 
 <style lang="scss" scoped></style>

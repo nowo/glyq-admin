@@ -1,41 +1,3 @@
-<template>
-    <my-dialog v-model:visible="defData.visible" :loading="btnLoading" auto-height hidden :title="comData.title"
-        width="680px" @close="onClose" @cancel="onClose" @confirm="onConfirm">
-        <!-- class="dialog-flex" -->
-        <el-form ref="formRef" :model="form.data" :rules="rules" label-width="90px">
-            <el-row>
-                <el-col :xs="24" :sm="16" :md="16" :lg="16" :xl="16" class="mb20px">
-                    <el-form-item label="用户名称" prop="name">
-                        <el-input v-model="form.data.name" class="w100%" placeholder="请输入用户名称" maxlength="20" clearable />
-                    </el-form-item>
-                </el-col>
-                <el-col :xs="24" :sm="16" :md="16" :lg="16" :xl="16" class="mb20px">
-                    <el-form-item label="登录账号" prop="account">
-                        <el-input v-model="form.data.account" class="w100%" placeholder="请输入登录账号" maxlength="20"
-                            clearable />
-                    </el-form-item>
-                </el-col>
-                <el-col :xs="24" :sm="16" :md="16" :lg="16" :xl="16" class="mb20px">
-                    <el-form-item v-if="defData.type === 1" label="登录密码" prop="password">
-                        <el-input v-model="form.data.password" class="w100%" placeholder="请输入登录密码" maxlength="20"
-                            show-password clearable />
-                    </el-form-item>
-                    <el-form-item v-else label="登录密码" prop="new_password">
-                        <el-input v-model="form.data.new_password" class="w100%" placeholder="请输入登录密码" maxlength="20"
-                            show-password clearable />
-                    </el-form-item>
-                </el-col>
-                <el-col :xs="24" :sm="24" :md="24" :lg="24" :xl="24" class="mb20px">
-                    <el-form-item label="状态" prop="status">
-                        <el-switch v-model="form.data.status" inline-prompt active-text="启" inactive-text="禁"
-                            :active-value="1" :inactive-value="2" />
-                    </el-form-item>
-                </el-col>
-            </el-row>
-        </el-form>
-    </my-dialog>
-</template>
-
 <script lang="ts" setup>
 import { computed, onMounted, reactive, ref } from 'vue'
 import type { FormInstance, FormRules } from 'element-plus'
@@ -189,5 +151,43 @@ defineExpose({
     openDialog,
 })
 </script>
+
+<template>
+    <my-dialog v-model:visible="defData.visible" :loading="btnLoading" auto-height hidden :title="comData.title"
+        width="680px" @close="onClose" @cancel="onClose" @confirm="onConfirm">
+        <!-- class="dialog-flex" -->
+        <el-form ref="formRef" :model="form.data" :rules="rules" label-width="90px">
+            <el-row>
+                <el-col :xs="24" :sm="16" :md="16" :lg="16" :xl="16" class="mb20px">
+                    <el-form-item label="用户名称" prop="name">
+                        <el-input v-model="form.data.name" class="w100%" placeholder="请输入用户名称" maxlength="20" clearable />
+                    </el-form-item>
+                </el-col>
+                <el-col :xs="24" :sm="16" :md="16" :lg="16" :xl="16" class="mb20px">
+                    <el-form-item label="登录账号" prop="account">
+                        <el-input v-model="form.data.account" class="w100%" placeholder="请输入登录账号" maxlength="20"
+                            clearable />
+                    </el-form-item>
+                </el-col>
+                <el-col :xs="24" :sm="16" :md="16" :lg="16" :xl="16" class="mb20px">
+                    <el-form-item v-if="defData.type === 1" label="登录密码" prop="password">
+                        <el-input v-model="form.data.password" class="w100%" placeholder="请输入登录密码" maxlength="20"
+                            show-password clearable />
+                    </el-form-item>
+                    <el-form-item v-else label="登录密码" prop="new_password">
+                        <el-input v-model="form.data.new_password" class="w100%" placeholder="请输入登录密码" maxlength="20"
+                            show-password clearable />
+                    </el-form-item>
+                </el-col>
+                <el-col :xs="24" :sm="24" :md="24" :lg="24" :xl="24" class="mb20px">
+                    <el-form-item label="状态" prop="status">
+                        <el-switch v-model="form.data.status" inline-prompt active-text="启" inactive-text="禁"
+                            :active-value="1" :inactive-value="2" />
+                    </el-form-item>
+                </el-col>
+            </el-row>
+        </el-form>
+    </my-dialog>
+</template>
 
 <style lang="scss" scoped></style>

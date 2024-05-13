@@ -1,66 +1,3 @@
-<template>
-    <co-drawer v-model="defData.visible" :title="comData.title" size="60%" :loading="btnLoading" @close="onClose"
-        @cancel="onClose" @confirm="onConfirm">
-        <el-form ref="formRef" :model="form.data" :rules="rules" label-width="110px">
-            <el-tabs v-model="lang" class="-mt15px">
-                <el-tab-pane label="中文" name="cn" />
-                <el-tab-pane label="英文" name="en" />
-            </el-tabs>
-
-            <el-form-item v-if="lang === 'cn'" label="标题" prop="title">
-                <el-input v-model="form.data.title" maxlength="20" placeholder="请输入标题" clearable />
-            </el-form-item>
-            <el-form-item v-else-if="lang === 'en'" label="英文标题" prop="title_en">
-                <el-input v-model="form.data.title_en" maxlength="30" placeholder="请输入英文标题" clearable />
-            </el-form-item>
-
-            <!-- <el-form-item label="发布者" prop="author">
-                <el-input v-model="form.data.author" maxlength="30" placeholder="请输入名称" clearable />
-            </el-form-item> -->
-            <el-form-item :label="`${props.title}图片`" prop="img">
-                <UploadFile v-model="form.data.img" />
-            </el-form-item>
-
-            <template v-if="lang === 'cn'">
-                <el-form-item label="简介" prop="describe">
-                    <el-input v-model="form.data.describe" type="textarea" maxlength="180" show-word-limit placeholder=""
-                        clearable />
-                </el-form-item>
-                <el-form-item label="详细内容" prop="content">
-                    <BaseWangEditor v-model="form.data.content" />
-                </el-form-item>
-            </template>
-            <template v-else-if="lang === 'en'">
-                <el-form-item label="英文简介" prop="describe_en">
-                    <el-input v-model="form.data.describe_en" type="textarea" maxlength="180" show-word-limit placeholder=""
-                        clearable />
-                </el-form-item>
-                <el-form-item label="英文详细内容" prop="content_en">
-                    <BaseWangEditor v-model="form.data.content_en" />
-                </el-form-item>
-            </template>
-            <el-form-item label="阅读量" prop="read">
-                <el-input-number v-model="form.data.read" :precision="0" :min="0" :max="10 ** 14"
-                    controls-position="right" />
-            </el-form-item>
-            <el-form-item label="首页推荐" prop="isHide">
-                <el-radio-group v-model="form.data.isHide">
-                    <el-radio :label="true">
-                        是
-                    </el-radio>
-                    <el-radio :label="false">
-                        否
-                    </el-radio>
-                </el-radio-group>
-            </el-form-item>
-            <el-form-item label="排序" prop="sort">
-                <el-input-number v-model="form.data.sort" :min="0" :max="10000" controls-position="right" placeholder=""
-                    class="w100%" />
-            </el-form-item>
-        </el-form>
-    </co-drawer>
-</template>
-
 <script lang="ts" setup>
 import type { FormInstance, FormRules } from 'element-plus'
 
@@ -222,5 +159,68 @@ defineExpose({
     openDialog,
 })
 </script>
+
+<template>
+    <co-drawer v-model="defData.visible" :title="comData.title" size="60%" :loading="btnLoading" @close="onClose"
+        @cancel="onClose" @confirm="onConfirm">
+        <el-form ref="formRef" :model="form.data" :rules="rules" label-width="110px">
+            <el-tabs v-model="lang" class="-mt15px">
+                <el-tab-pane label="中文" name="cn" />
+                <el-tab-pane label="英文" name="en" />
+            </el-tabs>
+
+            <el-form-item v-if="lang === 'cn'" label="标题" prop="title">
+                <el-input v-model="form.data.title" maxlength="20" placeholder="请输入标题" clearable />
+            </el-form-item>
+            <el-form-item v-else-if="lang === 'en'" label="英文标题" prop="title_en">
+                <el-input v-model="form.data.title_en" maxlength="30" placeholder="请输入英文标题" clearable />
+            </el-form-item>
+
+            <!-- <el-form-item label="发布者" prop="author">
+                <el-input v-model="form.data.author" maxlength="30" placeholder="请输入名称" clearable />
+            </el-form-item> -->
+            <el-form-item :label="`${props.title}图片`" prop="img">
+                <UploadFile v-model="form.data.img" />
+            </el-form-item>
+
+            <template v-if="lang === 'cn'">
+                <el-form-item label="简介" prop="describe">
+                    <el-input v-model="form.data.describe" type="textarea" maxlength="180" show-word-limit placeholder=""
+                        clearable />
+                </el-form-item>
+                <el-form-item label="详细内容" prop="content">
+                    <BaseWangEditor v-model="form.data.content" />
+                </el-form-item>
+            </template>
+            <template v-else-if="lang === 'en'">
+                <el-form-item label="英文简介" prop="describe_en">
+                    <el-input v-model="form.data.describe_en" type="textarea" maxlength="180" show-word-limit placeholder=""
+                        clearable />
+                </el-form-item>
+                <el-form-item label="英文详细内容" prop="content_en">
+                    <BaseWangEditor v-model="form.data.content_en" />
+                </el-form-item>
+            </template>
+            <el-form-item label="阅读量" prop="read">
+                <el-input-number v-model="form.data.read" :precision="0" :min="0" :max="10 ** 14"
+                    controls-position="right" />
+            </el-form-item>
+            <el-form-item label="首页推荐" prop="isHide">
+                <el-radio-group v-model="form.data.isHide">
+                    <el-radio :label="true">
+                        是
+                    </el-radio>
+                    <el-radio :label="false">
+                        否
+                    </el-radio>
+                </el-radio-group>
+            </el-form-item>
+            <el-form-item label="排序" prop="sort">
+                <el-input-number v-model="form.data.sort" :min="0" :max="10000" controls-position="right" placeholder=""
+                    class="w100%" />
+            </el-form-item>
+        </el-form>
+    </co-drawer>
+</template>
 
 <style lang="scss" scoped></style>

@@ -1,3 +1,14 @@
+<script lang="ts" setup>
+import { useRouter } from 'vue-router'
+import { Session } from '@/utils/storage'
+
+const router = useRouter()
+const onSetAuth = () => {
+    Session.clear()
+    router.push('/login')
+}
+</script>
+
 <template>
     <my-box class="error" min-height>
         <div class="error-flex">
@@ -22,17 +33,6 @@
         </div>
     </my-box>
 </template>
-
-<script lang="ts" setup>
-import { useRouter } from 'vue-router'
-import { Session } from '@/utils/storage'
-
-const router = useRouter()
-const onSetAuth = () => {
-    Session.clear()
-    router.push('/login')
-}
-</script>
 
 <style scoped lang="scss">
 .error {

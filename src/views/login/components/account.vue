@@ -1,53 +1,3 @@
-<template>
-    <el-form ref="formRef" :model="ruleForm" :rules="rules" size="large" class="login-content-form"
-        @submit.prevent="onSignIn">
-        <el-form-item prop="userName">
-            <ElInput ref="userRef" v-model.trim="ruleForm.userName" type="text" maxlength="20" placeholder="请输入账号"
-                clearable tabindex="1" @keyup.enter="onSignIn">
-                <template #prefix>
-                    <el-icon class="el-input__icon">
-                        <ele-User />
-                    </el-icon>
-                </template>
-            </ElInput>
-        </el-form-item>
-        <el-form-item prop="password">
-            <ElInput v-model.trim="ruleForm.password" type="password" maxlength="20" placeholder="请输入密码" show-password
-                tabindex="2" @keyup.enter="onSignIn">
-                <template #prefix>
-                    <el-icon class="el-input__icon">
-                        <ele-Unlock />
-                    </el-icon>
-                </template>
-            </ElInput>
-        </el-form-item>
-        <!-- <el-form-item prop="code">
-            <el-col :span="15">
-                <ElInput v-model.trim="ruleForm.code" type="text" maxlength="4" placeholder="请输入验证码" clearable tabindex="3"
-                    @keyup.enter="onSignIn">
-                    <template #prefix>
-                        <el-icon class="el-input__icon">
-                            <ele-Position />
-                        </el-icon>
-                    </template>
-                </ElInput>
-            </el-col>
-            <el-col :span="1" />
-            <el-col :span="8">
-                <el-button class="login-content-code" @click="getCode">
-                    {{ state.verify }}
-                </el-button>
-            </el-col>
-        </el-form-item> -->
-        <el-form-item class="login-animation4">
-            <el-button type="primary" size="large" class="login-content-submit" round plain
-                :loading="state.loading.signIn" tabindex="4" @click="onSignIn">
-                登 录
-            </el-button>
-        </el-form-item>
-    </el-form>
-</template>
-
 <script lang="ts" setup>
 import { computed, onBeforeMount, onMounted, reactive, ref } from 'vue'
 import { useRoute, useRouter } from 'vue-router'
@@ -160,6 +110,56 @@ onMounted(() => {
     userRef.value?.focus()
 })
 </script>
+
+<template>
+    <el-form ref="formRef" :model="ruleForm" :rules="rules" size="large" class="login-content-form"
+        @submit.prevent="onSignIn">
+        <el-form-item prop="userName">
+            <ElInput ref="userRef" v-model.trim="ruleForm.userName" type="text" maxlength="20" placeholder="请输入账号"
+                clearable tabindex="1" @keyup.enter="onSignIn">
+                <template #prefix>
+                    <el-icon class="el-input__icon">
+                        <ele-User />
+                    </el-icon>
+                </template>
+            </ElInput>
+        </el-form-item>
+        <el-form-item prop="password">
+            <ElInput v-model.trim="ruleForm.password" type="password" maxlength="20" placeholder="请输入密码" show-password
+                tabindex="2" @keyup.enter="onSignIn">
+                <template #prefix>
+                    <el-icon class="el-input__icon">
+                        <ele-Unlock />
+                    </el-icon>
+                </template>
+            </ElInput>
+        </el-form-item>
+        <!-- <el-form-item prop="code">
+            <el-col :span="15">
+                <ElInput v-model.trim="ruleForm.code" type="text" maxlength="4" placeholder="请输入验证码" clearable tabindex="3"
+                    @keyup.enter="onSignIn">
+                    <template #prefix>
+                        <el-icon class="el-input__icon">
+                            <ele-Position />
+                        </el-icon>
+                    </template>
+                </ElInput>
+            </el-col>
+            <el-col :span="1" />
+            <el-col :span="8">
+                <el-button class="login-content-code" @click="getCode">
+                    {{ state.verify }}
+                </el-button>
+            </el-col>
+        </el-form-item> -->
+        <el-form-item class="login-animation4">
+            <el-button type="primary" size="large" class="login-content-submit" round plain
+                :loading="state.loading.signIn" tabindex="4" @click="onSignIn">
+                登 录
+            </el-button>
+        </el-form-item>
+    </el-form>
+</template>
 
 <style scoped lang="scss">
 .login-content-form {

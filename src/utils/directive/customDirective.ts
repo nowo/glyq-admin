@@ -141,11 +141,11 @@ export function dragDirective(app: App) {
             }
 
             /**
-			 * pc端
-			 * onmousedown 鼠标按下触发事件
-			 * onmousemove 鼠标按下时持续触发事件
-			 * onmouseup 鼠标抬起触发事件
-			 */
+             * pc端
+             * onmousedown 鼠标按下触发事件
+             * onmousemove 鼠标按下时持续触发事件
+             * onmouseup 鼠标抬起触发事件
+             */
             dragHeader.onmousedown = (e) => {
                 const obj = down(e, 'pc')
                 document.onmousemove = (e) => {
@@ -158,11 +158,11 @@ export function dragDirective(app: App) {
             }
 
             /**
-			 * 移动端
-			 * ontouchstart 当按下手指时，触发ontouchstart
-			 * ontouchmove 当移动手指时，触发ontouchmove
-			 * ontouchend 当移走手指时，触发ontouchend
-			 */
+             * 移动端
+             * ontouchstart 当按下手指时，触发ontouchstart
+             * ontouchmove 当移动手指时，触发ontouchmove
+             * ontouchend 当移走手指时，触发ontouchend
+             */
             dragHeader.ontouchstart = (e) => {
                 const obj = down(e, 'app')
                 document.ontouchmove = (e) => {

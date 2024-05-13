@@ -30,7 +30,7 @@ export const CommonApi = {
      * 上传类型：image=>图片（默认） ，excel=>excel文件, voiv : 视频
      * @returns
      */
-    uploadImg: (data: { image: File; type?: 'image' | 'excel' | 'voiv' }) => post('/api/common/upload_image', data, {
+    uploadImg: (data: { image: File, type?: 'image' | 'excel' | 'voiv' }) => post('/api/common/upload_image', data, {
         headers: {
             'Content-Type': 'multipart/form-data',
         },

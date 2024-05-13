@@ -1,35 +1,3 @@
-<template>
-    <div class="layout-columns-aside">
-        <el-scrollbar>
-            <ul @mouseleave="onColumnsAsideMenuMouseleave()">
-                <li v-for="(v, k) in columnsAsideList" :key="k"
-                    :ref="(el) => { if (el) columnsAsideOffsetTopRefs[k] = el }"
-                    :class="{ 'layout-columns-active': liIndex === k, 'layout-columns-hover': liHoverIndex === k }"
-                    :title="v.meta?.title" @click="onColumnsAsideMenuClick(v, k)"
-                    @mouseenter="onColumnsAsideMenuMouseenter(v, k)">
-                    <div v-if="!v.meta?.isLink || (v.meta.isLink && v.meta.isIframe)"
-                        :class="themeConfig.columnsAsideLayout">
-                        <SvgIcon :name="v.meta?.icon as string" />
-                        <div class="columns-vertical-title font12">
-                            {{ setMenuTitle(v.meta?.title as string) }}
-                        </div>
-                    </div>
-                    <!-- 外链跳转 -->
-                    <div v-else :class="themeConfig.columnsAsideLayout">
-                        <a :href="v.meta.linkUrl" target="_blank">
-                            <SvgIcon :name="v.meta.icon" />
-                            <div class="columns-vertical-title font12">
-                                {{ setMenuTitle(v.meta.title) }}
-                            </div>
-                        </a>
-                    </div>
-                </li>
-                <li ref="columnsAsideActiveRef" :class="themeConfig.columnsAsideStyle" />
-            </ul>
-        </el-scrollbar>
-    </div>
-</template>
-
 <script lang="ts" setup>
 import { nextTick, onMounted, reactive, ref, toRefs, watch } from 'vue'
 import type { RouteLocation, RouteRecordRaw } from 'vue-router'
@@ -236,6 +204,38 @@ onBeforeRouteUpdate((to) => {
 
 const { columnsAsideList, liIndex, liHoverIndex } = toRefs(state)
 </script>
+
+<template>
+    <div class="layout-columns-aside">
+        <el-scrollbar>
+            <ul @mouseleave="onColumnsAsideMenuMouseleave()">
+                <li v-for="(v, k) in columnsAsideList" :key="k"
+                    :ref="(el) => { if (el) columnsAsideOffsetTopRefs[k] = el }"
+                    :class="{ 'layout-columns-active': liIndex === k, 'layout-columns-hover': liHoverIndex === k }"
+                    :title="v.meta?.title" @click="onColumnsAsideMenuClick(v, k)"
+                    @mouseenter="onColumnsAsideMenuMouseenter(v, k)">
+                    <div v-if="!v.meta?.isLink || (v.meta.isLink && v.meta.isIframe)"
+                        :class="themeConfig.columnsAsideLayout">
+                        <SvgIcon :name="v.meta?.icon as string" />
+                        <div class="columns-vertical-title font12">
+                            {{ setMenuTitle(v.meta?.title as string) }}
+                        </div>
+                    </div>
+                    <!-- 外链跳转 -->
+                    <div v-else :class="themeConfig.columnsAsideLayout">
+                        <a :href="v.meta.linkUrl" target="_blank">
+                            <SvgIcon :name="v.meta.icon" />
+                            <div class="columns-vertical-title font12">
+                                {{ setMenuTitle(v.meta.title) }}
+                            </div>
+                        </a>
+                    </div>
+                </li>
+                <li ref="columnsAsideActiveRef" :class="themeConfig.columnsAsideStyle" />
+            </ul>
+        </el-scrollbar>
+    </div>
+</template>
 
 <style scoped lang="scss">
 .layout-columns-aside {
