@@ -31,7 +31,7 @@ export const useUserState = defineStore('useUser', {
                 const user = res1.data
                 this.updateUserInfo(user)
             } else {
-                throw ('返回用户信息有误！')
+                throw new Error('返回用户信息有误！')
             }
             // if (res2.code == 200) {
             //     this.menuList = res2.data.menu

@@ -22,7 +22,7 @@
 import type { TabsPaneContext } from 'element-plus'
 
 import IndexList from '@/views/home/components/IndexList.vue'
-import { SystemCompanyApi } from '@/api/system/company'
+import { getSystemInfo } from '@/api/system';
 
 const activeName = ref('1')
 
@@ -35,7 +35,7 @@ const companyInfo = ref<SystemCompanyApi_GetInfoResponse>()
 
 // 初始化数据
 const initDefaultData = async () => {
-    const res = await SystemCompanyApi.getSystem()
+    const res = await getSystemInfo()
     if (res.code !== 200) return ElMessage.error(res.msg)
 
     companyInfo.value = res.data

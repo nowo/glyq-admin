@@ -1,7 +1,7 @@
 import { post } from '@/utils/http/request'
 
 // 获取轮播图列表
-export const getBannerList = (data?: IBannerGetList) => post<IBannerGetListResponse>('/api/banner/get_list', data)
+export const getBannerList = (data?: IBannerGetList) => post<IBannerGetListResponse>('/api/v1/banner/get_list', data)
 // 添加轮播图
 export const setBannerAdd = (data: IBannerAdd) => post('/api/banner/add', data)
 // 修改轮播图

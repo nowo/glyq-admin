@@ -12,7 +12,7 @@ export const SystemCompanyApi = {
      * 获取默认信息
      * @returns
      */
-    getSystem: () => post<SystemCompanyApi_GetInfoResponse>('/api/system/info'),
+    // getSystem: () => post<SystemCompanyApi_GetInfoResponse>('/api/system/info'),
 
     /**
      *

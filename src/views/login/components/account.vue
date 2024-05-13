@@ -2,8 +2,8 @@
     <el-form ref="formRef" :model="ruleForm" :rules="rules" size="large" class="login-content-form"
         @submit.prevent="onSignIn">
         <el-form-item prop="userName">
-            <ElInput ref="userRef" v-model.trim="ruleForm.userName" type="text" maxlength="20" placeholder="请输入账号" clearable
-                tabindex="1" @keyup.enter="onSignIn">
+            <ElInput ref="userRef" v-model.trim="ruleForm.userName" type="text" maxlength="20" placeholder="请输入账号"
+                clearable tabindex="1" @keyup.enter="onSignIn">
                 <template #prefix>
                     <el-icon class="el-input__icon">
                         <ele-User />
@@ -40,8 +40,8 @@
             </el-col>
         </el-form-item> -->
         <el-form-item class="login-animation4">
-            <el-button type="primary" size="large" class="login-content-submit" round plain :loading="state.loading.signIn" tabindex="4"
-                @click="onSignIn">
+            <el-button type="primary" size="large" class="login-content-submit" round plain
+                :loading="state.loading.signIn" tabindex="4" @click="onSignIn">
                 登 录
             </el-button>
         </el-form-item>

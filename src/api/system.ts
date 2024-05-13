@@ -3,7 +3,7 @@ import { post } from '@/utils/http/request'
 // 、、、、、、、、、、、、、、、、、、、、、////////////////
 
 // 获取系统信息
-export const getSystemInfo = () => post<SystemCompanyApi_GetInfoResponse>('/api/system/info')
+export const getSystemInfo = () => post<SystemCompanyApi_GetInfoResponse>('/api/v1/system/info')
 // 修改系统信息
 export const setSystemInfo = (data: ISystemEditParams) => post<SystemCompanyApi_GetInfoResponse>('/api/system/edit', data)
 
