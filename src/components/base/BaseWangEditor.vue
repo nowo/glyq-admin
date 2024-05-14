@@ -5,16 +5,17 @@ import { Editor, Toolbar } from '@wangeditor/editor-for-vue'
 import type { IEditorConfig } from '@wangeditor/editor'
 import { setSignRule } from '@/utils/http/crypto'
 import { Session } from '@/utils/storage'
+import { CommonApi } from '@/api/common'
 
 const props = defineProps({
     modelValue: {
         type: String,
         default: '',
     },
-    height:{
-        type:Number,
-        default:350,
-    }
+    height: {
+        type: Number,
+        default: 350,
+    },
 })
 
 // 子传父,定义方法
@@ -68,32 +69,54 @@ type InsertVideoFnType = (url: string, poster: string) => void
 // 配置上传图片
 editorConfig.MENU_CONF!.uploadImage = {
     fieldName: 'file',
-    server: '/api/common/upload',
-    headers: setTokenSign(),
-    // 自定义插入图片
-    customInsert(res: any, insertFn: InsertImageFnType) { // TS 语法
-        console.log(res)
-        // customInsert(res, insertFn) {                  // JS 语法
-        // res 即服务端的返回结果
+    // server: '/api/v1/common/upload',
+    // headers: setTokenSign(),
+    // // 自定义插入图片
+    // customInsert(res: any, insertFn: InsertImageFnType) { // TS 语法
+    //     console.log(res)
+    //     // customInsert(res, insertFn) {                  // JS 语法
+    //     // res 即服务端的返回结果
 
-        // 从 res 中找到 url alt href ，然后插入图片
-        insertFn(res.data, res.data, res.data)
+    //     // 从 res 中找到 url alt href ，然后插入图片
+    //     insertFn(res.data, res.data, res.data)
+    // },
+    customUpload: async (file: File, insertFn: InsertImageFnType) => {
+        // console.log(file)
+        // 自定义上传
+        // 上传图片，返回结果，然后插入图片
+        // insertFn(图片地址，图片 alt，图片 href)
+        const res = await CommonApi.upload({ file })
+        if (res.code === 200) {
+            insertFn(res.data, res.data, res.data)
+        } else {
+            ElMessage.error('上传图片失败')
+        }
     },
 }
 
 // 配置上传视频
 editorConfig.MENU_CONF!.uploadVideo = {
     fieldName: 'file',
-    server: '/api/common/upload',
-    headers: setTokenSign(),
-    // 自定义插入图片
-    customInsert(res: any, insertFn: InsertVideoFnType) { // TS 语法
-        console.log(res)
-        // customInsert(res, insertFn) {                  // JS 语法
-        // res 即服务端的返回结果
+    // server: '/api/common/upload',
+    // headers: setTokenSign(),
+    // // 自定义插入图片
+    // customInsert(res: any, insertFn: InsertVideoFnType) { // TS 语法
+    //     console.log(res)
+    //     // customInsert(res, insertFn) {                  // JS 语法
+    //     // res 即服务端的返回结果
 
-        // 从 res 中找到 url alt href ，然后插入图片
-        insertFn(res.data, res.data)
+    //     // 从 res 中找到 url alt href ，然后插入图片
+    //     insertFn(res.data, res.data)
+    // },
+    customUpload: async (file: File, insertFn: InsertVideoFnType) => {
+        // console.log(file)
+        // 自定义上传
+        const res = await CommonApi.upload({ file })
+        if (res.code === 200) {
+            insertFn(res.data, res.data)
+        } else {
+            ElMessage.error('上传视频失败')
+        }
     },
 }
 
@@ -125,7 +148,7 @@ const handleBlur = (editor) => {
     console.log('blur', editor)
 }
 const customAlert = (info, type) => {
-    alert(`【自定义提示】${type} - ${info}`)
+    // alert(`【自定义提示】${type} - ${info}`)
 }
 const customPaste = (editor, event, callback) => {
     console.log('ClipboardEvent 粘贴事件对象', event)
@@ -161,9 +184,10 @@ const disable = () => {
 <template>
     <div class="wang-editor-box">
         <Toolbar :editor="editorRef" :default-config="toolbarConfig" :mode="mode" class="wang-editor-tool" />
-        <Editor v-model="valueHtml" :default-config="editorConfig" :mode="mode" :style="`height: ${props.height}px; overflow-y: hidden`"
-            @on-created="handleCreated" @on-change="handleChange" @on-destroyed="handleDestroyed" @on-focus="handleFocus"
-            @on-blur="handleBlur" @custom-alert="customAlert" @custom-paste="customPaste" />
+        <Editor v-model="valueHtml" :default-config="editorConfig" :mode="mode"
+            :style="`height: ${props.height}px; overflow-y: hidden`" @on-created="handleCreated"
+            @on-change="handleChange" @on-destroyed="handleDestroyed" @on-focus="handleFocus" @on-blur="handleBlur"
+            @custom-alert="customAlert" @custom-paste="customPaste" />
     </div>
 </template>
 
